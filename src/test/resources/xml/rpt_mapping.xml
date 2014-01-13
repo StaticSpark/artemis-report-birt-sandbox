@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- 此xml存放的是所有的报告中英文的对应，当增加报告的时候，请记得在下面添加相应的对照 -->
+<report>
+	<report_type>
+	    <!-- 广告报告类型 -->
+		<conditionType name="ad">广告</conditionType>
+		<conditionType name="order">订单</conditionType>
+		<conditionType name="mat">广告物料</conditionType>
+		<conditionType name="adp">广告位</conditionType>
+		<conditionType name="acc">广告客户</conditionType>
+		<conditionType name="sale">销售人员</conditionType>
+		<conditionType name="cat">题材</conditionType>
+		<conditionType name="country">产地</conditionType>	
+	</report_type>
+	<form_type>
+	    <!-- 广告报告分布报表 -->
+		<rptName name="day_report">日期</rptName>
+		<rptName name="med_day_report">日期</rptName>
+		<rptName name="hour_report">时段</rptName>
+		<rptName name="country_report">国家</rptName>
+		<rptName name="province_report">省份</rptName>
+		<rptName name="med_country_report">国家</rptName>
+		<rptName name="med_province_report">省份</rptName>
+		<rptName name="city_report">城市</rptName>
+		<rptName name="med_city_report">城市</rptName>
+		<rptName name="week_report">星期</rptName>
+		<rptName name="med_week_report">星期</rptName>
+		<rptName name="month_report">月份</rptName>
+		<rptName name="med_month_report">月份</rptName>
+		<rptName name="area_report">地域</rptName>
+		<rptName name="ad_report_quota">广告</rptName>
+		<rptName name="order_report">订单</rptName>
+		<rptName name="mat_report">物料</rptName>
+		<rptName name="adp_report">广告位</rptName>
+		<rptName name="ad-freq">广告频次</rptName>
+		<rptName name="adp_freq">广告位频次</rptName>
+		<rptName name="acc_report">客户</rptName>
+		<rptName name="sale_report">销售</rptName>
+		<!-- 播控报告分布报表 -->
+	    <rptName name="concurrent_report">并发</rptName>
+	    <rptName name="mc_imp_report">播放点击日期</rptName>
+	    <rptName name="mc_uv_report">投放周期UV</rptName>
+	    <rptName name="mc_uv_day_report">UV每日</rptName>
+	    <rptName name="mc_imp_hour_report">用户小时</rptName>
+	    <rptName name="mc_uv_hour_report">UV小时</rptName>
+	    
+	    <rptName name="mc_imp_sum_report">播放点击日期</rptName>
+	    <rptName name="mc_imp_hour_sub_report">播放点击日期</rptName>
+	    <rptName name="mc_imp_sub_report">播放点击日期</rptName>
+	    <rptName name="mc_uv_areagroup_report"></rptName>
+	    <rptName name="mc_uv_day_areagroup_report"></rptName>
+	</form_type>
+</report>

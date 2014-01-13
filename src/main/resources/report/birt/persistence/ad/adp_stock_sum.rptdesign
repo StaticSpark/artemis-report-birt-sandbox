@@ -1,0 +1,1127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.23" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 4.3.0.v201306041519 Build &lt;4.3.0.v20130611-1045></property>
+    <list-property name="includeScripts">
+        <property>js/common/report_tool.js</property>
+    </list-property>
+    <property name="units">in</property>
+    <method name="initialize"><![CDATA[rowCount = 0;
+count = 0;
+
+initializeReport([]);]]></method>
+    <property name="iconFile">/templates/blank_report.gif</property>
+    <property name="layoutPreference">auto layout</property>
+    <property name="bidiLayoutOrientation">ltr</property>
+    <property name="imageDPI">96</property>
+    <parameters>
+        <scalar-parameter name="startDate" id="88">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="endDate" id="89">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="recordNum" id="90">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="ctx" id="91">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+    </parameters>
+    <data-sources>
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="Data Source" id="7">
+            <method name="beforeOpen"><![CDATA[initializeDb(reportContext, extensionProperties);]]></method>
+            <list-property name="privateDriverProperties">
+                <ex-property>
+                    <name>metadataBidiFormatStr</name>
+                    <value>ILYNN</value>
+                </ex-property>
+                <ex-property>
+                    <name>disabledMetadataBidiFormatStr</name>
+                </ex-property>
+                <ex-property>
+                    <name>contentBidiFormatStr</name>
+                    <value>ILYNN</value>
+                </ex-property>
+                <ex-property>
+                    <name>disabledContentBidiFormatStr</name>
+                </ex-property>
+            </list-property>
+            <property name="odaDriverClass">com.mysql.jdbc.Driver</property>
+            <property name="odaURL">jdbc:mysql://192.168.16.241/microlens_1113?useUnicode=true&amp;characterEncoding=utf-8</property>
+            <property name="odaUser">root</property>
+            <encrypted-property name="odaPassword" encryptionID="base64">bWljcm9sZW5z</encrypted-property>
+        </oda-data-source>
+    </data-sources>
+    <data-sets>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="Data Set" id="8">
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">logDate</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">logDate</text-property>
+                    <text-property name="heading">logDate</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">allBrw</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">allBrw</text-property>
+                    <text-property name="heading">allBrw</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">allPla</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">allPla</text-property>
+                    <text-property name="heading">allPla</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">allRate</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">allRate</text-property>
+                    <text-property name="heading">allRate</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">clientBrw</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">clientBrw</text-property>
+                    <text-property name="heading">clientBrw</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">clientPla</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">clientPla</text-property>
+                    <text-property name="heading">clientPla</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">clientRate</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">clientRate</text-property>
+                    <text-property name="heading">clientRate</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">webBrw</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">webBrw</text-property>
+                    <text-property name="heading">webBrw</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">webPla</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">webPla</text-property>
+                    <text-property name="heading">webPla</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">webRate</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">webRate</text-property>
+                    <text-property name="heading">webRate</text-property>
+                </structure>
+            </list-property>
+            <list-property name="parameters"/>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">logDate</property>
+                        <property name="dataType">date</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">allBrw</property>
+                        <property name="dataType">float</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">allPla</property>
+                        <property name="dataType">float</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">allRate</property>
+                        <property name="dataType">float</property>
+                    </structure>
+                    <structure>
+                        <property name="position">5</property>
+                        <property name="name">clientBrw</property>
+                        <property name="dataType">float</property>
+                    </structure>
+                    <structure>
+                        <property name="position">6</property>
+                        <property name="name">clientPla</property>
+                        <property name="dataType">float</property>
+                    </structure>
+                    <structure>
+                        <property name="position">7</property>
+                        <property name="name">clientRate</property>
+                        <property name="dataType">float</property>
+                    </structure>
+                    <structure>
+                        <property name="position">8</property>
+                        <property name="name">webBrw</property>
+                        <property name="dataType">float</property>
+                    </structure>
+                    <structure>
+                        <property name="position">9</property>
+                        <property name="name">webPla</property>
+                        <property name="dataType">float</property>
+                    </structure>
+                    <structure>
+                        <property name="position">10</property>
+                        <property name="name">webRate</property>
+                        <property name="dataType">float</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <method name="beforeOpen"><![CDATA[var sql = this.queryText;
+var startDate = reportContext.getParameterValue("startDate");
+var endDate = reportContext.getParameterValue("endDate");
+var ctx = reportContext.getParameterValue("ctx");
+var recordNum = reportContext.getParameterValue("recordNum");
+var param = "";
+
+if(startDate != null &amp;&amp; startDate != "")
+	param += " AND log_date >= '" + startDate + "'";
+if(endDate != null &amp;&amp; endDate != "")
+	param += " AND log_date <= '" + endDate + "'";
+	
+sql = sql.replaceAll("#condition#", param);
+this.queryText = sql;
+myPrintln(sql);
+]]></method>
+            <property name="dataSource">Data Source</property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">logDate</property>
+                    <property name="nativeName">logDate</property>
+                    <property name="dataType">date</property>
+                    <property name="nativeDataType">91</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">allBrw</property>
+                    <property name="nativeName">allBrw</property>
+                    <property name="dataType">float</property>
+                    <property name="nativeDataType">8</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">allPla</property>
+                    <property name="nativeName">allPla</property>
+                    <property name="dataType">float</property>
+                    <property name="nativeDataType">8</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
+                    <property name="name">allRate</property>
+                    <property name="nativeName">allRate</property>
+                    <property name="dataType">float</property>
+                    <property name="nativeDataType">8</property>
+                </structure>
+                <structure>
+                    <property name="position">5</property>
+                    <property name="name">clientBrw</property>
+                    <property name="nativeName">clientBrw</property>
+                    <property name="dataType">float</property>
+                    <property name="nativeDataType">8</property>
+                </structure>
+                <structure>
+                    <property name="position">6</property>
+                    <property name="name">clientPla</property>
+                    <property name="nativeName">clientPla</property>
+                    <property name="dataType">float</property>
+                    <property name="nativeDataType">8</property>
+                </structure>
+                <structure>
+                    <property name="position">7</property>
+                    <property name="name">clientRate</property>
+                    <property name="nativeName">clientRate</property>
+                    <property name="dataType">float</property>
+                    <property name="nativeDataType">8</property>
+                </structure>
+                <structure>
+                    <property name="position">8</property>
+                    <property name="name">webBrw</property>
+                    <property name="nativeName">webBrw</property>
+                    <property name="dataType">float</property>
+                    <property name="nativeDataType">8</property>
+                </structure>
+                <structure>
+                    <property name="position">9</property>
+                    <property name="name">webPla</property>
+                    <property name="nativeName">webPla</property>
+                    <property name="dataType">float</property>
+                    <property name="nativeDataType">8</property>
+                </structure>
+                <structure>
+                    <property name="position">10</property>
+                    <property name="name">webRate</property>
+                    <property name="nativeName">webRate</property>
+                    <property name="dataType">float</property>
+                    <property name="nativeDataType">8</property>
+                </structure>
+            </list-property>
+            <xml-property name="queryText"><![CDATA[SELECT 
+    logDate AS logDate,
+	SUM(allBrw) AS allBrw,
+	SUM(allPla) AS allPla,
+	TRUNCATE(allPla/allBrw, 4) AS allRate,
+	SUM(clientBrw) AS clientBrw,
+	SUM(clientPla) AS clientPla,
+	TRUNCATE(clientPla/clientBrw, 4) AS clientRate,
+	SUM(webBrw) AS webBrw,
+	SUM(webPla) AS webPla,
+	TRUNCATE(webPla/webBrw, 4) AS webRate
+FROM (
+	SELECT 
+	     DATE(log_date) AS logDate,
+	     SUM(brw) AS allBrw,
+	     '' AS allPla,
+	     '' AS allRate,
+	     SUM(brw) AS clientBrw,
+	     '' AS clientPla,
+	     '' AS clientRate,
+	     '' AS webBrw,
+	     '' AS webPla,
+	     '' AS webRate
+	 FROM stg_ad_effe_d d_c_b 
+	 WHERE adp_code IN ('c_b_1','c_l_1','c_bh_1','c_lh_1') AND ad_id != -1
+	     #condition#
+	 GROUP BY logDate
+	 UNION
+	 SELECT 
+	     DATE(log_date) AS logDate,
+	     '' AS allBrw,
+	     SUM(pla) AS allPla,
+	     '' AS allRate,
+	     '' AS clientBrw,
+	     SUM(pla) AS clientPla,
+	     '' AS clientRate,
+	     '' AS webBrw,
+	     '' AS webPla,
+	     '' AS webRate
+	 FROM stg_ad_effe_d d_c_b 
+	 WHERE adp_code IN ('c_b_1','c_l_1','c_bh_1','c_lh_1','c_lh_1_rsv','c_b_1_bak','c_bh_1_rsv') AND ad_id != -1
+	     #condition#
+	 GROUP BY logDate
+	 UNION
+	 SELECT 
+	     DATE(log_date) AS logDate,
+	     SUM(brw) AS allBrw,
+	     '' AS allPla,
+	     '' AS allRate,
+	     '' AS clientBrw,
+	     '' AS clientPla,
+	     '' AS clientRate,
+	     SUM(brw) AS webBrw,
+	     '' AS webPla,
+	     '' AS webRate
+	 FROM stg_ad_effe_d d_c_b 
+	 WHERE adp_code IN ('c_wb_1_wp','c_wb_1_et','c_wb_1_sp','c_wb_1_pr','c_wb_1_fp','c_wb_1_lv','c_u_1') AND ad_id != -1
+	     #condition#
+	 GROUP BY logDate
+	 UNION
+	 SELECT 
+	     DATE(log_date) AS logDate,
+	     '' AS allBrw,
+	     SUM(pla) AS allPla,
+	     '' AS allRate,
+	     '' AS clientBrw,
+	     '' AS clientPla,
+	     '' AS clientRate,
+	     '' AS webBrw,
+	     SUM(pla) AS webPla,
+	     '' AS webRate
+	 FROM stg_ad_effe_d d_c_b 
+	 WHERE adp_code IN ('c_wb_1_wp','c_wb_1_et','c_wb_1_sp','c_wb_1_pr','c_wb_1_fp','c_wb_1_lv','c_u_1','c_wb_rsv') AND ad_id != -1
+	     #condition#
+	 GROUP BY logDate
+) s 
+GROUP BY logDate 
+ORDER BY logDate]]></xml-property>
+            <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
+  <Version>2.0</Version>
+  <design:ResultSets derivedMetaData="true">
+    <design:resultSetDefinitions>
+      <design:resultSetColumns>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>id</design:name>
+              <design:position>1</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>4</design:nativeDataTypeCode>
+            <design:precision>11</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>NotNullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>id</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>id</design:label>
+            <design:formattingHints>
+              <design:displaySize>11</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>ad_id</design:name>
+              <design:position>2</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>4</design:nativeDataTypeCode>
+            <design:precision>11</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>ad_id</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>ad_id</design:label>
+            <design:formattingHints>
+              <design:displaySize>11</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>adp_id</design:name>
+              <design:position>3</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>4</design:nativeDataTypeCode>
+            <design:precision>11</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>adp_id</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>adp_id</design:label>
+            <design:formattingHints>
+              <design:displaySize>11</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>adp_code</design:name>
+              <design:position>4</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>40</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>adp_code</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>adp_code</design:label>
+            <design:formattingHints>
+              <design:displaySize>40</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>area_id</design:name>
+              <design:position>5</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>4</design:nativeDataTypeCode>
+            <design:precision>11</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>area_id</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>area_id</design:label>
+            <design:formattingHints>
+              <design:displaySize>11</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>brw</design:name>
+              <design:position>6</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>-5</design:nativeDataTypeCode>
+            <design:precision>20</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>brw</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>brw</design:label>
+            <design:formattingHints>
+              <design:displaySize>20</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>pla</design:name>
+              <design:position>7</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>-5</design:nativeDataTypeCode>
+            <design:precision>20</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>pla</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>pla</design:label>
+            <design:formattingHints>
+              <design:displaySize>20</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>effe_pla</design:name>
+              <design:position>8</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>-5</design:nativeDataTypeCode>
+            <design:precision>20</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>effe_pla</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>effe_pla</design:label>
+            <design:formattingHints>
+              <design:displaySize>20</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>full_pla</design:name>
+              <design:position>9</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>-5</design:nativeDataTypeCode>
+            <design:precision>20</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>full_pla</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>full_pla</design:label>
+            <design:formattingHints>
+              <design:displaySize>20</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>clk</design:name>
+              <design:position>10</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>-5</design:nativeDataTypeCode>
+            <design:precision>20</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>clk</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>clk</design:label>
+            <design:formattingHints>
+              <design:displaySize>20</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>rate</design:name>
+              <design:position>11</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>8</design:nativeDataTypeCode>
+            <design:precision>10</design:precision>
+            <design:scale>6</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>rate</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>rate</design:label>
+            <design:formattingHints>
+              <design:displaySize>12</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>brw_s</design:name>
+              <design:position>12</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>-5</design:nativeDataTypeCode>
+            <design:precision>20</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>brw_s</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>brw_s</design:label>
+            <design:formattingHints>
+              <design:displaySize>20</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>pla_s</design:name>
+              <design:position>13</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>-5</design:nativeDataTypeCode>
+            <design:precision>20</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>pla_s</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>pla_s</design:label>
+            <design:formattingHints>
+              <design:displaySize>20</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>effe_pla_s</design:name>
+              <design:position>14</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>-5</design:nativeDataTypeCode>
+            <design:precision>20</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>effe_pla_s</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>effe_pla_s</design:label>
+            <design:formattingHints>
+              <design:displaySize>20</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>full_pla_s</design:name>
+              <design:position>15</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>-5</design:nativeDataTypeCode>
+            <design:precision>20</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>full_pla_s</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>full_pla_s</design:label>
+            <design:formattingHints>
+              <design:displaySize>20</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>clk_s</design:name>
+              <design:position>16</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>-5</design:nativeDataTypeCode>
+            <design:precision>20</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>clk_s</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>clk_s</design:label>
+            <design:formattingHints>
+              <design:displaySize>20</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>rate_s</design:name>
+              <design:position>17</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>8</design:nativeDataTypeCode>
+            <design:precision>10</design:precision>
+            <design:scale>6</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>rate_s</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>rate_s</design:label>
+            <design:formattingHints>
+              <design:displaySize>12</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>uv</design:name>
+              <design:position>18</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>-5</design:nativeDataTypeCode>
+            <design:precision>20</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>uv</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>uv</design:label>
+            <design:formattingHints>
+              <design:displaySize>20</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>log_date</design:name>
+              <design:position>19</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>93</design:nativeDataTypeCode>
+            <design:precision>19</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>log_date</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>log_date</design:label>
+            <design:formattingHints>
+              <design:displaySize>19</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>sys_from</design:name>
+              <design:position>20</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>4</design:nativeDataTypeCode>
+            <design:precision>11</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>sys_from</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>sys_from</design:label>
+            <design:formattingHints>
+              <design:displaySize>11</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+      </design:resultSetColumns>
+      <design:criteria/>
+    </design:resultSetDefinitions>
+  </design:ResultSets>
+</model:DesignValues>]]></xml-property>
+        </oda-data-set>
+    </data-sets>
+    <styles>
+        <style name="report" id="4">
+            <property name="fontFamily">sans-serif</property>
+            <property name="fontSize">10pt</property>
+        </style>
+        <style name="crosstab-cell" id="5">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+        <style name="crosstab" id="6">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+    </styles>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2"/>
+    </page-setup>
+    <body>
+        <text-data id="92">
+            <method name="onRender"><![CDATA[var startDate = reportContext.getParameterValue("startDate");
+var endDate = reportContext.getParameterValue("endDate");
+if(startDate == null || startDate == "")
+	startDate = "-";
+if(endDate == null || endDate == "")
+	endDate = "-";
+	
+myDate = new Date();
+month = (((myDate.getMonth()+1) < 10) ? "-0" : "-") + (myDate.getMonth()+1);
+day= ((myDate.getDate() < 10) ? "-0" : "-") + myDate.getDate();
+currentDate = myDate.getFullYear() + month + day;
+prefix = "Microlens.funshion.com" + " 广告-固定报告";
+period = startDate + " 至 " + endDate
+display_text = prefix +"<br/>"+"导出报表日期："+currentDate+ "<br/>"+"报表名称：非优化前贴片总库存"+"<br/>报表日期："+period;
+
+format = reportContext.getHttpServletRequest().getParameter("__format");
+if(format == "xls") {
+   this.getStyle().display = "block";
+   this.text= display_text;
+} else {
+   this.getStyle().display = "none";
+}]]></method>
+            <expression name="valueExpr">1</expression>
+            <property name="contentType">html</property>
+        </text-data>
+        <table name="table" id="9">
+            <property name="dataSet">Data Set</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">logDate</property>
+                    <text-property name="displayName">logDate</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["logDate"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">allBrw</property>
+                    <text-property name="displayName">allBrw</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["allBrw"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">allPla</property>
+                    <text-property name="displayName">allPla</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["allPla"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">allRate</property>
+                    <text-property name="displayName">allRate</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["allRate"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">clientBrw</property>
+                    <text-property name="displayName">clientBrw</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["clientBrw"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">clientPla</property>
+                    <text-property name="displayName">clientPla</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["clientPla"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">clientRate</property>
+                    <text-property name="displayName">clientRate</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["clientRate"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">webBrw</property>
+                    <text-property name="displayName">webBrw</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["webBrw"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">webPla</property>
+                    <text-property name="displayName">webPla</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["webPla"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">webRate</property>
+                    <text-property name="displayName">webRate</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["webRate"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
+            <column id="43"/>
+            <column id="44"/>
+            <column id="45"/>
+            <column id="46"/>
+            <column id="47"/>
+            <column id="48"/>
+            <column id="49"/>
+            <column id="50"/>
+            <column id="51"/>
+            <column id="52"/>
+            <header>
+                <row id="10">
+                    <property name="verticalAlign">middle</property>
+                    <cell id="11">
+                        <property name="colSpan">1</property>
+                        <property name="rowSpan">2</property>
+                        <text id="64">
+                            <property name="contentType">html</property>
+                            <text-property name="content"><![CDATA[日期]]></text-property>
+                        </text>
+                    </cell>
+                    <cell id="12">
+                        <property name="colSpan">3</property>
+                        <property name="rowSpan">1</property>
+                        <text id="65">
+                            <property name="contentType">html</property>
+                            <text-property name="content"><![CDATA[非优化前贴片总量]]></text-property>
+                        </text>
+                    </cell>
+                    <cell id="15">
+                        <property name="colSpan">3</property>
+                        <property name="rowSpan">1</property>
+                        <text id="66">
+                            <property name="contentType">auto</property>
+                            <text-property name="content"><![CDATA[客户端前贴片]]></text-property>
+                        </text>
+                    </cell>
+                    <cell id="18">
+                        <property name="colSpan">3</property>
+                        <property name="rowSpan">1</property>
+                        <text id="67">
+                            <property name="contentType">auto</property>
+                            <text-property name="content"><![CDATA[web前贴片]]></text-property>
+                        </text>
+                    </cell>
+                </row>
+                <row id="53">
+                    <property name="verticalAlign">middle</property>
+                    <cell id="55">
+                        <text id="68">
+                            <property name="contentType">auto</property>
+                            <text-property name="content"><![CDATA[浏览量]]></text-property>
+                        </text>
+                    </cell>
+                    <cell id="56">
+                        <text id="69">
+                            <property name="contentType">auto</property>
+                            <text-property name="content"><![CDATA[播放量]]></text-property>
+                        </text>
+                    </cell>
+                    <cell id="57">
+                        <text id="70">
+                            <property name="contentType">auto</property>
+                            <text-property name="content"><![CDATA[播放比]]></text-property>
+                        </text>
+                    </cell>
+                    <cell id="58">
+                        <text id="71">
+                            <property name="contentType">auto</property>
+                            <text-property name="content"><![CDATA[浏览量]]></text-property>
+                        </text>
+                    </cell>
+                    <cell id="59">
+                        <text id="73">
+                            <property name="contentType">auto</property>
+                            <text-property name="content"><![CDATA[播放量]]></text-property>
+                        </text>
+                    </cell>
+                    <cell id="60">
+                        <text id="75">
+                            <property name="contentType">auto</property>
+                            <text-property name="content"><![CDATA[播放比]]></text-property>
+                        </text>
+                    </cell>
+                    <cell id="61">
+                        <text id="72">
+                            <property name="contentType">auto</property>
+                            <text-property name="content"><![CDATA[浏览量]]></text-property>
+                        </text>
+                    </cell>
+                    <cell id="62">
+                        <text id="74">
+                            <property name="contentType">auto</property>
+                            <text-property name="content"><![CDATA[播放量]]></text-property>
+                        </text>
+                    </cell>
+                    <cell id="63">
+                        <text id="76">
+                            <property name="contentType">auto</property>
+                            <text-property name="content"><![CDATA[播放比]]></text-property>
+                        </text>
+                    </cell>
+                </row>
+            </header>
+            <detail>
+                <row id="21">
+                    <method name="onCreate"><![CDATA[rowCount++;
+if(rowCount > 1 &amp;&amp; rowCount % recordNum == 1){
+  this.style.pageBreakBefore = "always";
+} ]]></method>
+                    <method name="onRender"><![CDATA[count++;
+if( count % 2 == 0 )
+{
+this.getStyle().backgroundColor="#ECF3FE";
+}
+else
+{
+this.getStyle().backgroundColor="#FCFFFE";
+}
+style.textAlign = "center";]]></method>
+                    <cell id="22">
+                        <data id="77">
+                            <property name="resultSetColumn">logDate</property>
+                        </data>
+                    </cell>
+                    <cell id="23">
+                        <data id="78">
+                            <property name="resultSetColumn">allPla</property>
+                        </data>
+                    </cell>
+                    <cell id="24">
+                        <data id="79">
+                            <property name="resultSetColumn">allBrw</property>
+                        </data>
+                    </cell>
+                    <cell id="25">
+                        <text-data id="80">
+                            <expression name="valueExpr">getPercent(row['allBrw'],row['allPla']);</expression>
+                            <property name="contentType">html</property>
+                        </text-data>
+                    </cell>
+                    <cell id="26">
+                        <data id="81">
+                            <property name="resultSetColumn">clientPla</property>
+                        </data>
+                    </cell>
+                    <cell id="27">
+                        <data id="82">
+                            <property name="resultSetColumn">clientBrw</property>
+                        </data>
+                    </cell>
+                    <cell id="28">
+                        <text-data id="83">
+                            <expression name="valueExpr">getPercent(row['clientBrw'],row['clientPla']);</expression>
+                            <property name="contentType">html</property>
+                        </text-data>
+                    </cell>
+                    <cell id="29">
+                        <data id="84">
+                            <property name="resultSetColumn">webPla</property>
+                        </data>
+                    </cell>
+                    <cell id="30">
+                        <data id="86">
+                            <property name="resultSetColumn">webBrw</property>
+                        </data>
+                    </cell>
+                    <cell id="31">
+                        <text-data id="87">
+                            <expression name="valueExpr">getPercent(row['webBrw'],row['webPla']);</expression>
+                            <property name="contentType">html</property>
+                        </text-data>
+                    </cell>
+                </row>
+            </detail>
+        </table>
+    </body>
+</report>

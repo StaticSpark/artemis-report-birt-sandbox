@@ -1,0 +1,1198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.23" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 4.2.2.v201301041109 Build &lt;4.2.2.v20130114-2359></property>
+    <list-property name="includeScripts">
+        <property>js/common/report_tool.js</property>
+    </list-property>
+    <property name="units">in</property>
+    <method name="initialize"><![CDATA[var rowCount=0;
+var count = 0;
+initializeReport([]);]]></method>
+    <property name="iconFile">/templates/blank_report.gif</property>
+    <property name="layoutPreference">auto layout</property>
+    <property name="bidiLayoutOrientation">ltr</property>
+    <property name="imageDPI">96</property>
+    <parameters>
+        <scalar-parameter name="monId" id="124">
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="startDate" id="125">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="endDate" id="126">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="areaIds" id="127">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="ctx" id="128">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="recordNum" id="167">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="monName" id="169">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+    </parameters>
+    <data-sources>
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="Data Source" id="7">
+            <method name="beforeOpen"><![CDATA[initializeDb(reportContext, extensionProperties);]]></method>
+            <list-property name="privateDriverProperties">
+                <ex-property>
+                    <name>metadataBidiFormatStr</name>
+                    <value>ILYNN</value>
+                </ex-property>
+                <ex-property>
+                    <name>disabledMetadataBidiFormatStr</name>
+                </ex-property>
+                <ex-property>
+                    <name>contentBidiFormatStr</name>
+                    <value>ILYNN</value>
+                </ex-property>
+                <ex-property>
+                    <name>disabledContentBidiFormatStr</name>
+                </ex-property>
+            </list-property>
+            <property name="odaDriverClass">com.mysql.jdbc.Driver</property>
+            <property name="odaURL">jdbc:mysql://192.168.16.241/microlens_1110?useUnicode=true&amp;characterEncoding=utf-8</property>
+            <property name="odaUser">root</property>
+            <encrypted-property name="odaPassword" encryptionID="base64">bWljcm9sZW5z</encrypted-property>
+            <property name="odaJndiName">java:comp/env/jdbc/db</property>
+        </oda-data-source>
+    </data-sources>
+    <data-sets>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="dsUV" id="8">
+            <list-property name="columnHints"/>
+            <list-property name="parameters"/>
+            <structure name="cachedMetaData"/>
+            <method name="beforeOpen"><![CDATA[sqlStr = this.queryText;
+monId = reportContext.getParameterValue("monId");
+areaIds = reportContext.getParameterValue("areaIds");
+startDate = reportContext.getParameterValue("startDate");
+endDate = reportContext.getParameterValue("endDate");
+
+paramStr = "";
+
+if(monId != null &amp;&amp; monId != "") {
+  paramStr = " mon_id = " + monId;
+}
+
+if(areaIds != null &amp;&amp; areaIds != "") {
+  paramStr += " and s.area_id in (" + areaIds + ")";
+}
+
+if(startDate != null &amp;&amp; startDate != "") {
+  paramStr += " and mon_date >= '" + startDate + "' ";
+}
+
+if(endDate != null &amp;&amp; endDate != "") {
+  paramStr += " and mon_date <= '" + endDate + "' ";
+}
+
+if(paramStr == "") {
+   paramStr = " 1 = 1 ";
+}
+
+text = new java.lang.String(sqlStr);
+text = text.replaceAll("#condition#", paramStr);
+this.queryText = text; 
+
+
+
+
+
+
+]]></method>
+            <property name="dataSource">Data Source</property>
+            <list-property name="resultSet"/>
+            <xml-property name="queryText"><![CDATA[SELECT * FROM
+(select 
+    d.name as area_name,s.area_id,s.uv_sn,s.mon_date,s.type,s.uv_limit,s.uv_id,s.area_type,
+sum(case when s.uvn = 1 then uv_stat end) as uv1,
+sum(case when s.uvn = 2 then uv_stat end) as uv2, 
+sum(case when s.uvn = 3 then uv_stat end) as uv3, 
+sum(case when s.uvn = 4 then uv_stat end) as uv4, 
+sum(case when s.uvn = 5 then uv_stat end) as uv5, 
+sum(case when s.uvn = 6 then uv_stat end) as uv6, 
+sum(case when s.uvn = 7 then uv_stat end) as uv7, 
+sum(case when s.uvn = 8 then uv_stat end) as uv8, 
+sum(case when s.uvn = 9 then uv_stat end) as uv9,
+sum(case when s.uvn = 10 then uv_stat end) as uv10 
+from stg_mc_uv_d s LEFT JOIN dim_area d ON s.area_id = d.id LEFT JOIN mc_detail md ON s.mon_id = md.mc_id AND s.area_id = md.area_id
+where 
+    #condition#
+    AND (s.area_type='area' OR s.area_type IS NUll OR s.area_type='group')
+group by mon_id,s.area_id,mon_date,uv_sn
+order by md.sn, CONVERT (d. NAME USING gbk) ASC,mon_date DESC
+) s
+
+union 
+SELECT * FROM 
+(
+select 
+    '' as area_name,s.area_id,s.uv_sn,s.mon_date,s.type,s.uv_limit,s.uv_id,s.area_type,
+sum(case when s.uvn = 1 then uv_stat end) as uv1,
+sum(case when s.uvn = 2 then uv_stat end) as uv2, 
+sum(case when s.uvn = 3 then uv_stat end) as uv3, 
+sum(case when s.uvn = 4 then uv_stat end) as uv4, 
+sum(case when s.uvn = 5 then uv_stat end) as uv5, 
+sum(case when s.uvn = 6 then uv_stat end) as uv6, 
+sum(case when s.uvn = 7 then uv_stat end) as uv7, 
+sum(case when s.uvn = 8 then uv_stat end) as uv8, 
+sum(case when s.uvn = 9 then uv_stat end) as uv9,
+sum(case when s.uvn = 10 then uv_stat end) as uv10 
+from stg_mc_uv_d s
+where 
+    s.area_id = '-1' and
+    #condition#
+    AND (s.area_type='all')
+group by mon_id,mon_date
+)s
+
+]]></xml-property>
+            <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
+  <Version>2.0</Version>
+  <design:ResultSets derivedMetaData="true">
+    <design:resultSetDefinitions>
+      <design:resultSetColumns>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>id</design:name>
+              <design:position>1</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>4</design:nativeDataTypeCode>
+            <design:precision>11</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>NotNullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>id</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>id</design:label>
+            <design:formattingHints>
+              <design:displaySize>11</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>code</design:name>
+              <design:position>2</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>16</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>code</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>code</design:label>
+            <design:formattingHints>
+              <design:displaySize>16</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>name</design:name>
+              <design:position>3</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>24</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>name</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>name</design:label>
+            <design:formattingHints>
+              <design:displaySize>24</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>tpl_id</design:name>
+              <design:position>4</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>4</design:nativeDataTypeCode>
+            <design:precision>11</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>tpl_id</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>tpl_id</design:label>
+            <design:formattingHints>
+              <design:displaySize>11</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>fmt_type</design:name>
+              <design:position>5</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>4</design:nativeDataTypeCode>
+            <design:precision>11</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>fmt_type</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>fmt_type</design:label>
+            <design:formattingHints>
+              <design:displaySize>11</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>paralist_id</design:name>
+              <design:position>6</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>4</design:nativeDataTypeCode>
+            <design:precision>11</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>paralist_id</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>paralist_id</design:label>
+            <design:formattingHints>
+              <design:displaySize>11</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>cat_id</design:name>
+              <design:position>7</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>4</design:nativeDataTypeCode>
+            <design:precision>11</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>cat_id</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>cat_id</design:label>
+            <design:formattingHints>
+              <design:displaySize>11</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>ad_template</design:name>
+              <design:position>8</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>4</design:nativeDataTypeCode>
+            <design:precision>11</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>ad_template</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>ad_template</design:label>
+            <design:formattingHints>
+              <design:displaySize>11</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>ord_id</design:name>
+              <design:position>9</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>4</design:nativeDataTypeCode>
+            <design:precision>11</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>ord_id</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>ord_id</design:label>
+            <design:formattingHints>
+              <design:displaySize>11</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>ad_status</design:name>
+              <design:position>10</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>4</design:nativeDataTypeCode>
+            <design:precision>11</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>ad_status</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>ad_status</design:label>
+            <design:formattingHints>
+              <design:displaySize>11</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>ad_process</design:name>
+              <design:position>11</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>4</design:nativeDataTypeCode>
+            <design:precision>11</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>ad_process</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>ad_process</design:label>
+            <design:formattingHints>
+              <design:displaySize>11</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>clk_url</design:name>
+              <design:position>12</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>21845</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>clk_url</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>clk_url</design:label>
+            <design:formattingHints>
+              <design:displaySize>21845</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>pdate_from</design:name>
+              <design:position>13</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>93</design:nativeDataTypeCode>
+            <design:precision>19</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>pdate_from</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>pdate_from</design:label>
+            <design:formattingHints>
+              <design:displaySize>19</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>pdate_end</design:name>
+              <design:position>14</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>93</design:nativeDataTypeCode>
+            <design:precision>19</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>pdate_end</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>pdate_end</design:label>
+            <design:formattingHints>
+              <design:displaySize>19</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>priority</design:name>
+              <design:position>15</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>4</design:nativeDataTypeCode>
+            <design:precision>11</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>priority</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>priority</design:label>
+            <design:formattingHints>
+              <design:displaySize>11</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>weight</design:name>
+              <design:position>16</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>4</design:nativeDataTypeCode>
+            <design:precision>11</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>weight</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>weight</design:label>
+            <design:formattingHints>
+              <design:displaySize>11</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>n_minute</design:name>
+              <design:position>17</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>4</design:nativeDataTypeCode>
+            <design:precision>11</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>n_minute</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>n_minute</design:label>
+            <design:formattingHints>
+              <design:displaySize>11</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>n_vv</design:name>
+              <design:position>18</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>-5</design:nativeDataTypeCode>
+            <design:precision>20</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>n_vv</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>n_vv</design:label>
+            <design:formattingHints>
+              <design:displaySize>20</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>create_time</design:name>
+              <design:position>19</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>93</design:nativeDataTypeCode>
+            <design:precision>19</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>NotNullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>create_time</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>create_time</design:label>
+            <design:formattingHints>
+              <design:displaySize>19</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>log_time</design:name>
+              <design:position>20</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>93</design:nativeDataTypeCode>
+            <design:precision>19</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>NotNullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>log_time</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>log_time</design:label>
+            <design:formattingHints>
+              <design:displaySize>19</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>isdelete</design:name>
+              <design:position>21</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>4</design:nativeDataTypeCode>
+            <design:precision>11</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>isdelete</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>isdelete</design:label>
+            <design:formattingHints>
+              <design:displaySize>11</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+      </design:resultSetColumns>
+      <design:criteria/>
+    </design:resultSetDefinitions>
+  </design:ResultSets>
+</model:DesignValues>]]></xml-property>
+        </oda-data-set>
+    </data-sets>
+    <styles>
+        <style name="report" id="4">
+            <property name="fontFamily">sans-serif</property>
+            <property name="fontSize">10pt</property>
+        </style>
+        <style name="crosstab-cell" id="5">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+        <style name="crosstab" id="6">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+        <style name="NewStyle" id="129">
+            <property name="textAlign">center</property>
+        </style>
+    </styles>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2">
+            <page-footer>
+                <text id="3">
+                    <property name="contentType">html</property>
+                </text>
+            </page-footer>
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <text-data id="168">
+            <method name="onRender"><![CDATA[start_date = reportContext.getHttpServletRequest().getParameter("startDate");
+end_date = reportContext.getHttpServletRequest().getParameter("endDate");
+mc_name = reportContext.getHttpServletRequest().getParameter("monName");
+
+myDate = new Date();
+month = (((myDate.getMonth()+1) < 10) ? "-0" : "-") + (myDate.getMonth()+1);
+day= ((myDate.getDate() < 10) ? "-0" : "-") + myDate.getDate();
+currentDate = myDate.getFullYear() + month + day;
+prefix = "Microlens.funshion.com" + " 播控-投放周期UV报告";
+period = start_date + " 至 " + end_date
+display_text = prefix +"<br/>"+"导出报表日期："+currentDate+ "<br/>"+"报表类型：播控报表"+"<br/>"+"播控名称："+mc_name+"<br/>"+"报表时段："+period ;
+
+format = reportContext.getHttpServletRequest().getParameter("__format");
+if(format == "xls") {
+   this.getStyle().display = "block";
+   this.text= display_text;
+} else {
+   this.getStyle().display = "none";
+}]]></method>
+            <property name="contentType">html</property>
+        </text-data>
+        <table name="table" id="30">
+            <property name="width">100%</property>
+            <property name="dataSet">dsUV</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">area_name</property>
+                    <text-property name="displayName">area_name</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["area_name"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">uv_sn</property>
+                    <text-property name="displayName">uv_sn</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["uv_sn"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">mon_date</property>
+                    <text-property name="displayName">mon_date</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["mon_date"]</expression>
+                    <property name="dataType">date</property>
+                </structure>
+                <structure>
+                    <property name="name">uv_limit</property>
+                    <text-property name="displayName">uv_limit</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["uv_limit"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">type</property>
+                    <text-property name="displayName">type</text-property>
+                    <expression name="expression" type="javascript">if(dataSetRow["type"]=="0") {&#13;
+"总量";&#13;
+}&#13;
+else if(dataSetRow["type"]=="1") {&#13;
+"每天";&#13;
+}</expression>
+                    <property name="dataType">string</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">uv1</property>
+                    <text-property name="displayName">uv1</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["uv1"]+dataSetRow["uv2"]+dataSetRow["uv3"]+dataSetRow["uv4"]+dataSetRow["uv5"]+dataSetRow["uv6"]+dataSetRow["uv7"]+dataSetRow["uv8"]+dataSetRow["uv9"]+dataSetRow["uv10"]</expression>
+                    <property name="dataType">decimal</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">uv2</property>
+                    <text-property name="displayName">uv2</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["uv2"]+dataSetRow["uv3"]+dataSetRow["uv4"]+dataSetRow["uv5"]+dataSetRow["uv6"]+dataSetRow["uv7"]+dataSetRow["uv8"]+dataSetRow["uv9"]+dataSetRow["uv10"]</expression>
+                    <property name="dataType">decimal</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">uv3</property>
+                    <text-property name="displayName">uv3</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["uv3"]+dataSetRow["uv4"]+dataSetRow["uv5"]+dataSetRow["uv6"]+dataSetRow["uv7"]+dataSetRow["uv8"]+dataSetRow["uv9"]+dataSetRow["uv10"]</expression>
+                    <property name="dataType">decimal</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">uv4</property>
+                    <text-property name="displayName">uv4</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["uv4"]+dataSetRow["uv5"]+dataSetRow["uv6"]+dataSetRow["uv7"]+dataSetRow["uv8"]+dataSetRow["uv9"]+dataSetRow["uv10"]</expression>
+                    <property name="dataType">decimal</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">uv5</property>
+                    <text-property name="displayName">uv5</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["uv5"]+dataSetRow["uv6"]+dataSetRow["uv7"]+dataSetRow["uv8"]+dataSetRow["uv9"]+dataSetRow["uv10"]</expression>
+                    <property name="dataType">decimal</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">uv6</property>
+                    <text-property name="displayName">uv6</text-property>
+                    <expression name="expression" type="javascript">&#13;
+&#13;
+dataSetRow["uv6"]+dataSetRow["uv7"]+dataSetRow["uv8"]+dataSetRow["uv9"]+dataSetRow["uv10"]</expression>
+                    <property name="dataType">decimal</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">uv7</property>
+                    <text-property name="displayName">uv7</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["uv7"]+dataSetRow["uv8"]+dataSetRow["uv9"]+dataSetRow["uv10"]</expression>
+                    <property name="dataType">decimal</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">uv8</property>
+                    <text-property name="displayName">uv8</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["uv8"]+dataSetRow["uv9"]+dataSetRow["uv10"]</expression>
+                    <property name="dataType">decimal</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">uv9</property>
+                    <text-property name="displayName">uv9</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["uv9"]+dataSetRow["uv10"]</expression>
+                    <property name="dataType">decimal</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">uv10</property>
+                    <text-property name="displayName">uv10</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["uv10"]+0</expression>
+                    <property name="dataType">decimal</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">uv_id</property>
+                    <text-property name="displayName">uv_id</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["uv_id"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">area_id</property>
+                    <text-property name="displayName">area_id</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["area_id"]</expression>
+                    <property name="dataType">integer</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">area_id_1</property>
+                    <text-property name="displayName">area_id</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["area_id"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">area_type</property>
+                    <text-property name="displayName">area_type</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["area_type"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
+            <property name="pageBreakInterval">100</property>
+            <column id="147">
+                <property name="width">0%</property>
+                <list-property name="visibility">
+                    <structure>
+                        <property name="format">all</property>
+                        <expression name="valueExpr" type="javascript">true</expression>
+                    </structure>
+                </list-property>
+            </column>
+            <column id="154">
+                <property name="width">0%</property>
+                <list-property name="visibility">
+                    <structure>
+                        <property name="format">all</property>
+                        <expression name="valueExpr" type="javascript">true</expression>
+                    </structure>
+                </list-property>
+            </column>
+            <column id="79">
+                <property name="width">10%</property>
+            </column>
+            <column id="80">
+                <property name="width">7%</property>
+            </column>
+            <column id="81">
+                <property name="width">6%</property>
+            </column>
+            <column id="82">
+                <property name="width">6%</property>
+            </column>
+            <column id="83">
+                <property name="width">7%</property>
+            </column>
+            <column id="84">
+                <property name="width">7%</property>
+            </column>
+            <column id="85">
+                <property name="width">7%</property>
+            </column>
+            <column id="86">
+                <property name="width">7%</property>
+            </column>
+            <column id="87">
+                <property name="width">7%</property>
+            </column>
+            <column id="88">
+                <property name="width">7%</property>
+            </column>
+            <column id="89">
+                <property name="width">7%</property>
+            </column>
+            <column id="90">
+                <property name="width">7%</property>
+            </column>
+            <column id="91">
+                <property name="width">7%</property>
+            </column>
+            <column id="92">
+                <property name="width">7%</property>
+            </column>
+            <column id="93">
+                <property name="width">7%</property>
+            </column>
+            <column id="165">
+                <property name="width">7%</property>
+            </column>
+            <header>
+                <row id="31">
+                    <property name="backgroundColor">#C8E3FF</property>
+                    <property name="fontFamily">"微软雅黑"</property>
+                    <property name="fontSize">10pt</property>
+                    <property name="fontStyle">normal</property>
+                    <cell id="144">
+                        <label id="149">
+                            <text-property name="text">area_id</text-property>
+                        </label>
+                    </cell>
+                    <cell id="151">
+                        <label id="155">
+                            <text-property name="text">area_type</text-property>
+                        </label>
+                    </cell>
+                    <cell id="32">
+                        <label id="94">
+                            <text-property name="text">地域</text-property>
+                        </label>
+                    </cell>
+                    <cell id="33">
+                        <label id="96">
+                            <text-property name="text">频控控制</text-property>
+                        </label>
+                    </cell>
+                    <cell id="34">
+                        <label id="98">
+                            <text-property name="text">日期</text-property>
+                        </label>
+                    </cell>
+                    <cell id="35">
+                        <label id="100">
+                            <text-property name="text">频次限制</text-property>
+                        </label>
+                    </cell>
+                    <cell id="36">
+                        <label id="102">
+                            <text-property name="text">频控方式</text-property>
+                        </label>
+                    </cell>
+                    <cell id="37">
+                        <label name="uv1" id="104">
+                            <text-property name="text">1+UV</text-property>
+                        </label>
+                    </cell>
+                    <cell id="38">
+                        <label name="uv2" id="106">
+                            <text-property name="text">2+UV</text-property>
+                        </label>
+                    </cell>
+                    <cell id="39">
+                        <label name="uv3" id="108">
+                            <text-property name="text">3+UV</text-property>
+                        </label>
+                    </cell>
+                    <cell id="40">
+                        <label name="uv4" id="110">
+                            <text-property name="text">4+UV</text-property>
+                        </label>
+                    </cell>
+                    <cell id="41">
+                        <label name="uv5" id="112">
+                            <text-property name="text">5+UV</text-property>
+                        </label>
+                    </cell>
+                    <cell id="42">
+                        <label name="uv6" id="114">
+                            <text-property name="text">6+UV</text-property>
+                        </label>
+                    </cell>
+                    <cell id="43">
+                        <label name="uv7" id="116">
+                            <text-property name="text">7+UV</text-property>
+                        </label>
+                    </cell>
+                    <cell id="44">
+                        <label name="uv8" id="118">
+                            <text-property name="text">8+UV</text-property>
+                        </label>
+                    </cell>
+                    <cell id="45">
+                        <label name="uv9" id="120">
+                            <text-property name="text">9+UV</text-property>
+                        </label>
+                    </cell>
+                    <cell id="46">
+                        <label name="uv10" id="122">
+                            <text-property name="text">10+UV</text-property>
+                        </label>
+                    </cell>
+                    <cell id="162">
+                        <text-data name="data_operation" id="166">
+                            <method name="onRender"><![CDATA[this.text = "<a href='javascript:void(0);' onclick=\"new function(e){oEvent=e||event;var x =oEvent.clientX;var y =oEvent.clientY;parent.showColsSelectInfo('mc',x,y);}\" > <img style='float:right' src='/images/report/selectcols.gif'/></a>";]]></method>
+                            <property name="contentType">html</property>
+                        </text-data>
+                    </cell>
+                </row>
+            </header>
+            <detail>
+                <row id="47">
+                    <method name="onCreate"><![CDATA[rowCount++;
+if(rowCount > 1 &amp;&amp; rowCount % recordNum == 1){
+  this.style.pageBreakBefore = "always";
+} ]]></method>
+                    <method name="onRender"><![CDATA[count++;
+if( count % 2 == 0 )
+{
+this.getStyle().backgroundColor="#ECF3FE";
+}
+else
+{
+this.getStyle().backgroundColor="#FCFFFE";
+}
+style.textAlign = "center";
+]]></method>
+                    <property name="style">NewStyle</property>
+                    <property name="fontSize">10pt</property>
+                    <cell id="145">
+                        <data id="150">
+                            <property name="resultSetColumn">area_id</property>
+                        </data>
+                    </cell>
+                    <cell id="152">
+                        <data id="156">
+                            <property name="resultSetColumn">area_type</property>
+                        </data>
+                    </cell>
+                    <cell id="48">
+                        <text-data id="157">
+                            <method name="onRender"><![CDATA[area_name = this.text;
+if (area_name == null) {
+	this.text = "全部地域";
+}
+]]></method>
+                            <expression name="valueExpr">if(row["area_type"]=='group'){&#13;
+"&lt;a target='_blank' href='"+params["ctx"].value+"/mc/uv-report-areagroup?monId="+params["monId"].value+"&amp;areaId="+row["area_id"]+"&amp;monDate="+row["mon_date"]+"'>"+getAreaName(row["area_id"])+"&lt;/a>";&#13;
+}else{&#13;
+getAreaName(row["area_id"])&#13;
+}</expression>
+                            <property name="contentType">html</property>
+                        </text-data>
+                    </cell>
+                    <cell id="49">
+                        <data id="97">
+                            <property name="resultSetColumn">uv_sn</property>
+                        </data>
+                    </cell>
+                    <cell id="50">
+                        <data id="99">
+                            <property name="resultSetColumn">mon_date</property>
+                            <list-property name="action">
+                                <structure>
+                                    <property name="linkType">none</property>
+                                </structure>
+                            </list-property>
+                        </data>
+                    </cell>
+                    <cell id="51">
+                        <data id="101">
+                            <method name="onRender"><![CDATA[freq_limit = this.getValue();
+if (freq_limit == "0") {
+	this.setDisplayValue("-");
+}]]></method>
+                            <property name="resultSetColumn">uv_limit</property>
+                        </data>
+                    </cell>
+                    <cell id="52">
+                        <data id="103">
+                            <method name="onRender"><![CDATA[id = this.getRowData().getExpressionValue("row[area_id]");
+if (id == "-1") {
+	this.setDisplayValue("-");
+}]]></method>
+                            <property name="resultSetColumn">type</property>
+                        </data>
+                    </cell>
+                    <cell id="53">
+                        <data name="data_uv1" id="105">
+                            <property name="resultSetColumn">uv1</property>
+                        </data>
+                    </cell>
+                    <cell id="54">
+                        <data name="data_uv2" id="107">
+                            <property name="resultSetColumn">uv2</property>
+                        </data>
+                    </cell>
+                    <cell id="55">
+                        <data name="data_uv3" id="109">
+                            <property name="resultSetColumn">uv3</property>
+                        </data>
+                    </cell>
+                    <cell id="56">
+                        <data name="data_uv4" id="111">
+                            <property name="resultSetColumn">uv4</property>
+                        </data>
+                    </cell>
+                    <cell id="57">
+                        <data name="data_uv5" id="113">
+                            <property name="resultSetColumn">uv5</property>
+                        </data>
+                    </cell>
+                    <cell id="58">
+                        <data name="data_uv6" id="115">
+                            <property name="resultSetColumn">uv6</property>
+                        </data>
+                    </cell>
+                    <cell id="59">
+                        <data name="data_uv7" id="117">
+                            <property name="resultSetColumn">uv7</property>
+                        </data>
+                    </cell>
+                    <cell id="60">
+                        <data name="data_uv8" id="119">
+                            <property name="resultSetColumn">uv8</property>
+                        </data>
+                    </cell>
+                    <cell id="61">
+                        <data name="data_uv9" id="121">
+                            <property name="resultSetColumn">uv9</property>
+                        </data>
+                    </cell>
+                    <cell id="62">
+                        <data name="data_uv10" id="123">
+                            <property name="resultSetColumn">uv10</property>
+                        </data>
+                    </cell>
+                    <cell id="163">
+                        <text name="sift_sub" id="171">
+                            <property name="contentType">html</property>
+                            <text-property name="content"><![CDATA[&amp;nbsp;]]></text-property>
+                        </text>
+                    </cell>
+                </row>
+            </detail>
+        </table>
+    </body>
+</report>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- 固定报告的广告位 与 分类的映射关系 -->
+<columns>
+    <column>
+        <rpt>stock</rpt>
+        <cat>client</cat>
+        <col>brw</col>
+        <col_list>c_b_1,c_l_1,c_bh_1,c_lh_1</col_list>        
+    </column>   
+    <column>
+        <rpt>stock</rpt>
+        <cat>client</cat>
+        <col>pla</col>
+        <col_list>c_b_1,c_l_1,c_bh_1,c_lh_1,c_lh_1_rsv,c_b_1_bak,c_bh_1_rsv</col_list>        
+    </column>   
+    <column>
+        <rpt>stock</rpt>
+        <cat>web</cat>
+        <col>brw</col>
+        <col_list>c_wb_1_wp,c_wb_1_et,c_wb_1_sp,c_wb_1_pr,c_wb_1_fp,c_wb_1_lv,c_u_1</col_list>        
+    </column>   
+    <column>
+        <rpt>stock</rpt>
+        <cat>web</cat>
+        <col>pla</col>
+        <col_list>c_wb_1_wp,c_wb_1_et,c_wb_1_sp,c_wb_1_pr,c_wb_1_fp,c_wb_1_lv,c_u_1,c_wb_rsv</col_list>        
+    </column>
+</columns>

@@ -1,0 +1,533 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.23" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 4.2.2.v201301041109 Build &lt;4.2.2.v20130114-2359></property>
+    <list-property name="includeScripts">
+        <property>/js/common/report_tool.js</property>
+    </list-property>
+    <method name="initialize"><![CDATA[count = 0; ]]></method>
+    <property name="layoutPreference">auto layout</property>
+    <parameters>
+        <scalar-parameter name="reportSql" id="6">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+        </scalar-parameter>
+        <scalar-parameter name="exportName" id="7">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+        </scalar-parameter>
+        <scalar-parameter name="monId" id="114">
+            <property name="valueType">static</property>
+            <property name="isRequired">true</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="areaId" id="115">
+            <property name="valueType">static</property>
+            <property name="isRequired">true</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="path" id="116">
+            <property name="valueType">static</property>
+            <property name="isRequired">true</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="monDate" id="117">
+            <property name="valueType">static</property>
+            <property name="isRequired">true</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="maxImpFwd" id="119">
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+    </parameters>
+    <data-sources>
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="Data Source" id="4">
+            <method name="beforeOpen"><![CDATA[initializeDb(reportContext, extensionProperties);]]></method>
+            <property name="odaDriverClass">com.mysql.jdbc.Driver</property>
+            <property name="odaURL">jdbc:mysql://192.168.16.241/microlens_dev?useUnicode=true&amp;characterEncoding=utf-8</property>
+            <property name="odaUser">root</property>
+            <encrypted-property name="odaPassword" encryptionID="base64">bWljcm9sZW5z</encrypted-property>
+            <property name="odaJndiName">java:comp/env/jdbc/db</property>
+        </oda-data-source>
+    </data-sources>
+    <data-sets>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="ds" id="5">
+            <list-property name="columnHints"/>
+            <list-property name="parameters"/>
+            <structure name="cachedMetaData"/>
+            <method name="beforeOpen"><![CDATA[sqlStr = this.queryText;
+monId = reportContext.getParameterValue("monId");
+areaId = reportContext.getParameterValue("areaId");
+monDate = reportContext.getParameterValue("monDate");
+path = reportContext.getParameterValue("path");
+
+paramStr = "";
+
+if(monId != null &amp;&amp; monId != "") {
+  paramStr = " mon_id = " + monId;
+}
+
+if(areaId != null &amp;&amp; areaId != "") {
+  paramStr += " and area_id = " + areaId;
+}
+
+if(monDate != null &amp;&amp; monDate != "") {
+  paramStr += " and mon_date = '" + monDate + "' ";
+}
+
+if(path != null &amp;&amp; path != "") {
+  paramStr += " and path = " + path;
+}
+
+if(paramStr == "") {
+   paramStr = " 1 = 1 ";
+}
+
+text = new java.lang.String(sqlStr);
+text = text.replaceAll("#condition#", paramStr);
+this.queryText = text;]]></method>
+            <property name="dataSource">Data Source</property>
+            <list-property name="resultSet"/>
+            <xml-property name="queryText"><![CDATA[SELECT
+	*
+FROM
+	(
+		SELECT
+			imp.path,
+			imp.sub_path,
+			imp.is_main_subpath,
+			imp.mon_id AS monId,
+      d.name as areaName,
+			imp.mon_date AS monDate,
+			imp.area_id AS areaId,
+			SUM(imp_fwd) AS impFwd,
+			SUM(act_imp) AS actImp,
+			SUM(imp_block) AS impBlock
+		FROM
+			stg_mc_imp_d imp, dim_area d
+		WHERE
+			#condition#
+		AND path IS NOT NULL
+		AND path > 0
+		AND sub_path > 0
+    AND imp.area_id = d.id
+		GROUP BY
+			imp.mon_id,
+			imp.mon_date,
+			imp.area_id,
+			imp.path,
+			imp.sub_path
+	) s
+GROUP BY
+	s.monId,
+	s.monDate,
+	s.areaId,
+	s.path,
+	s.sub_path]]></xml-property>
+        </oda-data-set>
+    </data-sets>
+    <styles>
+        <style name="crosstab-cell" id="2">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+        <style name="crosstab" id="3">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+    </styles>
+    <page-setup>
+        <simple-master-page name="NewSimpleMasterPage" id="109"/>
+    </page-setup>
+    <body>
+        <table name="table" id="8">
+            <property name="width">100%</property>
+            <property name="dataSet">ds</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">monDate</property>
+                    <text-property name="displayName">日期</text-property>
+                    <expression name="expression">dataSetRow["monDate"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">path</property>
+                    <text-property name="displayName">Path</text-property>
+                    <expression name="expression">dataSetRow["path"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">impFwd</property>
+                    <text-property name="displayName">播放转发量</text-property>
+                    <expression name="expression">dataSetRow["impFwd"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">actImp</property>
+                    <text-property name="displayName">播放请求量</text-property>
+                    <expression name="expression">dataSetRow["actImp"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">impBlock</property>
+                    <text-property name="displayName">播放Block量</text-property>
+                    <expression name="expression">dataSetRow["impBlock"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">monId</property>
+                    <expression name="expression" type="javascript">dataSetRow["monId"]</expression>
+                    <property name="dataType">string</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">areaId</property>
+                    <expression name="expression" type="javascript">dataSetRow["areaId"]</expression>
+                    <property name="dataType">string</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">sub_path</property>
+                    <text-property name="displayName">sub_path</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["sub_path"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">is_main_subpath</property>
+                    <text-property name="displayName">is_main_subpath</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["is_main_subpath"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">-</property>
+                    <expression name="expression" type="javascript">null</expression>
+                    <property name="dataType">string</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">areaName</property>
+                    <text-property name="displayName">areaName</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["areaName"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
+            <column id="93"/>
+            <column id="123">
+                <list-property name="visibility">
+                    <structure>
+                        <property name="format">all</property>
+                        <expression name="valueExpr" type="javascript">true</expression>
+                    </structure>
+                </list-property>
+            </column>
+            <column id="94"/>
+            <column id="95"/>
+            <column id="96"/>
+            <column id="97"/>
+            <column id="139"/>
+            <column id="98"/>
+            <column id="99"/>
+            <column id="100"/>
+            <column id="145"/>
+            <column id="101"/>
+            <column id="102"/>
+            <column id="103"/>
+            <column id="104"/>
+            <column id="105"/>
+            <column id="106"/>
+            <column id="107"/>
+            <column id="108"/>
+            <header>
+                <row id="9">
+                    <property name="backgroundColor">#C8E3FF</property>
+                    <cell id="10">
+                        <label name="areaName" id="11">
+                            <text-property name="text">地域</text-property>
+                        </label>
+                    </cell>
+                    <cell id="120">
+                        <label id="124">
+                            <text-property name="text">is_main_subpath</text-property>
+                        </label>
+                    </cell>
+                    <cell id="12">
+                        <label name="monDate" id="13">
+                            <text-property name="text">日期</text-property>
+                        </label>
+                    </cell>
+                    <cell id="14">
+                        <label name="path" id="15">
+                            <text-property name="text">path</text-property>
+                        </label>
+                    </cell>
+                    <cell id="16">
+                        <label name="impLimit" id="17">
+                            <text-property name="text">日播放指标</text-property>
+                        </label>
+                    </cell>
+                    <cell id="18">
+                        <label name="impFwd" id="19">
+                            <text-property name="text">执行投放量</text-property>
+                        </label>
+                    </cell>
+                    <cell id="137">
+                        <label id="140">
+                            <text-property name="text">地域播放量</text-property>
+                        </label>
+                    </cell>
+                    <cell id="20">
+                        <label name="impPercent" id="21">
+                            <text-property name="text">播放比</text-property>
+                        </label>
+                    </cell>
+                    <cell id="22">
+                        <label name="impRate" id="23">
+                            <text-property name="text">播放完成率</text-property>
+                        </label>
+                    </cell>
+                    <cell id="24">
+                        <label name="clkFwd" id="25">
+                            <text-property name="text">执行点击量</text-property>
+                        </label>
+                    </cell>
+                    <cell id="143">
+                        <label id="146">
+                            <text-property name="text">地域点击量</text-property>
+                        </label>
+                    </cell>
+                    <cell id="26">
+                        <label name="clkRateLimit" id="27">
+                            <text-property name="text">日点击指标</text-property>
+                        </label>
+                    </cell>
+                    <cell id="28">
+                        <label name="clkRate" id="29">
+                            <text-property name="text">点击率</text-property>
+                        </label>
+                    </cell>
+                    <cell id="30">
+                        <label name="actImp" id="31">
+                            <text-property name="text">播放请求量</text-property>
+                        </label>
+                    </cell>
+                    <cell id="32">
+                        <label name="impBlock" id="33">
+                            <text-property name="text">无效播放量</text-property>
+                        </label>
+                    </cell>
+                    <cell id="34">
+                        <label name="impChokeSum" id="35">
+                            <text-property name="text">异常播放量</text-property>
+                        </label>
+                    </cell>
+                    <cell id="36">
+                        <label name="actClk" id="37">
+                            <text-property name="text">点击请求量</text-property>
+                        </label>
+                    </cell>
+                    <cell id="38">
+                        <label name="clkBlock" id="39">
+                            <text-property name="text">无效点击量</text-property>
+                        </label>
+                    </cell>
+                    <cell id="40">
+                        <label name="clkChokeSum" id="41">
+                            <text-property name="text">异常点击量</text-property>
+                        </label>
+                    </cell>
+                </row>
+            </header>
+            <detail>
+                <row id="42">
+                    <method name="onPrepare"><![CDATA[rowCount = 0]]></method>
+                    <method name="onCreate"><![CDATA[rowCount++;
+if(rowCount % 20 == 0){
+style.pageBreakAfter = "always";
+} 
+]]></method>
+                    <method name="onRender"><![CDATA[count++;
+if( count % 2 == 0 )
+{
+this.getStyle().backgroundColor="#ECF3FE";
+}
+else
+{
+this.getStyle().backgroundColor="#FCFFFE";
+}
+style.textAlign = "center";]]></method>
+                    <property name="textAlign">center</property>
+                    <cell id="43">
+                        <property name="textAlign">center</property>
+                        <data id="148">
+                            <property name="resultSetColumn">areaName</property>
+                        </data>
+                    </cell>
+                    <cell id="121">
+                        <data id="125">
+                            <property name="resultSetColumn">is_main_subpath</property>
+                        </data>
+                    </cell>
+                    <cell id="45">
+                        <data id="149">
+                            <property name="resultSetColumn">monDate</property>
+                        </data>
+                    </cell>
+                    <cell id="47">
+                        <data id="112">
+                            <method name="onRender"><![CDATA[val = this.getValue();
+path = reportContext.getParameterValue("path");
+val = path + "." + val;
+rowt = this.getRowData();
+isMainPath = rowt.getExpressionValue( "row[is_main_subpath]");
+if(isMainPath == 1) {
+  val = "(*)"+ val;
+}
+
+this.setDisplayValue(val);]]></method>
+                            <property name="resultSetColumn">sub_path</property>
+                        </data>
+                    </cell>
+                    <cell id="49">
+                        <text id="127">
+                            <property name="contentType">auto</property>
+                            <text-property name="content"><![CDATA[-]]></text-property>
+                        </text>
+                    </cell>
+                    <cell id="51">
+                        <data name="data_impFwd" id="52">
+                            <property name="resultSetColumn">impFwd</property>
+                        </data>
+                    </cell>
+                    <cell id="138">
+                        <text id="142">
+                            <property name="contentType">auto</property>
+                            <text-property name="content"><![CDATA[-]]></text-property>
+                        </text>
+                    </cell>
+                    <cell id="53">
+                        <text-data id="135">
+                            <expression name="valueExpr">getPercent(row["impFwd"],params["maxImpFwd"].value);</expression>
+                            <property name="contentType">html</property>
+                        </text-data>
+                    </cell>
+                    <cell id="55">
+                        <text id="113">
+                            <property name="contentType">html</property>
+                            <text-property name="content"><![CDATA[-]]></text-property>
+                        </text>
+                    </cell>
+                    <cell id="57">
+                        <text id="132">
+                            <property name="contentType">auto</property>
+                            <text-property name="content"><![CDATA[-]]></text-property>
+                        </text>
+                    </cell>
+                    <cell id="144">
+                        <text id="147">
+                            <property name="contentType">auto</property>
+                            <text-property name="content"><![CDATA[-]]></text-property>
+                        </text>
+                    </cell>
+                    <cell id="59">
+                        <text id="128">
+                            <property name="contentType">auto</property>
+                            <text-property name="content"><![CDATA[-]]></text-property>
+                        </text>
+                    </cell>
+                    <cell id="61">
+                        <text id="129">
+                            <property name="contentType">auto</property>
+                            <text-property name="content"><![CDATA[-]]></text-property>
+                        </text>
+                    </cell>
+                    <cell id="63">
+                        <data name="data_actImp" id="64">
+                            <property name="resultSetColumn">actImp</property>
+                        </data>
+                    </cell>
+                    <cell id="65">
+                        <data name="data_impBlock" id="66">
+                            <property name="resultSetColumn">impBlock</property>
+                        </data>
+                    </cell>
+                    <cell id="67">
+                        <text id="134">
+                            <property name="contentType">auto</property>
+                            <text-property name="content"><![CDATA[-]]></text-property>
+                        </text>
+                    </cell>
+                    <cell id="69">
+                        <text id="133">
+                            <property name="contentType">auto</property>
+                            <text-property name="content"><![CDATA[-]]></text-property>
+                        </text>
+                    </cell>
+                    <cell id="71">
+                        <text id="130">
+                            <property name="contentType">auto</property>
+                            <text-property name="content"><![CDATA[-]]></text-property>
+                        </text>
+                    </cell>
+                    <cell id="73">
+                        <text id="131">
+                            <property name="contentType">auto</property>
+                            <text-property name="content"><![CDATA[-]]></text-property>
+                        </text>
+                    </cell>
+                </row>
+            </detail>
+        </table>
+    </body>
+</report>

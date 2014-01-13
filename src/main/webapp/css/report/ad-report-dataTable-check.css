@@ -1,0 +1,47 @@
+.highlight {
+    background: #FBEC88;
+}
+
+#ad_report_list tr:hover {
+	background-color:#99BBFF;
+}
+#mat_report_list tr:hover {
+	background-color:#99BBFF;
+}
+#adp_report_list tr:hover {
+	background-color:#99BBFF;
+}
+#order_report_list tr:hover {
+	background-color:#99BBFF;
+}
+#acc_report_list tr:hover {
+	background-color:#99BBFF;
+}
+#sale_report_list tr:hover {
+	background-color:#99BBFF;
+}
+#cat_report_list tr:hover {
+	background-color:#99BBFF;
+}
+#country_report_list tr:hover {
+	background-color:#99BBFF;
+}
+.report-list-td td{border:solid #a6c9e2; border-width:1px 1px 1px 1px;}
+.allselect {
+ background-color:#E2E4FF;
+ border:solid 1.5px #a6c9e2;
+ font:bold;
+ width:84px;
+ margin:1px 12px 1px 1px;
+ float:left;
+}
+.allselect:hover{
+background-color:#99BBFF;
+}
+.select_label{
+cursor: pointer;
+font-weight: bold;
+color: #666666;
+margin:1px 4px 1px 1px;
+padding:1px 8px 1px 1px;
+}

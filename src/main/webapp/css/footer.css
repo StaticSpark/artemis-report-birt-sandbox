@@ -1,0 +1,11 @@
+@CHARSET "UTF-8";
+
+#footer {
+	padding: 20px;
+	border-top: 0px solid #ffffff;
+}
+
+#footer p {
+	text-align: center;
+	font-size: 12px;
+}

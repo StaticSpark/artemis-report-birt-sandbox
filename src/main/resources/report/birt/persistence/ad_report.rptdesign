@@ -1,0 +1,757 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.23" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 4.2.2.v201301041109 Build &lt;4.2.2.v20130114-2359></property>
+    <list-property name="includeScripts">
+        <property>/js/common/report_tool.js</property>
+    </list-property>
+    <method name="initialize"><![CDATA[initializeReport(["brw","pla","act_pla_rate","effe_pla","effe_pla_rate","full_pla","full_pla_rate","clk","rate","clk_rate"],[6,8,10]);]]></method>
+    <property name="layoutPreference">auto layout</property>
+    <parameters>
+        <scalar-parameter name="reportSql" id="8">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+        </scalar-parameter>
+        <scalar-parameter name="exportName" id="9">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+        </scalar-parameter>
+        <scalar-parameter name="ids" id="10">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+        </scalar-parameter>
+        <scalar-parameter name="startTime" id="11">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+        </scalar-parameter>
+        <scalar-parameter name="endTime" id="12">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+        </scalar-parameter>
+        <scalar-parameter name="reportId" id="13">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+        </scalar-parameter>
+        <scalar-parameter name="conditonType" id="14">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+        </scalar-parameter>
+        <scalar-parameter name="chartType" id="15">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+        </scalar-parameter>
+        <scalar-parameter name="freq" id="16">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+        </scalar-parameter>
+        <scalar-parameter name="areaIds" id="17">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+        </scalar-parameter>
+        <scalar-parameter name="proviceIds" id="18">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+        </scalar-parameter>
+        <scalar-parameter name="cityIds" id="19">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+        </scalar-parameter>
+        <scalar-parameter name="recordNum" id="20">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+        </scalar-parameter>
+        <scalar-parameter name="subTitle" id="21">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+        </scalar-parameter>
+        <scalar-parameter name="conditionNames" id="22">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+        </scalar-parameter>
+        <scalar-parameter name="hideColumns" id="23">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+        </scalar-parameter>
+        <scalar-parameter name="reportName" id="24">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+        </scalar-parameter>
+        <scalar-parameter name="idGroup" id="25">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+        </scalar-parameter>
+        <scalar-parameter name="firstDisplayName" id="26">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+        </scalar-parameter>
+        <scalar-parameter name="secondDisplayName" id="27">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+        </scalar-parameter>
+        <scalar-parameter name="monId" id="28">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+        </scalar-parameter>
+        <scalar-parameter name="monDate" id="29">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+        </scalar-parameter>
+        <scalar-parameter name="startDate" id="30">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+        </scalar-parameter>
+        <scalar-parameter name="endDate" id="31">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+        </scalar-parameter>
+        <scalar-parameter name="path" id="32">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+        </scalar-parameter>
+        <scalar-parameter name="areaId" id="33">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+        </scalar-parameter>
+        <scalar-parameter name="value" id="34">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+        </scalar-parameter>
+        <scalar-parameter name="hour" id="35">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+        </scalar-parameter>
+        <scalar-parameter name="rptName" id="36">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+        </scalar-parameter>
+        <scalar-parameter name="rptDisplayName" id="37">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+        </scalar-parameter>
+        <scalar-parameter name="monName" id="38">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+        </scalar-parameter>
+        <scalar-parameter name="areaName" id="39">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+        </scalar-parameter>
+        <scalar-parameter name="timePoint" id="40">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+        </scalar-parameter>
+    </parameters>
+    <data-sources>
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="Data Source" id="4">
+            <method name="beforeClose"><![CDATA[initializeDb(reportContext, extensionProperties);]]></method>
+            <property name="odaDriverClass">com.mysql.jdbc.Driver</property>
+            <property name="odaURL">jdbc:mysql://192.168.8.101:3311/microlens?useUnicode=true&amp;characterEncoding=utf-8</property>
+            <property name="odaUser">atlas</property>
+            <encrypted-property name="odaPassword" encryptionID="base64">R1gxMmdwVFlDdVY=</encrypted-property>
+            <property name="odaJndiName">java:comp/env/jdbc/db</property>
+        </oda-data-source>
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.restapi" name="script data source" id="5">
+            <property name="httpRequest">http://192.168.133.86:8080/artemis/data?ids=15658&amp;startTime=2013-12-04&amp;endTime=2013-12-05&amp;reportId=1&amp;conditonType=ad&amp;freq=&amp;areaIds=</property>
+        </oda-data-source>
+    </data-sources>
+    <data-sets>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="ds" id="6">
+            <method name="beforeOpen"><![CDATA[ ids = reportContext.getParameterValue("ids");
+startTime =  reportContext.getParameterValue("startTime");
+endTime =  reportContext.getParameterValue("endTime");
+reportId =  reportContext.getParameterValue("reportId");
+ conditonType =  reportContext.getParameterValue("conditonType");
+ chartType =  reportContext.getParameterValue("chartType");
+freq =  reportContext.getParameterValue("freq");
+areaIds =  reportContext.getParameterValue("areaIds");
+rptSql =  reportContext.getParameterValue("rptSql");
+ sql = new java.lang.String();
+ if(rptSql != null &amp;&amp; rptSql != ""){
+this.queryText = rptSql;
+} else {
+sql = new com.funshion.artemis.custom.service.AdReportSqlManager().getReportSql(reportContext.getHttpServletRequest(),this.queryText,ids, startTime, endTime, reportId,conditonType, chartType, freq, areaIds); 
+this.queryText = sql;}
+myPrintln(sql);]]></method>
+            <property name="dataSource">Data Source</property>
+            <xml-property name="queryText"><![CDATA[SELECT b.id as adId, b.isdelete as isdelete, '' as sn,b.name as adname, b.priority,b.weight, a.log_date as date,sum(a.brw) as brw, sum(a.pla) as pla, sum(a.pla)/sum(a.brw) as act_pla_rate,sum(a.effe_pla)/sum(a.brw) as effe_pla_rate,sum(a.full_pla)/sum(a.brw) as full_pla_rate,sum(a.effe_pla) as effe_pla, sum(a.full_pla) as full_pla, sum(a.clk) as clk, sum(clk)/sum(pla) as rate, sum(clk)/sum(brw) as clk_rate, a.log_date, '' as operation FROM stg_ad_effe_d a, ad_base b where a.ad_id = b.id { and a.log_date >= #startTime# } { and a.log_date <= #endTime#} { and a.ad_id in (#adId#)} { and a.adp_id in (#adpId#)} { and a.area_id in (#areaIds#) } group by b.id]]></xml-property>
+        </oda-data-set>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.restapi.dataSet" name="ws" id="7">
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">brw</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">brw</text-property>
+                    <text-property name="heading">brw</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">adname</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">adname</text-property>
+                    <text-property name="heading">adname</text-property>
+                </structure>
+            </list-property>
+            <list-property name="parameters"/>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">brw</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">adname</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <method name="beforeOpen"><![CDATA[ text = new java.lang.String(this.queryText);  pre = text.substring(0, text.lastIndexOf(",") + 1);  after = text.substring(text.lastIndexOf(",") + 1, text.length());    ids = params["ids"].value;  startTime = params["startTime"].value;  endTime = params["endTime"].value;  reportId = params["reportId"].value;  conditonType = params["conditonType"].value;  freq = params["freq"].value;  areaIds = params["areaIds"].value;  url = "ids=" + ids + "&amp;startTime=" + startTime + "&amp;endTime=" + endTime +                   "&amp;reportId=" + reportId+ "&amp;conditonType=" + conditonType + "&amp;freq=" + freq + "&amp;areaIds=" + areaIds  src = new java.lang.String(url);  src = src.replaceAll(",", "comma");  src = src.replaceAll(" ", "space");  java.lang.System.out.println("http://192.168.133.86:8080/artemis/data?" + src);  this.queryText = pre + "http://192.168.133.86:8080/artemis/data?" + src; ]]></method>
+            <property name="dataSource">script data source</property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">brw</property>
+                    <property name="nativeName">brw</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">1</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">adname</property>
+                    <property name="nativeName">adname</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">1</property>
+                </structure>
+            </list-property>
+            <xml-property name="queryText"><![CDATA[brw::adname::,brw::adname::,null::null::,table,http://192.168.133.86:8080/artemis/data?ids=15658&amp;startTime=2013-12-04&amp;endTime=2013-12-05&amp;reportId=1&amp;conditonType=ad&amp;freq=&amp;areaIds=]]></xml-property>
+        </oda-data-set>
+    </data-sets>
+    <styles>
+        <style name="crosstab-cell" id="2">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+        <style name="crosstab" id="3">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+        <style name="style_hidden" id="41">
+            <property name="display">none</property>
+        </style>
+    </styles>
+    <page-setup>
+        <simple-master-page name="NewSimpleMasterPage" id="150"/>
+    </page-setup>
+    <body>
+        <text-data name="dText" id="42">
+            <method name="onRender"><![CDATA[prefix = "Microlens.funshion.com ";
+subTitle = reportContext.getHttpServletRequest().getParameter("subTitle")
+var index = subTitle.indexOf("-");
+var report_dim = subTitle.substring(index+1);
+var report_title = subTitle.substring(0, index);
+index = report_dim.indexOf(":");
+var report_distribute = report_dim.substring(0, index);
+var report_type = report_dim.substring(index+1);
+myDate = new Date();
+month = (((myDate.getMonth()+1) < 10) ? "-0" : "-") + (myDate.getMonth()+1);
+day= ((myDate.getDate() < 10) ? "-0" : "-") + myDate.getDate();
+currentDate = myDate.getFullYear() + month + day;
+start_time = reportContext.getHttpServletRequest().getParameter("startTime")
+end_time = reportContext.getHttpServletRequest().getParameter("endTime")
+report_period = start_time + " 至 " + end_time;
+condition_name = reportContext.getHttpServletRequest().getParameter("conditionNames")
+if (condition_name =="" || condition_name == "null")
+ {condition_name = "全部" +report_type;};
+if(report_type == "地域" &amp;&amp; (condition_name == "国家" || condition_name == "省份")){
+condition_name = "全部" + condition_name;};
+condition_name = condition_name.replace("<s>", "");condition_name = condition_name.replace("</s>", "");condition_name = condition_name.replace(",", ", ");display_text = prefix +" "+ report_title + "<br/>"+ "导出报表日期： " + currentDate + "<br/>" +"报表类型："+ report_type + "报告"+ "<br/>"+"报表分布："+ report_distribute + "<br/>" + report_type+"名称："+condition_name+"<br/>" +"报告时段："+report_period;
+ format = reportContext.getHttpServletRequest().getParameter("__format");
+if(format == "xls") {this.getStyle().display = 'block';this.text= display_text}
+else {this.getStyle().display = 'none'};]]></method>
+            <property name="contentType">html</property>
+        </text-data>
+        <table name="table" id="43">
+            <property name="width">100%</property>
+            <property name="dataSet">ds</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">sn</property>
+                    <text-property name="displayName">序列号</text-property>
+                    <expression name="expression">dataSetRow["sn"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">adname</property>
+                    <text-property name="displayName">广告名称</text-property>
+                    <expression name="expression">dataSetRow["adname"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">priority</property>
+                    <text-property name="displayName">优先级</text-property>
+                    <expression name="expression">dataSetRow["priority"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">weight</property>
+                    <text-property name="displayName">权重</text-property>
+                    <expression name="expression">dataSetRow["weight"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">brw</property>
+                    <text-property name="displayName">浏览量</text-property>
+                    <expression name="expression">dataSetRow["brw"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">total_brw</property>
+                    <expression name="expression">dataSetRow["brw"]</expression>
+                    <property name="dataType">float</property>
+                    <property name="aggregateFunction">sum</property>
+                </structure>
+                <structure>
+                    <property name="name">pla</property>
+                    <text-property name="displayName">播放量</text-property>
+                    <expression name="expression">dataSetRow["pla"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">total_pla</property>
+                    <expression name="expression">dataSetRow["pla"]</expression>
+                    <property name="dataType">float</property>
+                    <property name="aggregateFunction">sum</property>
+                </structure>
+                <structure>
+                    <property name="name">act_pla_rate</property>
+                    <text-property name="displayName">播放比</text-property>
+                    <expression name="expression">dataSetRow["act_pla_rate"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">effe_pla</property>
+                    <text-property name="displayName">有效播放量</text-property>
+                    <expression name="expression">dataSetRow["effe_pla"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">total_effe_pla</property>
+                    <expression name="expression">dataSetRow["effe_pla"]</expression>
+                    <property name="dataType">float</property>
+                    <property name="aggregateFunction">sum</property>
+                </structure>
+                <structure>
+                    <property name="name">effe_pla_rate</property>
+                    <text-property name="displayName">有效播放比</text-property>
+                    <expression name="expression">dataSetRow["effe_pla_rate"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">full_pla</property>
+                    <text-property name="displayName">完整播放量</text-property>
+                    <expression name="expression">dataSetRow["full_pla"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">total_full_pla</property>
+                    <expression name="expression">dataSetRow["full_pla"]</expression>
+                    <property name="dataType">float</property>
+                    <property name="aggregateFunction">sum</property>
+                </structure>
+                <structure>
+                    <property name="name">full_pla_rate</property>
+                    <text-property name="displayName">完整播放比</text-property>
+                    <expression name="expression">dataSetRow["full_pla_rate"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">clk</property>
+                    <text-property name="displayName">点击量</text-property>
+                    <expression name="expression">dataSetRow["clk"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">total_clk</property>
+                    <expression name="expression">dataSetRow["clk"]</expression>
+                    <property name="dataType">float</property>
+                    <property name="aggregateFunction">sum</property>
+                </structure>
+                <structure>
+                    <property name="name">rate</property>
+                    <text-property name="displayName">点击率1</text-property>
+                    <expression name="expression">dataSetRow["rate"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">clk_rate</property>
+                    <text-property name="displayName">点击率2</text-property>
+                    <expression name="expression">dataSetRow["clk_rate"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">operation</property>
+                    <expression name="expression">dataSetRow["operation"]</expression>
+                </structure>
+            </list-property>
+            <property name="pageBreakInterval">100</property>
+            <property name="sortByGroups">false</property>
+            <column id="135"/>
+            <column id="136"/>
+            <column id="137"/>
+            <column id="138"/>
+            <column id="139"/>
+            <column id="140"/>
+            <column id="141"/>
+            <column id="142"/>
+            <column id="143"/>
+            <column id="144"/>
+            <column id="145"/>
+            <column id="146"/>
+            <column id="147"/>
+            <column id="148"/>
+            <column id="149"/>
+            <header>
+                <row id="44">
+                    <cell id="45">
+                        <label name="sn" id="46">
+                            <text-property name="displayName">序列号</text-property>
+                            <text-property name="text">序列号</text-property>
+                        </label>
+                    </cell>
+                    <cell id="47">
+                        <label name="adname" id="48">
+                            <text-property name="displayName">广告名称</text-property>
+                            <text-property name="text">广告名称</text-property>
+                        </label>
+                    </cell>
+                    <cell id="49">
+                        <label name="priority" id="50">
+                            <text-property name="displayName">优先级</text-property>
+                            <text-property name="text">优先级</text-property>
+                        </label>
+                    </cell>
+                    <cell id="51">
+                        <label name="weight" id="52">
+                            <text-property name="displayName">权重</text-property>
+                            <text-property name="text">权重</text-property>
+                        </label>
+                    </cell>
+                    <cell id="53">
+                        <label name="brw" id="54">
+                            <text-property name="displayName">浏览量</text-property>
+                            <text-property name="text">浏览量</text-property>
+                        </label>
+                    </cell>
+                    <cell id="55">
+                        <label name="pla" id="56">
+                            <text-property name="displayName">播放量</text-property>
+                            <text-property name="text">播放量</text-property>
+                        </label>
+                    </cell>
+                    <cell id="57">
+                        <label name="act_pla_rate" id="58">
+                            <text-property name="displayName">播放比</text-property>
+                            <text-property name="text">播放比</text-property>
+                        </label>
+                    </cell>
+                    <cell id="59">
+                        <label name="effe_pla" id="60">
+                            <text-property name="displayName">有效播放量</text-property>
+                            <text-property name="text">有效播放量</text-property>
+                        </label>
+                    </cell>
+                    <cell id="61">
+                        <label name="effe_pla_rate" id="62">
+                            <text-property name="displayName">有效播放比</text-property>
+                            <text-property name="text">有效播放比</text-property>
+                        </label>
+                    </cell>
+                    <cell id="63">
+                        <label name="full_pla" id="64">
+                            <text-property name="displayName">完整播放量</text-property>
+                            <text-property name="text">完整播放量</text-property>
+                        </label>
+                    </cell>
+                    <cell id="65">
+                        <label name="full_pla_rate" id="66">
+                            <text-property name="displayName">完整播放比</text-property>
+                            <text-property name="text">完整播放比</text-property>
+                        </label>
+                    </cell>
+                    <cell id="67">
+                        <label name="clk" id="68">
+                            <text-property name="displayName">点击量</text-property>
+                            <text-property name="text">点击量</text-property>
+                        </label>
+                    </cell>
+                    <cell id="69">
+                        <label name="rate" id="70">
+                            <text-property name="displayName">点击率1</text-property>
+                            <text-property name="text">点击率1</text-property>
+                        </label>
+                    </cell>
+                    <cell id="71">
+                        <label name="clk_rate" id="72">
+                            <text-property name="displayName">点击率2</text-property>
+                            <text-property name="text">点击率2</text-property>
+                        </label>
+                    </cell>
+                    <cell id="73">
+                        <text-data name="sift_sub" id="74">
+                            <method name="onRender"><![CDATA[this.text = "<a href='javascript:void(0);' onclick=\"new function(e){oEvent=e||event;var x =oEvent.clientX;var y =oEvent.clientY;parent.showColsSelectInfo('ad',x,y);}\" > <img style='float:right' src='/images/report/selectcols.gif'/></a>";]]></method>
+                            <property name="contentType">html</property>
+                        </text-data>
+                        <text-data name="sift_total_data" id="75">
+                            <property name="contentType">html</property>
+                        </text-data>
+                    </cell>
+                </row>
+            </header>
+            <detail>
+                <row id="76">
+                    <method name="onPrepare"><![CDATA[rowCount = 0]]></method>
+                    <method name="onCreate"><![CDATA[rowCount++;
+if(rowCount > 1 &amp;&amp; rowCount % recordNum == 1){
+style.pageBreakBefore = "always";
+} 
+]]></method>
+                    <method name="onRender"><![CDATA[count++;
+if( count % 2 == 0 )
+{
+this.getStyle().backgroundColor="#F5FAFA";
+}
+else
+{
+this.getStyle().backgroundColor="#FFFFFF";
+}
+style.textAlign = "center";rowt = this.getRowData();
+val = rowt.getExpressionValue( "row[mc_detail_percent]");if(val != null &amp;&amp; val == '占比'){this.getStyle().backgroundColor='#c8e3ff';this.getStyle().fontWeight='bold'}]]></method>
+                    <cell id="77">
+                        <data name="data_sn" id="78">
+                            <method name="onRender"><![CDATA[sn = count;this.setDisplayValue(sn);]]></method>
+                            <property name="resultSetColumn">sn</property>
+                        </data>
+                    </cell>
+                    <cell id="79">
+                        <data name="data_adname" id="80">
+                            <property name="resultSetColumn">adname</property>
+                        </data>
+                    </cell>
+                    <cell id="81">
+                        <data name="data_priority" id="82">
+                            <method name="onRender"><![CDATA[priority = this.getValue();if(priority == 1) {priority = '最低';} else if(priority == 2) {priority = '较低';} else if(priority == 3 ) {priority = '正常';} else if(priority == 4) {priority = '较高';} else if(priority == 5) {priority = '最高';} else if(priority == 6){priority = '特级';} this.setDisplayValue(priority);]]></method>
+                            <property name="resultSetColumn">priority</property>
+                        </data>
+                    </cell>
+                    <cell id="83">
+                        <data name="data_weight" id="84">
+                            <property name="resultSetColumn">weight</property>
+                        </data>
+                    </cell>
+                    <cell id="85">
+                        <data name="data_brw" id="86">
+                            <property name="resultSetColumn">brw</property>
+                        </data>
+                    </cell>
+                    <cell id="87">
+                        <data name="data_pla" id="88">
+                            <property name="resultSetColumn">pla</property>
+                        </data>
+                    </cell>
+                    <cell id="89">
+                        <data name="data_act_pla_rate" id="90">
+                            <method name="onRender"><![CDATA[rowt = this.getRowData();brw = rowt.getExpressionValue("row[brw]"); pla = rowt.getExpressionValue("row[pla]");var rate = getPercent(pla, brw);this.setDisplayValue(rate);]]></method>
+                            <property name="resultSetColumn">act_pla_rate</property>
+                        </data>
+                    </cell>
+                    <cell id="91">
+                        <data name="data_effe_pla" id="92">
+                            <property name="resultSetColumn">effe_pla</property>
+                        </data>
+                    </cell>
+                    <cell id="93">
+                        <data name="data_effe_pla_rate" id="94">
+                            <method name="onRender"><![CDATA[rowt = this.getRowData();brw = rowt.getExpressionValue("row[brw]"); effe_pla = rowt.getExpressionValue("row[effe_pla]");var rate = getPercent(effe_pla, brw);this.setDisplayValue(rate);]]></method>
+                            <property name="resultSetColumn">effe_pla_rate</property>
+                        </data>
+                    </cell>
+                    <cell id="95">
+                        <data name="data_full_pla" id="96">
+                            <property name="resultSetColumn">full_pla</property>
+                        </data>
+                    </cell>
+                    <cell id="97">
+                        <data name="data_full_pla_rate" id="98">
+                            <method name="onRender"><![CDATA[rowt = this.getRowData();brw = rowt.getExpressionValue("row[brw]"); full_pla = rowt.getExpressionValue("row[full_pla]");var rate = getPercent(full_pla, brw);this.setDisplayValue(rate);]]></method>
+                            <property name="resultSetColumn">full_pla_rate</property>
+                        </data>
+                    </cell>
+                    <cell id="99">
+                        <data name="data_clk" id="100">
+                            <property name="resultSetColumn">clk</property>
+                        </data>
+                    </cell>
+                    <cell id="101">
+                        <data name="data_rate" id="102">
+                            <method name="onRender"><![CDATA[rowt = this.getRowData();clk = rowt.getExpressionValue("row[clk]"); pla = rowt.getExpressionValue("row[pla]");var rate = getPercent(clk, pla);this.setDisplayValue(rate);]]></method>
+                            <property name="resultSetColumn">rate</property>
+                        </data>
+                    </cell>
+                    <cell id="103">
+                        <data name="data_clk_rate" id="104">
+                            <method name="onRender"><![CDATA[rowt = this.getRowData(); clk = rowt.getExpressionValue("row[clk]"); brw = rowt.getExpressionValue("row[brw]"); var rate = getPercent(clk, brw); this.setDisplayValue(rate);]]></method>
+                            <property name="resultSetColumn">clk_rate</property>
+                        </data>
+                    </cell>
+                    <cell id="105">
+                        <data name="data_operation" id="106">
+                            <property name="resultSetColumn">operation</property>
+                        </data>
+                    </cell>
+                </row>
+            </detail>
+            <footer>
+                <row id="107">
+                    <method name="onCreate"><![CDATA[style.textAlign = "center"]]></method>
+                    <cell id="108"/>
+                    <cell id="109">
+                        <label name="总计" id="110">
+                            <method name="onRender"><![CDATA[rowt = this.getRowData();
+val = rowt.getExpressionValue( "row[pla]"); 
+ if(val==null) {this.getStyle().display = 'none'}; ]]></method>
+                            <text-property name="text">总计</text-property>
+                        </label>
+                    </cell>
+                    <cell id="111"/>
+                    <cell id="112"/>
+                    <cell id="113">
+                        <data name="total_brw" id="114">
+                            <property name="resultSetColumn">total_brw</property>
+                        </data>
+                    </cell>
+                    <cell id="115">
+                        <data name="total_pla" id="116">
+                            <property name="resultSetColumn">total_pla</property>
+                        </data>
+                    </cell>
+                    <cell id="117">
+                        <data name="total_act_pla_rate" id="118">
+                            <method name="onRender"><![CDATA[rowt = this.getRowData();
+clk = rowt.getExpressionValue( "row[total_pla]");
+pla = rowt.getExpressionValue( "row[total_brw]");
+var rate = getPercent(clk, pla);
+  
+ this.setDisplayValue(rate);rowt = this.getRowData();
+val = rowt.getExpressionValue( "row[pla]"); 
+ if(val==null) {this.getStyle().display = 'none'};]]></method>
+                        </data>
+                    </cell>
+                    <cell id="119">
+                        <data name="total_effe_pla" id="120">
+                            <property name="resultSetColumn">total_effe_pla</property>
+                        </data>
+                    </cell>
+                    <cell id="121">
+                        <data name="total_effe_pla_rate" id="122">
+                            <method name="onRender"><![CDATA[rowt = this.getRowData();
+clk = rowt.getExpressionValue( "row[total_effe_pla]");
+pla = rowt.getExpressionValue( "row[total_brw]");
+var rate = getPercent(clk, pla);
+  
+ this.setDisplayValue(rate);rowt = this.getRowData();
+val = rowt.getExpressionValue( "row[pla]"); 
+ if(val==null) {this.getStyle().display = 'none'};]]></method>
+                        </data>
+                    </cell>
+                    <cell id="123">
+                        <data name="total_full_pla" id="124">
+                            <property name="resultSetColumn">total_full_pla</property>
+                        </data>
+                    </cell>
+                    <cell id="125">
+                        <data name="total_full_pla_rate" id="126">
+                            <method name="onRender"><![CDATA[rowt = this.getRowData();
+clk = rowt.getExpressionValue( "row[total_full_pla]");
+pla = rowt.getExpressionValue( "row[total_brw]");
+var rate = getPercent(clk, pla);
+  
+ this.setDisplayValue(rate);rowt = this.getRowData();
+val = rowt.getExpressionValue( "row[pla]"); 
+ if(val==null) {this.getStyle().display = 'none'};]]></method>
+                        </data>
+                    </cell>
+                    <cell id="127">
+                        <data name="total_clk" id="128">
+                            <property name="resultSetColumn">total_clk</property>
+                        </data>
+                    </cell>
+                    <cell id="129">
+                        <data name="total_rate" id="130">
+                            <method name="onRender"><![CDATA[rowt = this.getRowData();
+clk = rowt.getExpressionValue( "row[total_clk]");
+pla = rowt.getExpressionValue( "row[total_pla]");
+var rate = getPercent(clk, pla);
+  
+ this.setDisplayValue(rate);rowt = this.getRowData();
+val = rowt.getExpressionValue( "row[pla]"); 
+ if(val==null) {this.getStyle().display = 'none'};]]></method>
+                        </data>
+                    </cell>
+                    <cell id="131">
+                        <data name="total_clk_rate" id="132">
+                            <method name="onRender"><![CDATA[rowt = this.getRowData();
+clk = rowt.getExpressionValue( "row[total_clk]");
+pla = rowt.getExpressionValue( "row[total_brw]");
+var rate = getPercent(clk, pla);
+  
+ this.setDisplayValue(rate);rowt = this.getRowData();
+val = rowt.getExpressionValue( "row[pla]"); 
+ if(val==null) {this.getStyle().display = 'none'};]]></method>
+                        </data>
+                    </cell>
+                    <cell id="133">
+                        <data name="sift_total" id="134"/>
+                    </cell>
+                </row>
+            </footer>
+        </table>
+    </body>
+</report>

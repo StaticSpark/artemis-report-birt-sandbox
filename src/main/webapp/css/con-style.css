@@ -1,0 +1,24 @@
+.conchart ul
+{
+list-style-type:none;
+padding-top:6px;
+padding-bottom:6px;
+}
+.conchart li
+{
+display:inline;
+}
+.conchart a:link
+{
+font-weight:bold;
+color:black;
+background-color:#F8F8FF;
+text-align:center;
+padding:6.5px;
+border:1px solid #7A991A;
+text-decoration:none;
+border-bottom-style:none
+}
+
+
+

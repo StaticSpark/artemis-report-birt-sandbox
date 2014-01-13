@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+	xmlns:s="http://www.springframework.org/schema/security"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.0.xsd"
+	default-lazy-init="true">
+	
+	<description>SpringSecurity安全配置  与cas集成实现单点登录配置</description>
+	
+	<!-- http安全配置 -->
+	<s:http auto-config="false" use-expressions="true" entry-point-ref="casEntryPoint">
+		
+		<!-- cas sso配置_start -->
+		<!-- 拦截登录成功页面home.action -->
+		<s:intercept-url pattern="/**/*" access="isFullyAuthenticated()" />
+		<s:custom-filter ref="requestSingleLogoutFilter" before="LOGOUT_FILTER" />
+        <s:custom-filter ref="singleLogoutFilter" before="CAS_FILTER" />
+        <s:custom-filter position="FORM_LOGIN_FILTER" ref="casFilter"/>
+        <!-- cas sso配置_end -->
+		
+	</s:http>
+	
+	<bean id="passwordEncoder" class="org.springframework.security.authentication.encoding.Md5PasswordEncoder">
+	</bean>
+	
+	<!-- 项目实现的用户查询服务 -->
+	<bean id="userDetailsService" class="com.funshion.artemis.account.service.UserDetailsServiceImpl" />
+	
+	<!-- cas sso配置_start -->
+	<bean id="casEntryPoint"  class="org.springframework.security.cas.web.CasAuthenticationEntryPoint">
+		<property name="loginUrl" value="${cas.server.url}/login" />
+		<property name="serviceProperties" ref="serviceProperties" />
+	</bean>
+	<bean id="serviceProperties"  class="org.springframework.security.cas.ServiceProperties">
+		<!-- service为认证成功后服务端返回的地址，该地址将作为参数传递到服务端 -->
+        <property name="service"  value="${artemis.index.url}/j_spring_cas_security_check"/>
+        <!-- sendRenew 为boolean类型  当为true时每新打开窗口则需重新登录 -->
+        <property name="sendRenew" value="false"/>
+    </bean>
+    
+    <!-- 为cas的过滤器当server返回Ticket后 client需再次将ticket发送到server进行校验 -->
+    <bean id="casFilter"  class="org.springframework.security.cas.web.CasAuthenticationFilter">
+        <property name="authenticationManager" ref="authenticationManager" />
+    </bean>
+    
+    <!-- 在认证管理器中注册cas认证提供器 -->
+    <s:authentication-manager alias="authenticationManager">
+        <s:authentication-provider ref="casAuthenticationProvider"/>
+    </s:authentication-manager>
+    
+    <!-- security读取 用户 角色 权限 信息 -->
+    <bean id="casAuthenticationUserDetailsService" class="org.springframework.security.core.userdetails.UserDetailsByNameServiceWrapper">    
+        <property name="userDetailsService" ref="userDetailsService" />
+    </bean>
+    
+    <!-- cas认证提供器，定义客户端的验证方式 -->
+    <!-- 为了兼容webservice 的http basic的请求，重写了CasAuthenticationProvider -->
+    <bean id="casAuthenticationProvider" class="org.springframework.security.cas.authentication.CasAuthenticationProvider">
+        <property name="authenticationUserDetailsService" ref="casAuthenticationUserDetailsService"/>
+        <property name="serviceProperties" ref="serviceProperties" />
+        <property name="ticketValidator">
+            <bean class="org.jasig.cas.client.validation.Cas20ServiceTicketValidator">
+            	<!--此处必须写主机名或域名，不能写IP且注意此处的地址不能加/login -->
+                <constructor-arg index="0" value="${cas.server.url}" />
+            </bean>
+        </property>
+        <property name="key" value="an_id_for_this_auth_provider_only"/>
+    </bean>
+    
+    <!-- 注销客户端 -->
+    <bean id="singleLogoutFilter" class="org.jasig.cas.client.session.SingleSignOutFilter" />
+
+    <!-- 注销服务器端 -->
+    <bean id="requestSingleLogoutFilter" class="org.springframework.security.web.authentication.logout.LogoutFilter">
+    	<constructor-arg value="${cas.server.url}/logout?service=${artemis.index.url}" />
+    	<constructor-arg>
+    		<bean class="org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler"/>
+    	</constructor-arg>
+    	<property name="filterProcessesUrl" value="/j_spring_cas_security_logout" />
+    </bean>
+    <!-- cas sso配置_end -->
+	
+</beans>

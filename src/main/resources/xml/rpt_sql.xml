@@ -1,0 +1,496 @@
+<?xml version="1.0" encoding="utf-8"?>
+<report_sql>
+	<sql>
+		<name>mc_period_uv</name>
+		<text>select * from (select 
+    d.name as area_name,s.area_id,s.uv_sn,s.mon_date,s.type,s.uv_limit,s.uv_id,s.area_type,
+sum(case when s.uvn = 1 then uv_stat end) as uv1,
+sum(case when s.uvn = 2 then uv_stat end) as uv2, 
+sum(case when s.uvn = 3 then uv_stat end) as uv3, 
+sum(case when s.uvn = 4 then uv_stat end) as uv4, 
+sum(case when s.uvn = 5 then uv_stat end) as uv5, 
+sum(case when s.uvn = 6 then uv_stat end) as uv6, 
+sum(case when s.uvn = 7 then uv_stat end) as uv7, 
+sum(case when s.uvn = 8 then uv_stat end) as uv8, 
+sum(case when s.uvn = 9 then uv_stat end) as uv9,
+sum(case when s.uvn = 10 then uv_stat end) as uv10 
+from stg_mc_uv_d s,dim_area d, mc_detail md 
+where 
+    s.area_id = d.id and md.area_id = s.area_id AND md.mc_id = s.mon_id and
+    {#condition#}
+    AND (s.area_type='area' OR s.area_type IS NUll OR s.area_type='group')
+group by mon_id,s.area_id,mon_date,uv_sn
+order by md.sn, CONVERT (d. NAME USING gbk) ASC,mon_date asc
+) s
+
+union 
+
+select * from (
+select 
+    '' as area_name,s.area_id,s.uv_sn,s.mon_date,s.type,s.uv_limit,s.uv_id,s.area_type,
+sum(case when s.uvn = 1 then uv_stat end) as uv1,
+sum(case when s.uvn = 2 then uv_stat end) as uv2, 
+sum(case when s.uvn = 3 then uv_stat end) as uv3, 
+sum(case when s.uvn = 4 then uv_stat end) as uv4, 
+sum(case when s.uvn = 5 then uv_stat end) as uv5, 
+sum(case when s.uvn = 6 then uv_stat end) as uv6, 
+sum(case when s.uvn = 7 then uv_stat end) as uv7, 
+sum(case when s.uvn = 8 then uv_stat end) as uv8, 
+sum(case when s.uvn = 9 then uv_stat end) as uv9,
+sum(case when s.uvn = 10 then uv_stat end) as uv10 
+from stg_mc_uv_d s
+where 
+    s.area_id = '-1' and
+    {#condition#}
+    AND (s.area_type='all')
+group by mon_id,mon_date 
+order by mon_date asc
+) s
+
+		</text>
+	</sql>
+	
+	<sql>
+		    <name>mc_imp_day</name>
+		    <text>
+		              SELECT
+		                CONCAT(s.monId, s.areaId, s.monDate) AS mark,
+	                    s.monId,
+	                    s.monDate,
+	                    s.areaId,
+	                    d.name as areaName,
+	                    s.area_type,
+	                    sum(
+	                        CASE
+	                        WHEN  ( is_main_subpath = 1 or (is_main_subpath = 0 and path = 0 ) ) THEN
+	                            s.impFwd
+	                        END
+	                    ) AS impFwd,
+	                    s.impLimit,
+											s.planImp,
+	                    sum(
+	                        CASE
+	                        WHEN  ( is_main_subpath = 1 or (is_main_subpath = 0 and path = 0 ) ) THEN
+	                            s.actImp
+	                        END
+	                    ) AS actImp,
+	                    SUM(
+	                        CASE
+	                        WHEN  ( is_main_subpath = 1 or (is_main_subpath = 0 and path = 0 ) ) THEN
+	                            impBlock
+	                        END
+	                    ) impBlock,
+	                    '' AS impRate,
+	                    GROUP_CONCAT(
+	                        s.impFwd
+	                    ) AS impPercent
+	                FROM
+	                    (
+	                        SELECT
+	                            s.path,
+	                            s.mon_id AS monId,
+	                            s.mon_date AS monDate,
+	                            s.area_id AS areaId,
+	                            s.area_type,
+	                            s.sub_path,
+	                            SUM(imp_fwd) AS impFwd,
+	                            imp_limit AS impLimit,
+	                            plan_imp as planImp,
+	                            SUM(s.act_imp) AS actImp,
+	                            SUM(s.imp_block) AS impBlock,
+	                            is_main_subpath
+	                        FROM
+	                            stg_mc_imp_d s
+	                        WHERE
+	                             {#condition#} 
+	                        AND path IS NOT NULL
+	                        GROUP BY
+	                            s.mon_id,
+	                            s.mon_date,
+	                            s.area_type,
+	                            s.area_id,           
+	                            s.path,
+	                            s.sub_path
+	                    ) s, dim_area d
+	                where s.areaId = d.id
+	                GROUP BY
+	                    s.monId,
+	                    s.monDate,
+	                    s.areaId
+		    </text>
+		</sql>
+		<sql>
+		    <name>mc_clk_day</name>
+		    <text>
+		         SELECT
+		                    CONCAT(s.mon_id, s.area_id, s.mon_date) AS mark,
+	                        s.mon_id AS monId,
+	                        s.mon_date AS monDate,
+	                        s.area_id AS areaId,
+	                        d.name as areaName,
+	                        s.area_type,
+	                        s.clkrate_ctrl AS clkRateLimit,
+	                        plan_clk as planClk,
+	                        '' AS clkRate,
+	                        SUM(clk_fwd) AS clkFwd,
+	                        sum(act_clk) actClk,
+	                        SUM(clk_block) AS clkBlock
+	                    FROM
+	                        stg_mc_clk_d s, dim_area d
+	                    WHERE
+	                        s.area_id = d.id and  {#condition#} 
+	                    AND path IS NOT NULL
+	                    GROUP BY
+	                        s.mon_id,
+	                        s.mon_date,
+	                        s.area_id,
+	                        s.area_type
+		    </text>
+		</sql>
+		
+		<sql>
+		    <name>mc_imp_choke_day</name>
+		    <text>
+		            SELECT
+		             CONCAT(s.mon_id, s.area_id, s.mon_date) AS mark,
+                        mon_id AS monId,
+                        mon_date AS monDate,
+                        area_id AS areaId,
+                        area_type,
+                        sum(choke_sum) AS impChokeSum
+                    FROM
+                        stg_mc_imp_choke_d s
+                    WHERE
+                       {#condition#}
+                    and is_main_subpath = 1
+                    AND path IS NOT NULL
+                    GROUP BY
+                        mon_id,
+                        mon_date,
+                        area_type,
+                        area_id
+		    </text>
+		</sql>
+		
+		<sql>
+		    <name>mc_clk_choke_day</name>
+		    <text>
+		            SELECT
+		             CONCAT(s.mon_id, s.area_id, s.mon_date) AS mark,
+                        mon_id AS monId,
+                        mon_date AS monDate,
+                        area_id AS areaId,
+                        area_type,
+                        sum(choke_sum) AS clkChokeSum
+                    FROM
+                        stg_mc_clk_choke_d s
+                    WHERE
+                        {#condition#}
+                    AND path IS NOT NULL     
+                    GROUP BY
+                        mon_id,
+                        mon_date,
+                        area_type,
+                        area_id
+		    </text>
+		</sql>
+		
+		<sql>
+		    <name>mc_imp_choke_area_day</name>
+		    <text>
+		            SELECT
+		             CONCAT(s.mon_id, s.area_id, s.mon_date) AS mark,
+                        mon_id AS monId,
+                        mon_date AS monDate,
+                        area_id AS areaId,
+                        area_type,
+                        sum(choke_sum) AS impChokeArea
+                    FROM
+                        stg_mc_imp_choke_d s
+                    WHERE
+                         {#condition#}
+                    AND choke_type_id = '2'
+                    and is_main_subpath = 1
+                    AND path IS NOT NULL
+                    GROUP BY
+                        mon_id,
+                        mon_date,
+                        area_type,
+                        area_id
+		    </text>
+		</sql>
+		
+		<sql>
+		    <name>mc_clk_choke_area_day</name>
+		    <text>
+		            SELECT
+		             CONCAT(s.mon_id, s.area_id, s.mon_date) AS mark,
+                        mon_id AS monId,
+                        mon_date AS monDate,
+                        area_id AS areaId,
+                        area_type,
+                        sum(choke_sum) AS clkChokeArea
+                    FROM
+                        stg_mc_clk_choke_d s
+                    WHERE
+                       {#condition#}
+                    AND choke_type_id = '2' 
+                    AND path IS NOT NULL
+                    GROUP BY
+                        mon_id,
+                        mon_date,
+                        area_type,
+                        area_id
+		    </text>
+		</sql>
+	<sql>
+		<report_type></report_type>
+		<name>imp_hour_report</name>
+		<text>SELECT
+				    *
+				FROM
+				    (
+				        SELECT
+				            CONCAT(monId, monDate, areaId) AS groupMark,
+				            monId,
+				            monDate,
+				            CONCAT(areaId, '') AS areaId,
+				            mon_hour AS monHour,
+				            d. NAME AS areaName,
+				            path,
+				            sum(impFwd) AS impFwd,
+				            sum(actImp) AS actImp,
+				            sum(impBlock) AS impBlock,
+				            impPercent,
+				            '' AS clkRate,
+				            sum(clkFwd) AS clkFwd,
+				            sum(actClk) AS actClk,
+				            sum(clkBlock) AS clkBlock,
+				            sum(impChokeSum) AS impChoke,
+				            sum(clkChokeSum) AS clkChoke,
+				            sum(impChokeArea) AS impChokeArea,
+				            sum(clkChokeArea) AS clkChokeArea 
+				        FROM
+				            (
+				                SELECT
+				                    mon_hour,
+				                    imp.path,
+				                    imp.mon_id AS monId,
+				                    imp.mon_date AS monDate,
+				                    imp.area_id AS areaId,
+				                    SUM(
+				                        CASE
+				                        WHEN is_main_subpath = 1 THEN
+				                            imp_fwd
+				                        END
+				                    ) impFwd,
+				                    SUM(
+				                        CASE
+				                        WHEN is_main_subpath = 1 THEN
+				                            act_imp
+				                        END
+				                    ) actImp,
+				                    SUM(
+				                        CASE
+				                        WHEN is_main_subpath = 1 THEN
+				                            imp_block
+				                        END
+				                    ) impBlock,
+				                    GROUP_CONCAT(imp_fwd) AS impPercent,
+				                    '' AS clkFwd,
+				                    '' AS actClk,
+				                    '' AS clkBlock,
+				                    '' AS impChokeSum,
+				                    '' AS clkChokeSum,
+				                    '' AS impChokeArea,
+				                    '' AS clkChokeArea 
+				                FROM
+				                    (
+				                        SELECT
+				                            s.mon_hour,
+				                            s.path,
+				                            s.mon_id,
+				                            s.mon_date,
+				                            s.area_id,
+				                            sum(imp_fwd) AS imp_fwd,
+				                            sum(act_imp) AS act_imp,
+				                            sum(imp_block) AS imp_block,
+				                            is_main_subpath
+				                        FROM
+				                            stg_mc_imp_de s
+				                        WHERE
+				                            {#condition#}
+				                        AND path IS NOT NULL
+				                        AND path > 0
+				                        GROUP BY
+				                            mon_id,
+				                            mon_date,
+				                            area_id,
+				                            sub_path,
+				                            mon_hour
+				                    ) imp
+				                GROUP BY
+				                    imp.mon_id,
+				                    imp.mon_date,
+				                    imp.area_id,
+				                    imp.mon_hour
+				                UNION
+				                    SELECT
+				                        mon_hour,
+				                        clk.path,
+				                        clk.mon_id AS monId,
+				                        clk.mon_date AS monDate,
+				                        clk.area_id AS areaId,
+				                        '' AS impFwd,
+				                        '' AS actImp,
+				                        '' AS impBlock,
+				                        '' AS impPercent,
+				                        SUM(clk_fwd) AS clkFwd,
+				                        sum(act_clk) actClk,
+				                        SUM(clk_block) AS clkBlock,
+				                        '' AS impChokeSum,
+				                        '' AS clkChokeSum,
+				                        '' AS impChokeArea,
+				                        '' AS clkChokeArea 
+				                    FROM
+				                        stg_mc_clk_de clk
+				                    WHERE
+				                   {#condition#}
+				                    AND path IS NOT NULL
+				                    AND path > 0
+				                    GROUP BY
+				                        clk.mon_id,
+				                        clk.mon_date,
+				                        clk.area_id,
+				                        mon_hour
+				                    UNION
+				                        SELECT
+				                            mon_hour,
+				                            path,
+				                            mon_id AS monId,
+				                            mon_date AS monDate,
+				                            area_id AS areaId,
+				                            '' AS impFwd,
+				                            '' AS actImp,
+				                            '' AS impBlock,
+				                            '' AS impPercent,
+				                            '' AS clkFwd,
+				                            '' AS actClk,
+				                            '' AS clkBlock,
+				                            sum(choke_sum) AS impChokeSum,
+				                            '' AS clkChokeSum,
+				                            '' AS impChokeArea,
+				                            '' AS clkChokeArea 
+				                        FROM
+				                            stg_mc_imp_choke_de choke
+				                        WHERE
+				                        {#condition#}
+				                        AND is_main_subpath = 1
+				                        AND path IS NOT NULL
+				                        GROUP BY
+				                            mon_id,
+				                            mon_date,
+				                            area_id,
+				                            mon_hour
+				                        UNION
+				                            SELECT
+				                                mon_hour,
+				                                path,
+				                                mon_id AS monId,
+				                                mon_date AS monDate,
+				                                area_id AS areaId,
+				                                '' AS impFwd,
+				                                '' AS actImp,
+				                                '' AS impBlock,
+				                                '' AS impPercent,
+				                                '' AS clkFwd,
+				                                '' AS actClk,
+				                                '' AS clkBlock,
+				                                '' AS impChokeSum,
+				                                sum(choke_sum) AS clkChokeSum,
+				                                '' AS impChokeArea,
+				                                '' AS clkChokeArea 
+				                            FROM
+				                                stg_mc_clk_choke_de choke
+				                            WHERE
+				                                {#condition#}
+				                            AND path IS NOT NULL
+				                            GROUP BY
+				                                mon_id,
+				                                mon_date,
+				                                area_id,
+				                                mon_hour
+				                        UNION
+				                            SELECT
+				                                mon_hour,
+				                                path,
+				                                mon_id AS monId,
+				                                mon_date AS monDate,
+				                                area_id AS areaId,
+				                                '' AS impFwd,
+				                                '' AS actImp,
+				                                '' AS impBlock,
+				                                '' AS impPercent,
+				                                '' AS clkFwd,
+				                                '' AS actClk,
+				                                '' AS clkBlock,
+				                                '' AS impChokeSum,
+				                                '' AS clkChokeSum,
+				                                sum(choke_sum) AS impChokeArea,
+				                                '' AS clkChokeArea
+				                            FROM
+				                                stg_mc_imp_choke_de imp_choke_area 
+				                            WHERE
+				                            {#condition#}
+				                            AND choke_type_id = '2' 
+				                            AND is_main_subpath = 1
+				                            AND path IS NOT NULL
+				                            AND path > 0
+				                            GROUP BY
+				                                mon_id,
+				                                mon_date,
+				                                area_id,
+				                                mon_hour
+				                        UNION
+				                            SELECT
+				                                mon_hour,
+				                                path,
+				                                mon_id AS monId,
+				                                mon_date AS monDate,
+				                                area_id AS areaId,
+				                                '' AS impFwd,
+				                                '' AS actImp,
+				                                '' AS impBlock,
+				                                '' AS impPercent,
+				                                '' AS clkFwd,
+				                                '' AS actClk,
+				                                '' AS clkBlock,
+				                                '' AS impChokeSum,
+				                                '' AS clkChokeSum,
+				                                '' AS impChokeArea,
+				                                sum(choke_sum) AS clkChokeArea 
+				                            FROM
+				                                stg_mc_clk_choke_de clk_choke_area 
+				                            WHERE
+				                                {#condition#}
+				                            AND choke_type_id = '2' 
+				                            AND path IS NOT NULL
+				                            AND path > 0
+				                            GROUP BY
+				                                mon_id,
+				                                mon_date,
+				                                area_id,
+				                                mon_hour
+				            ) m
+				        LEFT JOIN dim_area d ON m.areaId = d.id
+				        GROUP BY
+				            m.monId,
+				            m.monDate,
+				            m.areaId,
+				            m.mon_hour
+				        ORDER BY
+				            m.areaId,
+				            m.monDate DESC,m.mon_hour ASC
+	    ) s</text>
+	</sql>
+</report_sql>

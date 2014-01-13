@@ -1,0 +1,21 @@
+1.配置hosts
+C:\Windows\System32\drivers\etc\
+192.168.16.233	msso.funshion.com
+
+2.导入证书
+(1)把文件microlens.crt 复制到本地
+(2)运行 cmd
+(3)执行命令
+keytool -import -trustcacerts -alias microlens_test -file C:\Users\yaorf\microlens_test.crt -keystore D:\Java\jdk1.6.0_25\jre\lib\security\cacerts -storepass changeit
+
+参数说明：			
+-file C:\Users\yaorf\microlens.crt							您刚刚复制到本地的microlens.crt文件的地址
+-keystore D:\Java\jdk1.6.0_25\jre\lib\security\cacerts		您的JDK的位置，不要有空格。如果有空格,则先把cacerts文件copy到一个没有空格的位置执行后再copy回去
+
+
+3.重启本地服务
+
+备注：经过以上三步还不行，请联系我
+name:姚荣飞
+phone:18701680734
+qq:282485232

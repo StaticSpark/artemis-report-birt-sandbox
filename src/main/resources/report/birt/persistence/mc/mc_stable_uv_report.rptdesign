@@ -1,0 +1,813 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.23" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 4.3.0.v201306041519 Build &lt;4.3.0.v20130611-1045></property>
+    <list-property name="includeScripts">
+        <property>/js/common/report_tool.js</property>
+    </list-property>
+    <list-property name="propertyBindings">
+        <structure>
+            <property name="name">queryText</property>
+            <property name="id">8</property>
+        </structure>
+        <structure>
+            <property name="name">queryTimeOut</property>
+            <property name="id">8</property>
+        </structure>
+        <structure>
+            <property name="name">rowFetchSize</property>
+            <property name="id">8</property>
+        </structure>
+    </list-property>
+    <property name="units">in</property>
+    <method name="initialize"><![CDATA[count = 0;
+rowCount = 0;
+initializeReport([]);
+]]></method>
+    <property name="iconFile">/templates/blank_report.gif</property>
+    <property name="layoutPreference">auto layout</property>
+    <property name="bidiLayoutOrientation">ltr</property>
+    <property name="imageDPI">96</property>
+    <parameters>
+        <scalar-parameter name="monType" id="9">
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="monDate" id="10">
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="ctx" id="11">
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="recordNum" id="12">
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="uvSum" id="142">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+    </parameters>
+    <data-sources>
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="Data Source" id="7">
+            <method name="beforeOpen"><![CDATA[initializeDb(reportContext, extensionProperties);]]></method>
+            <list-property name="privateDriverProperties">
+                <ex-property>
+                    <name>metadataBidiFormatStr</name>
+                    <value>ILYNN</value>
+                </ex-property>
+                <ex-property>
+                    <name>disabledMetadataBidiFormatStr</name>
+                </ex-property>
+                <ex-property>
+                    <name>contentBidiFormatStr</name>
+                    <value>ILYNN</value>
+                </ex-property>
+                <ex-property>
+                    <name>disabledContentBidiFormatStr</name>
+                </ex-property>
+            </list-property>
+            <property name="odaDriverClass">com.mysql.jdbc.Driver</property>
+            <property name="odaURL">jdbc:mysql://192.168.16.241/microlens_1113?useUnicode=true&amp;characterEncoding=utf-8</property>
+            <property name="odaUser">root</property>
+            <encrypted-property name="odaPassword" encryptionID="base64">bWljcm9sZW5z</encrypted-property>
+        </oda-data-source>
+    </data-sources>
+    <data-sets>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="Data Set" id="8">
+            <property name="nullsOrdering">nulls lowest</property>
+            <list-property name="columnHints"/>
+            <list-property name="parameters"/>
+            <structure name="cachedMetaData"/>
+            <method name="beforeOpen"><![CDATA[var monType = reportContext.getParameterValue("monType");
+var monDate = reportContext.getParameterValue("monDate");
+var text = this.queryText;
+var param = " 1 = 1";
+if(monType == null || monType == "")
+	monType = 0
+	
+monDate = monDate.replace("-", "");
+param += " and mon_type = '" + monType + "'";
+param += " and mon_month = '" + monDate + "'";
+
+text = text.replace("#condition#", param);
+
+this.queryText = text;
+//myPrintln(text);
+
+
+]]></method>
+            <property name="dataSource">Data Source</property>
+            <list-property name="resultSet"/>
+            <xml-property name="queryText"><![CDATA[select mon_type,mon_month,gap_date,uv1,uv2,uv3,uv4,uv5,
+uv6,uv7,uv8,uv9,uv10,uv11,uv12,uv13,uv14,uv15,
+uv16,uv17,uv18,uv19,uv20,uv21 
+from stg_mc_stable_uv 
+where #condition# 
+order by gap_date]]></xml-property>
+        </oda-data-set>
+    </data-sets>
+    <styles>
+        <style name="report" id="4">
+            <property name="fontFamily">sans-serif</property>
+            <property name="fontSize">10pt</property>
+        </style>
+        <style name="crosstab-cell" id="5">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+        <style name="crosstab" id="6">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+    </styles>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2"/>
+    </page-setup>
+    <body>
+        <text-data id="134">
+            <method name="onRender"><![CDATA[mon_date = reportContext.getHttpServletRequest().getParameter("monDate");
+mon_type = reportContext.getHttpServletRequest().getParameter("monType");
+uv_sum = reportContext.getHttpServletRequest().getParameter("uvSum");
+
+mType = "请求";
+if(mon_type == "1")
+	mType = "转发";
+	
+myDate = new Date();
+month = (((myDate.getMonth()+1) < 10) ? "-0" : "-") + (myDate.getMonth()+1);
+day= ((myDate.getDate() < 10) ? "-0" : "-") + myDate.getDate();
+currentDate = myDate.getFullYear() + month + day;
+prefix = "Microlens.funshion.com" + "播控-稳定UV月度报告";
+display_text = prefix +"<br/>"+"导出报表日期："+currentDate+ "<br/>"+"报表类型：" + mType + "稳定UV"+"<br/>"+"播控名称：全部播控<br/>UV 总数：" + uv_sum +"<br />报表日期："+mon_date ;
+
+format = reportContext.getHttpServletRequest().getParameter("__format");
+if(format == "xls") {
+   this.getStyle().display = "block";
+   this.text= display_text;
+} else {
+   this.getStyle().display = "none";
+}]]></method>
+            <expression name="valueExpr">Number.NaN</expression>
+            <property name="contentType">html</property>
+        </text-data>
+        <table name="table" id="13">
+            <property name="dataSet">Data Set</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">mon_type</property>
+                    <text-property name="displayName">mon_type</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["mon_type"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">mon_month</property>
+                    <text-property name="displayName">mon_month</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["mon_month"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">gap_date</property>
+                    <text-property name="displayName">gap_date</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["gap_date"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">uv1</property>
+                    <text-property name="displayName">uv1</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["uv1"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">uv2</property>
+                    <text-property name="displayName">uv2</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["uv2"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">uv3</property>
+                    <text-property name="displayName">uv3</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["uv3"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">uv4</property>
+                    <text-property name="displayName">uv4</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["uv4"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">uv5</property>
+                    <text-property name="displayName">uv5</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["uv5"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">uv6</property>
+                    <text-property name="displayName">uv6</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["uv6"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">uv7</property>
+                    <text-property name="displayName">uv7</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["uv7"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">uv8</property>
+                    <text-property name="displayName">uv8</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["uv8"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">uv9</property>
+                    <text-property name="displayName">uv9</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["uv9"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">uv10</property>
+                    <text-property name="displayName">uv10</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["uv10"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">uv11</property>
+                    <text-property name="displayName">uv11</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["uv11"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">uv12</property>
+                    <text-property name="displayName">uv12</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["uv12"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">uv13</property>
+                    <text-property name="displayName">uv13</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["uv13"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">uv14</property>
+                    <text-property name="displayName">uv14</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["uv14"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">uv15</property>
+                    <text-property name="displayName">uv15</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["uv15"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">uv16</property>
+                    <text-property name="displayName">uv16</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["uv16"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">uv17</property>
+                    <text-property name="displayName">uv17</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["uv17"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">uv18</property>
+                    <text-property name="displayName">uv18</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["uv18"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">uv19</property>
+                    <text-property name="displayName">uv19</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["uv19"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">uv20</property>
+                    <text-property name="displayName">uv20</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["uv20"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">uv21</property>
+                    <text-property name="displayName">uv21</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["uv21"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">d_gap_date</property>
+                    <text-property name="displayName">gap_date</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["gap_date"]</expression>
+                    <property name="dataType">integer</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">d_uv1</property>
+                    <text-property name="displayName">d_uv1</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["uv1"]</expression>
+                    <property name="dataType">integer</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">d_uv2</property>
+                    <text-property name="displayName">d_uv2</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["uv2"]</expression>
+                    <property name="dataType">integer</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">d_uv3</property>
+                    <text-property name="displayName">d_uv3</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["uv3"]</expression>
+                    <property name="dataType">integer</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">d_uv4</property>
+                    <text-property name="displayName">d_uv4</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["uv4"]</expression>
+                    <property name="dataType">integer</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">d_uv5</property>
+                    <text-property name="displayName">d_uv5</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["uv5"]</expression>
+                    <property name="dataType">integer</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">d_uv6</property>
+                    <text-property name="displayName">d_uv6</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["uv6"]</expression>
+                    <property name="dataType">integer</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">d_uv7</property>
+                    <text-property name="displayName">d_uv7</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["uv7"]</expression>
+                    <property name="dataType">integer</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">d_uv8</property>
+                    <text-property name="displayName">d_uv8</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["uv8"]</expression>
+                    <property name="dataType">integer</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">d_uv9</property>
+                    <text-property name="displayName">d_uv9</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["uv9"]</expression>
+                    <property name="dataType">integer</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">d_uv10</property>
+                    <text-property name="displayName">d_uv10</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["uv10"]</expression>
+                    <property name="dataType">integer</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">d_uv11</property>
+                    <text-property name="displayName">d_uv11</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["uv11"]</expression>
+                    <property name="dataType">integer</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">d_uv12</property>
+                    <text-property name="displayName">d_uv12</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["uv12"]</expression>
+                    <property name="dataType">integer</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">d_uv13</property>
+                    <text-property name="displayName">d_uv13</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["uv13"]</expression>
+                    <property name="dataType">integer</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">d_uv14</property>
+                    <text-property name="displayName">d_uv14</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["uv14"]</expression>
+                    <property name="dataType">integer</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">d_uv15</property>
+                    <text-property name="displayName">d_uv15</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["uv15"]</expression>
+                    <property name="dataType">integer</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">d_uv16</property>
+                    <text-property name="displayName">d_uv16</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["uv16"]</expression>
+                    <property name="dataType">integer</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">d_uv17</property>
+                    <text-property name="displayName">d_uv17</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["uv17"]</expression>
+                    <property name="dataType">integer</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">d_uv18</property>
+                    <text-property name="displayName">d_uv18</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["uv18"]</expression>
+                    <property name="dataType">integer</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">d_uv19</property>
+                    <text-property name="displayName">d_uv19</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["uv19"]</expression>
+                    <property name="dataType">integer</property>
+                    <property name="allowExport">false</property>
+                </structure>
+                <structure>
+                    <property name="name">d_uv20</property>
+                    <text-property name="displayName">d_uv20</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["uv20"]</expression>
+                    <property name="dataType">integer</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">d_uv21</property>
+                    <text-property name="displayName">d_uv21</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["uv21"]</expression>
+                    <property name="dataType">integer</property>
+                    <property name="allowExport">true</property>
+                </structure>
+            </list-property>
+            <column id="139"/>
+            <column id="26"/>
+            <column id="27"/>
+            <column id="28"/>
+            <column id="34"/>
+            <column id="37"/>
+            <column id="42"/>
+            <column id="46"/>
+            <column id="50"/>
+            <column id="54"/>
+            <column id="57"/>
+            <column id="60"/>
+            <column id="66"/>
+            <column id="69"/>
+            <column id="72"/>
+            <column id="75"/>
+            <column id="78"/>
+            <column id="81"/>
+            <column id="63"/>
+            <column id="84"/>
+            <column id="87"/>
+            <column id="90"/>
+            <column id="93"/>
+            <column id="96"/>
+            <header>
+                <row id="14">
+                    <cell id="137">
+                        <label id="140">
+                            <text-property name="text">是否稳定</text-property>
+                        </label>
+                    </cell>
+                    <cell id="15">
+                        <label name="c_date" id="29">
+                            <text-property name="text">连续天数</text-property>
+                        </label>
+                    </cell>
+                    <cell id="16">
+                        <label name="uv1" id="30">
+                            <text-property name="text">UV1</text-property>
+                        </label>
+                    </cell>
+                    <cell id="17">
+                        <label name="uv2" id="31">
+                            <text-property name="text">UV2</text-property>
+                        </label>
+                    </cell>
+                    <cell id="32">
+                        <label name="uv3" id="38">
+                            <text-property name="text">UV3</text-property>
+                        </label>
+                    </cell>
+                    <cell id="35">
+                        <label name="uv4" id="39">
+                            <text-property name="text">UV4</text-property>
+                        </label>
+                    </cell>
+                    <cell id="40">
+                        <label name="uv5" id="43">
+                            <text-property name="text">UV5</text-property>
+                        </label>
+                    </cell>
+                    <cell id="44">
+                        <label name="uv6" id="47">
+                            <text-property name="text">UV6</text-property>
+                        </label>
+                    </cell>
+                    <cell id="48">
+                        <label name="uv7" id="51">
+                            <text-property name="text">UV7</text-property>
+                        </label>
+                    </cell>
+                    <cell id="52">
+                        <label name="uv8" id="97">
+                            <text-property name="text">UV8</text-property>
+                        </label>
+                    </cell>
+                    <cell id="55">
+                        <label name="uv9" id="98">
+                            <text-property name="text">UV9</text-property>
+                        </label>
+                    </cell>
+                    <cell id="58">
+                        <label name="uv10" id="99">
+                            <text-property name="text">UV10</text-property>
+                        </label>
+                    </cell>
+                    <cell id="64">
+                        <label name="uv11" id="100">
+                            <text-property name="text">UV11</text-property>
+                        </label>
+                    </cell>
+                    <cell id="67">
+                        <label name="uv12" id="101">
+                            <text-property name="text">UV12</text-property>
+                        </label>
+                    </cell>
+                    <cell id="70">
+                        <label name="uv13" id="102">
+                            <text-property name="text">UV13</text-property>
+                        </label>
+                    </cell>
+                    <cell id="73">
+                        <label name="uv14" id="103">
+                            <text-property name="text">UV14</text-property>
+                        </label>
+                    </cell>
+                    <cell id="76">
+                        <label name="uv15" id="104">
+                            <text-property name="text">UV15</text-property>
+                        </label>
+                    </cell>
+                    <cell id="79">
+                        <label name="uv16" id="105">
+                            <text-property name="text">UV16</text-property>
+                        </label>
+                    </cell>
+                    <cell id="61">
+                        <label name="uv17" id="106">
+                            <text-property name="text">UV17</text-property>
+                        </label>
+                    </cell>
+                    <cell id="82">
+                        <label name="uv18" id="107">
+                            <text-property name="text">UV18</text-property>
+                        </label>
+                    </cell>
+                    <cell id="85">
+                        <label name="uv19" id="108">
+                            <text-property name="text">UV19</text-property>
+                        </label>
+                    </cell>
+                    <cell id="88">
+                        <label name="uv20" id="109">
+                            <text-property name="text">UV20</text-property>
+                        </label>
+                    </cell>
+                    <cell id="91">
+                        <label name="uv21" id="110">
+                            <text-property name="text">UV21+</text-property>
+                        </label>
+                    </cell>
+                    <cell id="94">
+                        <text-data name="data_operation" id="135">
+                            <method name="onRender"><![CDATA[this.text = "<a href='javascript:void(0);' onclick=\"new function(e){oEvent=e||event;var x =oEvent.clientX;var y =oEvent.clientY;parent.showColsSelectInfo('mc',x,y);}\" > <img style='float:right' src='/images/report/selectcols.gif'/></a>";]]></method>
+                            <expression name="valueExpr">Number.NaN</expression>
+                            <property name="contentType">html</property>
+                        </text-data>
+                    </cell>
+                </row>
+            </header>
+            <detail>
+                <row id="18">
+                    <method name="onCreate"><![CDATA[rowCount++;
+if(rowCount > 1 &amp;&amp; rowCount % recordNum == 1){
+  this.style.pageBreakBefore = "always";
+} ]]></method>
+                    <method name="onRender"><![CDATA[count++;
+if( count % 2 == 0 )
+{
+	this.getStyle().backgroundColor="#ECF3FE";
+}
+else
+{
+	this.getStyle().backgroundColor="#FCFFFE";
+}
+style.textAlign = "center";]]></method>
+                    <cell id="138">
+                        <text-data id="141">
+                            <method name="onRender"><![CDATA[var gap = row['d_gap_date'];
+if(gap == "1")
+	this.text = "<span class='un_stable' >不稳定</span>";
+else
+	this.text = "<span class='stable' >稳定</span>";
+]]></method>
+                            <expression name="valueExpr">Number.NaN</expression>
+                            <property name="contentType">html</property>
+                        </text-data>
+                    </cell>
+                    <cell id="19">
+                        <data name="d_gap_date" id="112">
+                            <property name="resultSetColumn">d_gap_date</property>
+                        </data>
+                    </cell>
+                    <cell id="20">
+                        <data name="d_uv1" id="113">
+                            <property name="resultSetColumn">d_uv1</property>
+                        </data>
+                    </cell>
+                    <cell id="21">
+                        <data name="d_uv2" id="114">
+                            <property name="resultSetColumn">d_uv2</property>
+                        </data>
+                    </cell>
+                    <cell id="33">
+                        <data name="d_uv3" id="115">
+                            <property name="resultSetColumn">d_uv3</property>
+                        </data>
+                    </cell>
+                    <cell id="36">
+                        <data name="d_uv4" id="116">
+                            <property name="resultSetColumn">d_uv4</property>
+                        </data>
+                    </cell>
+                    <cell id="41">
+                        <data name="d_uv5" id="117">
+                            <property name="resultSetColumn">d_uv5</property>
+                        </data>
+                    </cell>
+                    <cell id="45">
+                        <data name="d_uv6" id="118">
+                            <property name="resultSetColumn">d_uv6</property>
+                        </data>
+                    </cell>
+                    <cell id="49">
+                        <data name="d_uv7" id="119">
+                            <property name="resultSetColumn">d_uv7</property>
+                        </data>
+                    </cell>
+                    <cell id="53">
+                        <data name="d_uv8" id="120">
+                            <property name="resultSetColumn">d_uv8</property>
+                        </data>
+                    </cell>
+                    <cell id="56">
+                        <data name="d_uv9" id="121">
+                            <property name="resultSetColumn">d_uv9</property>
+                        </data>
+                    </cell>
+                    <cell id="59">
+                        <data name="d_uv10" id="122">
+                            <property name="resultSetColumn">d_uv10</property>
+                        </data>
+                    </cell>
+                    <cell id="65">
+                        <data name="d_uv11" id="123">
+                            <property name="resultSetColumn">d_uv11</property>
+                        </data>
+                    </cell>
+                    <cell id="68">
+                        <data name="d_uv12" id="124">
+                            <property name="resultSetColumn">d_uv12</property>
+                        </data>
+                    </cell>
+                    <cell id="71">
+                        <data name="d_uv13" id="125">
+                            <property name="resultSetColumn">d_uv13</property>
+                        </data>
+                    </cell>
+                    <cell id="74">
+                        <data name="d_uv14" id="126">
+                            <property name="resultSetColumn">d_uv14</property>
+                        </data>
+                    </cell>
+                    <cell id="77">
+                        <data name="d_uv15" id="127">
+                            <property name="resultSetColumn">d_uv15</property>
+                        </data>
+                    </cell>
+                    <cell id="80">
+                        <data name="d_uv16" id="128">
+                            <property name="resultSetColumn">d_uv16</property>
+                        </data>
+                    </cell>
+                    <cell id="62">
+                        <data name="d_uv17" id="129">
+                            <property name="resultSetColumn">d_uv17</property>
+                        </data>
+                    </cell>
+                    <cell id="83">
+                        <data name="d_uv18" id="130">
+                            <property name="resultSetColumn">d_uv18</property>
+                        </data>
+                    </cell>
+                    <cell id="86">
+                        <data name="d_uv19" id="131">
+                            <property name="resultSetColumn">d_uv19</property>
+                        </data>
+                    </cell>
+                    <cell id="89">
+                        <data name="d_uv20" id="132">
+                            <property name="resultSetColumn">d_uv20</property>
+                        </data>
+                    </cell>
+                    <cell id="92">
+                        <data name="d_uv21" id="133">
+                            <property name="resultSetColumn">d_uv21</property>
+                        </data>
+                    </cell>
+                    <cell id="95">
+                        <text name="sift_sub" id="136">
+                            <property name="contentType">html</property>
+                        </text>
+                    </cell>
+                </row>
+            </detail>
+        </table>
+    </body>
+</report>

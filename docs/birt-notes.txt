@@ -1,0 +1,17 @@
+一：  birt源码修改的地方
+  1： AbstractBaseReportDocument.js 159行 this.__instance.style.height = height + "px"; 修改成 this.__instance.style.height = "auto"; 
+         修改原因：  将报表高度设置成自适应高度
+  2：style.css 中 birtviewer_toolbar、birtviewer_document_fragment 和 birtviewer_navbar 样式
+         修改原因：去掉边框
+  3: a)   FramesetFragment.jsp 131行 添加了 		<script src="birt/custom/birt-custom.js" type="text/javascript"></script>
+                          250行添加了 toDelay() 方法
+         修改原因： 添加自定义js脚本 
+     
+	 b)    FramesetFragment.jsp  134 行添加
+	        <style type="text/css">
+			    a{text-decoration:none;}
+			</style>
+		     去掉链接的下划线 
+    4: FramesetFragment.jsp 181行, 添加报表设计文件名判断。
+            
+             修改原因: 播控 天报表，小时报表，小计报表  表格下方添加 地域播放量 地域点击量的注释说明。

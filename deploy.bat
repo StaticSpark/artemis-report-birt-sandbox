@@ -1,0 +1,1 @@
+mvn release:clean&mvn --batch-mode release:prepare -DautoVersionSubmodules=true -DreleaseVersion=1.1.10.0.RC6 -DdevelopmentVersion=1.1.10.0.RC6-SNAPSHOT&mvn release:perform

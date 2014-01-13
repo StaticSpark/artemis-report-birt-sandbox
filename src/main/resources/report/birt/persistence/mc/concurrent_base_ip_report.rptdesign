@@ -1,0 +1,467 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.23" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 4.2.2.v201301221637 Build &lt;4.2.2.v20130216-1152></property>
+    <list-property name="includeScripts">
+        <property>/js/common/report_tool.js</property>
+    </list-property>
+    <property name="units">in</property>
+    <method name="initialize"><![CDATA[count = 0;
+rowCount = 0;
+initializeReport([]);
+]]></method>
+    <property name="iconFile">/templates/blank_report.gif</property>
+    <property name="layoutPreference">auto layout</property>
+    <property name="bidiLayoutOrientation">ltr</property>
+    <property name="imageDPI">96</property>
+    <parameters>
+        <scalar-parameter name="monId" id="9">
+            <text-property name="promptText">monid</text-property>
+            <property name="valueType">static</property>
+            <property name="isRequired">true</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">335</value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="concealValue">false</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">General Number</property>
+                <property name="pattern">General Number</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="monDate" id="10">
+            <text-property name="promptText">mon_date</text-property>
+            <property name="valueType">static</property>
+            <property name="isRequired">true</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">2013-09-06</value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="concealValue">false</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="ctx" id="11">
+            <text-property name="promptText">ctx</text-property>
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">ctx</value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="recordNum" id="99">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="monName" id="101">
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+    </parameters>
+    <data-sources>
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="Data Source" id="7">
+            <method name="beforeOpen"><![CDATA[initializeDb(reportContext, extensionProperties);]]></method>
+            <list-property name="privateDriverProperties">
+                <ex-property>
+                    <name>metadataBidiFormatStr</name>
+                    <value>ILYNN</value>
+                </ex-property>
+                <ex-property>
+                    <name>disabledMetadataBidiFormatStr</name>
+                </ex-property>
+                <ex-property>
+                    <name>contentBidiFormatStr</name>
+                    <value>ILYNN</value>
+                </ex-property>
+                <ex-property>
+                    <name>disabledContentBidiFormatStr</name>
+                </ex-property>
+            </list-property>
+            <property name="odaDriverClass">com.mysql.jdbc.Driver</property>
+            <property name="odaURL">jdbc:mysql://192.168.133.112/microlens_sub?useUnicode=true&amp;characterEncoding=utf-8</property>
+            <property name="odaUser">root</property>
+            <encrypted-property name="odaPassword" encryptionID="base64">MTIzNDU2</encrypted-property>
+        </oda-data-source>
+    </data-sources>
+    <data-sets>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="Data Set" id="8">
+            <property name="nullsOrdering">nulls lowest</property>
+            <list-property name="columnHints"/>
+            <list-property name="parameters"/>
+            <structure name="cachedMetaData"/>
+            <method name="beforeOpen"><![CDATA[sqlStr = this.queryText;
+mcId = reportContext.getParameterValue("monId");
+monDate = reportContext.getParameterValue("monDate");
+
+paramStr = "";
+
+if(mcId != 'null' &amp;&amp; mcId != "") {
+  paramStr = " mc_id = " + mcId;
+}else{
+  paramStr = " mc_id = '-1'";
+}
+
+
+if(monDate != 'null' &amp;&amp; monDate != "") {
+  paramStr += " and mon_date = '" + monDate + "' ";
+}
+
+
+text = new java.lang.String(sqlStr);
+text = text.replaceAll("#condition#", paramStr);
+this.queryText = text; 
+
+]]></method>
+            <property name="dataSource">Data Source</property>
+            <list-property name="resultSet"/>
+            <xml-property name="queryText"><![CDATA[select * 
+from stg_mc_ip_concurrent_d
+where #condition# order by sort_order,period]]></xml-property>
+        </oda-data-set>
+    </data-sets>
+    <styles>
+        <style name="report" id="4">
+            <property name="fontFamily">sans-serif</property>
+            <property name="fontSize">10pt</property>
+        </style>
+        <style name="crosstab-cell" id="5">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+        <style name="crosstab" id="6">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+    </styles>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2"/>
+    </page-setup>
+    <body>
+        <text-data id="100">
+            <method name="onRender"><![CDATA[mon_date = reportContext.getHttpServletRequest().getParameter("monDate");
+mc_name = reportContext.getHttpServletRequest().getParameter("monName");
+myDate = new Date();
+month = (((myDate.getMonth()+1) < 10) ? "-0" : "-") + (myDate.getMonth()+1);
+day= ((myDate.getDate() < 10) ? "-0" : "-") + myDate.getDate();
+currentDate = myDate.getFullYear() + month + day;
+prefix = "Microlens.funshion.com" + "播控-IP并发报告";
+display_text = prefix +"<br/>"+"导出报表日期："+currentDate+ "<br/>"+"报表类型：播控报表"+"<br/>"+"播控名称："+mc_name+"<br/>"+"报表日期："+mon_date ;
+
+format = reportContext.getHttpServletRequest().getParameter("__format");
+if(format == "xls") {
+   this.getStyle().display = "block";
+   this.text= display_text;
+} else {
+   this.getStyle().display = "none";
+}]]></method>
+            <property name="contentType">html</property>
+        </text-data>
+        <table name="table" id="12">
+            <property name="dataSet">Data Set</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">id</property>
+                    <expression name="expression" type="javascript">dataSetRow["id"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">mc_id</property>
+                    <expression name="expression" type="javascript">dataSetRow["mc_id"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">mon_date</property>
+                    <expression name="expression" type="javascript">dataSetRow["mon_date"]</expression>
+                    <property name="dataType">date</property>
+                </structure>
+                <structure>
+                    <property name="name">sort_order</property>
+                    <expression name="expression" type="javascript">dataSetRow["sort_order"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">ip1_plus</property>
+                    <expression name="expression" type="javascript">dataSetRow["ip1_plus"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">ip2_plus</property>
+                    <expression name="expression" type="javascript">dataSetRow["ip2_plus"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">ip3_plus</property>
+                    <expression name="expression" type="javascript">dataSetRow["ip3_plus"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">ip4_plus</property>
+                    <expression name="expression" type="javascript">dataSetRow["ip4_plus"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">ip5_plus</property>
+                    <expression name="expression" type="javascript">dataSetRow["ip5_plus"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">ip6_plus</property>
+                    <expression name="expression" type="javascript">dataSetRow["ip6_plus"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">ip7_plus</property>
+                    <expression name="expression" type="javascript">dataSetRow["ip7_plus"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">ip8_plus</property>
+                    <expression name="expression" type="javascript">dataSetRow["ip8_plus"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">ip9_plus</property>
+                    <expression name="expression" type="javascript">dataSetRow["ip9_plus"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">ip10_plus</property>
+                    <expression name="expression" type="javascript">dataSetRow["ip10_plus"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">1+IP</property>
+                    <text-property name="displayName">1+IP</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["ip1_plus"]</expression>
+                    <property name="dataType">integer</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">pppp</property>
+                    <text-property name="displayName">period</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["period"]</expression>
+                    <property name="dataType">string</property>
+                    <property name="allowExport">true</property>
+                </structure>
+            </list-property>
+            <column id="52"/>
+            <column id="53"/>
+            <column id="54"/>
+            <column id="55"/>
+            <column id="56"/>
+            <column id="57"/>
+            <column id="58"/>
+            <column id="59"/>
+            <column id="60"/>
+            <column id="61"/>
+            <column id="62"/>
+            <column id="63"/>
+            <header>
+                <row id="13">
+                    <property name="backgroundColor">#C8E3FF</property>
+                    <cell id="14">
+                        <label name="时间段" id="64">
+                            <text-property name="text">时间段</text-property>
+                        </label>
+                    </cell>
+                    <cell id="15">
+                        <label id="65">
+                            <text-property name="text">1+IP</text-property>
+                        </label>
+                    </cell>
+                    <cell id="16">
+                        <label id="66">
+                            <text-property name="text">2+IP</text-property>
+                        </label>
+                    </cell>
+                    <cell id="17">
+                        <label id="67">
+                            <text-property name="text">3+IP</text-property>
+                        </label>
+                    </cell>
+                    <cell id="18">
+                        <label id="68">
+                            <text-property name="text">4+IP</text-property>
+                        </label>
+                    </cell>
+                    <cell id="19">
+                        <label id="69">
+                            <text-property name="text">5+IP</text-property>
+                        </label>
+                    </cell>
+                    <cell id="20">
+                        <label id="70">
+                            <text-property name="text">6+IP</text-property>
+                        </label>
+                    </cell>
+                    <cell id="21">
+                        <label id="71">
+                            <text-property name="text">7+IP</text-property>
+                        </label>
+                    </cell>
+                    <cell id="22">
+                        <label id="72">
+                            <text-property name="text">8+IP</text-property>
+                        </label>
+                    </cell>
+                    <cell id="23">
+                        <label id="73">
+                            <text-property name="text">9+IP</text-property>
+                        </label>
+                    </cell>
+                    <cell id="24">
+                        <label id="74">
+                            <text-property name="text">10+IP</text-property>
+                        </label>
+                    </cell>
+                    <cell id="25">
+                        <text-data name="data_operation" id="98">
+                            <method name="onRender"><![CDATA[this.text = "<a href='javascript:void(0);' onclick=\"new function(e){oEvent=e||event;var x =oEvent.clientX;var y =oEvent.clientY;parent.showColsSelectInfo('mc',x,y);}\" > <img style='float:right' src='/images/report/selectcols.gif'/></a>";]]></method>
+                            <expression name="valueExpr">1</expression>
+                            <property name="contentType">html</property>
+                        </text-data>
+                    </cell>
+                </row>
+            </header>
+            <detail>
+                <row id="26">
+                    <method name="onCreate"><![CDATA[rowCount++;
+if(rowCount > 1 &amp;&amp; rowCount % recordNum == 1){
+  this.style.pageBreakBefore = "always";
+} ]]></method>
+                    <method name="onRender"><![CDATA[count++;
+if( count % 2 == 0 )
+{
+	this.getStyle().backgroundColor="#ECF3FE";
+}
+else
+{
+	this.getStyle().backgroundColor="#FCFFFE";
+}
+style.textAlign = "center";]]></method>
+                    <property name="numberAlign">center</property>
+                    <cell id="27">
+                        <data id="75">
+                            <property name="resultSetColumn">pppp</property>
+                        </data>
+                    </cell>
+                    <cell id="28">
+                        <data id="76">
+                            <property name="resultSetColumn">1+IP</property>
+                        </data>
+                    </cell>
+                    <cell id="29">
+                        <text-data id="88">
+                            <expression name="valueExpr">showConcurrentReportTipInfo(row["ip1_plus"], row["ip2_plus"]);</expression>
+                            <property name="contentType">html</property>
+                        </text-data>
+                    </cell>
+                    <cell id="30">
+                        <text-data id="90">
+                            <expression name="valueExpr">showConcurrentReportTipInfo(row["ip1_plus"], row["ip3_plus"]);</expression>
+                            <property name="contentType">html</property>
+                        </text-data>
+                    </cell>
+                    <cell id="31">
+                        <text-data id="91">
+                            <expression name="valueExpr">showConcurrentReportTipInfo(row["ip1_plus"], row["ip4_plus"]);</expression>
+                            <property name="contentType">html</property>
+                        </text-data>
+                    </cell>
+                    <cell id="32">
+                        <text-data id="92">
+                            <expression name="valueExpr">showConcurrentReportTipInfo(row["ip1_plus"], row["ip5_plus"]);</expression>
+                            <property name="contentType">html</property>
+                        </text-data>
+                    </cell>
+                    <cell id="33">
+                        <text-data id="93">
+                            <expression name="valueExpr">showConcurrentReportTipInfo(row["ip1_plus"], row["ip6_plus"]);</expression>
+                            <property name="contentType">html</property>
+                        </text-data>
+                    </cell>
+                    <cell id="34">
+                        <text-data id="94">
+                            <expression name="valueExpr">showConcurrentReportTipInfo(row["ip1_plus"], row["ip7_plus"]);</expression>
+                            <property name="contentType">html</property>
+                        </text-data>
+                    </cell>
+                    <cell id="35">
+                        <text-data id="95">
+                            <expression name="valueExpr">showConcurrentReportTipInfo(row["ip1_plus"], row["ip8_plus"]);</expression>
+                            <property name="contentType">html</property>
+                        </text-data>
+                    </cell>
+                    <cell id="36">
+                        <text-data id="96">
+                            <expression name="valueExpr">showConcurrentReportTipInfo(row["ip1_plus"], row["ip9_plus"]);</expression>
+                            <property name="contentType">html</property>
+                        </text-data>
+                    </cell>
+                    <cell id="37">
+                        <text-data id="97">
+                            <expression name="valueExpr">showConcurrentReportTipInfo(row["ip1_plus"], row["ip10_plus"]);</expression>
+                            <property name="contentType">html</property>
+                        </text-data>
+                    </cell>
+                    <cell id="38">
+                        <text name="sift_sub" id="102"/>
+                    </cell>
+                </row>
+            </detail>
+        </table>
+    </body>
+</report>

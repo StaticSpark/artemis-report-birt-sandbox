@@ -1,0 +1,792 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.23" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 4.2.2.v201301041109 Build &lt;4.2.2.v20130114-2359></property>
+    <list-property name="includeScripts">
+        <property>/js/common/report_tool.js</property>
+    </list-property>
+    <property name="units">in</property>
+    <method name="initialize"><![CDATA[count = 0;
+initializeReport([]);]]></method>
+    <property name="iconFile">/templates/blank_report.gif</property>
+    <property name="layoutPreference">auto layout</property>
+    <property name="bidiLayoutOrientation">ltr</property>
+    <property name="imageDPI">96</property>
+    <parameters>
+        <scalar-parameter name="ctx" id="187">
+            <property name="valueType">static</property>
+            <property name="isRequired">true</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="monId" id="188">
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="areaId" id="189">
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="startDate" id="190">
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="endDate" id="191">
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="path" id="192">
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="recordNum" id="288">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="monName" id="295">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="areaName" id="296">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="impLimit" id="297">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+    </parameters>
+    <data-sources>
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="Data Source" id="193">
+            <method name="beforeOpen"><![CDATA[initializeDb(reportContext, extensionProperties);]]></method>
+            <list-property name="privateDriverProperties">
+                <ex-property>
+                    <name>metadataBidiFormatStr</name>
+                    <value>ILYNN</value>
+                </ex-property>
+                <ex-property>
+                    <name>disabledMetadataBidiFormatStr</name>
+                </ex-property>
+                <ex-property>
+                    <name>contentBidiFormatStr</name>
+                    <value>ILYNN</value>
+                </ex-property>
+                <ex-property>
+                    <name>disabledContentBidiFormatStr</name>
+                </ex-property>
+            </list-property>
+            <property name="odaDriverClass">com.mysql.jdbc.Driver</property>
+            <property name="odaURL">jdbc:mysql://192.168.16.241/microlens_1112?useUnicode=true&amp;characterEncoding=utf-8</property>
+            <property name="odaUser">root</property>
+            <encrypted-property name="odaPassword" encryptionID="base64">bWljcm9sZW5z</encrypted-property>
+        </oda-data-source>
+    </data-sources>
+    <data-sets>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="Data Set" id="194">
+            <property name="nullsOrdering">nulls lowest</property>
+            <list-property name="columnHints"/>
+            <list-property name="parameters"/>
+            <structure name="cachedMetaData"/>
+            <method name="beforeOpen"><![CDATA[sqlStr = this.queryText;
+monId = reportContext.getParameterValue("monId");
+areaId = reportContext.getParameterValue("areaId");
+startDate = reportContext.getParameterValue("startDate");
+endDate = reportContext.getParameterValue("endDate");
+path = reportContext.getParameterValue("path");
+paramStr = "";
+
+if(monId != null &amp;&amp; monId != "") {
+  paramStr = " mon_id = " + monId;
+}
+
+if(areaId != null &amp;&amp; areaId != "") {
+   paramStr += " and area_id = '"+ areaId+"' ";
+}
+
+if(startDate != null &amp;&amp; startDate != "") {
+  paramStr += " and mon_date >= '" + startDate + "' ";
+}
+
+if(endDate != null &amp;&amp; endDate != "") {
+  paramStr += " and mon_date <= '" + endDate + "' ";
+}
+
+text = new java.lang.String(sqlStr);
+text = text.replaceAll("#condition#", paramStr);
+text = text.replaceAll("is_main_subpath = 1", " ( is_main_subpath = 1 or (is_main_subpath = 0 and path = 0 ) )");
+this.queryText = text; ]]></method>
+            <property name="dataSource">Data Source</property>
+            <list-property name="resultSet"/>
+            <xml-property name="queryText"><![CDATA[select m.monId,m.areaId,m.hour,m.path,'' as clkRate,SUM(m.impFwd) as impFwd, SUM(m.actImp) as actImp,SUM( m.impBlock) as impBlock,SUM(m.clkFwd) as clkFwd,SUM(m.actClk) as actClk, SUM(m.clkBlock) as clkBlock,SUM(m.impChokesum) as impChokeSum, SUM(m.clkChokeSum) as clkChokeSum,SUM(m.impChokeArea) as impChokeArea,SUM( m.clkChokeArea) as clkChokeArea 
+from (
+select mon_id as monId,area_id as areaId,mon_hour as hour,path,sum(imp_fwd) as impFwd,sum(act_imp) as actImp ,sum(imp_block) as impBlock ,'' as clkFwd,'' as actClk, '' as clkBlock, '' as impChokesum, '' as clkChokeSum, '' as impChokeArea, '' as clkChokeArea 
+from stg_mc_imp_de imp
+where 
+#condition#
+and is_main_subpath = '1'  and path is not null and path > 0 
+group by imp.mon_hour,imp.mon_id,imp.area_id
+union
+select mon_id as monId,area_id as areaId,mon_hour as hour,path,'' as impFwd, '' as actImp,'' as impBlock,SUM(clk_fwd) as clkFwd,sum(act_clk) as actClk,SUM(clk_block) as clkBlock, '' as impChokeSum, '' as clkChokeSum, '' as impChokeArea,  '' as clkChokeArea 
+from  stg_mc_clk_de clk
+where 
+#condition#
+and path is not null and path > 0
+group by  clk.mon_id,clk.area_id,mon_hour
+union
+select mon_id as monId,area_id as areaId,mon_hour as hour,path, '' AS impFwd, '' AS actImp, '' AS impBlock,'' AS clkFwd,'' AS actClk, '' AS clkBlock, sum(choke_sum) AS impChokeSum, '' AS clkChokeSum,'' AS impChokeArea,'' AS clkChokeArea 
+ FROM stg_mc_imp_choke_de choke
+WHERE 
+#condition#
+AND is_main_subpath = 1 AND path IS NOT NULL
+GROUP BY mon_id,area_id, mon_hour
+union
+SELECT   mon_id AS monId,area_id AS areaId,mon_hour as hour,path,'' AS impFwd, '' AS actImp,'' AS impBlock,'' AS clkFwd, '' AS actClk,'' AS clkBlock, '' AS impChokeSum, sum(choke_sum) AS clkChokeSum, '' AS impChokeArea, '' AS clkChokeArea 
+FROM stg_mc_clk_choke_de choke
+WHERE 
+#condition#
+AND path IS NOT NULL
+ GROUP BY mon_id, area_id, mon_hour
+UNION
+SELECT   mon_id AS monId,  area_id AS areaId,  mon_hour as hour,  path,
+  '' AS impFwd, '' AS actImp, '' AS impBlock, '' AS clkFwd,    '' AS actClk, '' AS clkBlock, '' AS impChokeSum, '' AS clkChokeSum,  sum(choke_sum) AS impChokeArea,  '' AS clkChokeArea 
+FROM stg_mc_imp_choke_de imp_choke_area 
+WHERE  
+#condition#
+AND choke_type_id = '2' 
+AND is_main_subpath = 1 AND path IS NOT NULL  AND path > 0
+GROUP BY  mon_id,area_id, mon_hour
+UNION
+SELECT  mon_id AS monId, area_id AS areaId, mon_hour as hour , path,   '' AS impFwd, '' AS actImp,  '' AS impBlock, '' AS clkFwd, '' AS actClk, '' AS clkBlock, '' AS impChokeSum, '' AS clkChokeSum,  '' AS impChokeArea,  sum(choke_sum) AS clkChokeArea 
+ FROM stg_mc_clk_choke_de clk_choke_area 
+WHERE 
+#condition#
+ AND choke_type_id = '2' AND path IS NOT NULL AND path > 0
+GROUP BY   mon_id, area_id, mon_hour
+) m
+group by m.monId, m.areaId, m.hour
+ORDER BY m.hour ASC]]></xml-property>
+            <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<model:DesignValues xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
+  <Version>2.0</Version>
+</model:DesignValues>]]></xml-property>
+        </oda-data-set>
+    </data-sets>
+    <styles>
+        <style name="report" id="4">
+            <property name="fontFamily">sans-serif</property>
+            <property name="fontSize">10pt</property>
+        </style>
+        <style name="crosstab-cell" id="5">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+        <style name="crosstab" id="6">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+    </styles>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2">
+            <page-footer>
+                <text id="3">
+                    <property name="contentType">html</property>
+                    <text-property name="content"><![CDATA[<value-of></value-of>]]></text-property>
+                </text>
+            </page-footer>
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <text-data id="294">
+            <method name="onRender"><![CDATA[start_date = reportContext.getHttpServletRequest().getParameter("startDate");
+end_date = reportContext.getHttpServletRequest().getParameter("endDate");
+mc_name = reportContext.getHttpServletRequest().getParameter("monName");
+area_name = reportContext.getHttpServletRequest().getParameter("areaName");
+path = reportContext.getHttpServletRequest().getParameter("path");
+if (path == 'null') {
+	path ="*";
+}
+
+impLimit = reportContext.getHttpServletRequest().getParameter("impLimit");
+if (impLimit == 'null') {
+    impLimit = "-";
+}
+
+myDate = new Date();
+month = (((myDate.getMonth()+1) < 10) ? "-0" : "-") + (myDate.getMonth()+1);
+day= ((myDate.getDate() < 10) ? "-0" : "-") + myDate.getDate();
+currentDate = myDate.getFullYear() + month + day;
+prefix = "Microlens.funshion.com" + " 播控-用户小时报告";
+period = start_date + " 至 " + end_date
+display_text = prefix +"<br/>"+"导出报表日期："+currentDate+ "<br/>"+"报表类型：用户小时报告（小计）"+"<br/>"+"播控名称："+mc_name+"<br/>"+"地域："+area_name+"<br/>"+"报表日期："+period+"<br/>"+"path:"+path+"<br/>"+"设定投放量："+impLimit;
+
+format = reportContext.getHttpServletRequest().getParameter("__format");
+if(format == "xls") {
+   this.getStyle().display = "block";
+   this.text= display_text;
+} else {
+   this.getStyle().display = "none";
+}]]></method>
+            <property name="contentType">html</property>
+        </text-data>
+        <table name="table" id="195">
+            <property name="dataSet">Data Set</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">hour</property>
+                    <text-property name="displayName">hour</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["hour"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">impFwd</property>
+                    <text-property name="displayName">impFwd</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["impFwd"]</expression>
+                    <property name="dataType">float</property>
+                </structure>
+                <structure>
+                    <property name="name">impChokeArea</property>
+                    <text-property name="displayName">impChokeArea</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["impChokeArea"]</expression>
+                    <property name="dataType">float</property>
+                </structure>
+                <structure>
+                    <property name="name">clkFwd</property>
+                    <text-property name="displayName">clkFwd</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["clkFwd"]</expression>
+                    <property name="dataType">float</property>
+                </structure>
+                <structure>
+                    <property name="name">clkChokeArea</property>
+                    <text-property name="displayName">clkChokeArea</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["clkChokeArea"]</expression>
+                    <property name="dataType">float</property>
+                </structure>
+                <structure>
+                    <property name="name">clkRate</property>
+                    <text-property name="displayName">clkRate</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["clkRate"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">actImp</property>
+                    <text-property name="displayName">actImp</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["actImp"]</expression>
+                    <property name="dataType">float</property>
+                </structure>
+                <structure>
+                    <property name="name">impBlock</property>
+                    <text-property name="displayName">impBlock</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["impBlock"]</expression>
+                    <property name="dataType">float</property>
+                </structure>
+                <structure>
+                    <property name="name">impChokeSum</property>
+                    <text-property name="displayName">impChokeSum</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["impChokeSum"]</expression>
+                    <property name="dataType">float</property>
+                </structure>
+                <structure>
+                    <property name="name">actClk</property>
+                    <text-property name="displayName">actClk</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["actClk"]</expression>
+                    <property name="dataType">float</property>
+                </structure>
+                <structure>
+                    <property name="name">clkBlock</property>
+                    <text-property name="displayName">clkBlock</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["clkBlock"]</expression>
+                    <property name="dataType">float</property>
+                </structure>
+                <structure>
+                    <property name="name">clkChokeSum</property>
+                    <text-property name="displayName">clkChokeSum</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["clkChokeSum"]</expression>
+                    <property name="dataType">float</property>
+                </structure>
+                <structure>
+                    <property name="name">Aggregation</property>
+                    <text-property name="displayName">impFwd</text-property>
+                    <property name="dataType">float</property>
+                    <property name="aggregateFunction">SUM</property>
+                    <list-property name="arguments">
+                        <structure>
+                            <property name="name">Expression</property>
+                            <expression name="value" type="javascript">row["impFwd"]</expression>
+                        </structure>
+                    </list-property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">Aggregation_1</property>
+                    <text-property name="displayName">impChokeArea</text-property>
+                    <property name="dataType">float</property>
+                    <property name="aggregateFunction">SUM</property>
+                    <list-property name="arguments">
+                        <structure>
+                            <property name="name">Expression</property>
+                            <expression name="value" type="javascript">row["impChokeArea"]</expression>
+                        </structure>
+                    </list-property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">Aggregation_2</property>
+                    <text-property name="displayName">clkFwd</text-property>
+                    <property name="dataType">float</property>
+                    <property name="aggregateFunction">SUM</property>
+                    <list-property name="arguments">
+                        <structure>
+                            <property name="name">Expression</property>
+                            <expression name="value" type="javascript">row["clkFwd"]</expression>
+                        </structure>
+                    </list-property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">Aggregation_3</property>
+                    <text-property name="displayName">clkChokeArea</text-property>
+                    <property name="dataType">float</property>
+                    <property name="aggregateFunction">SUM</property>
+                    <list-property name="arguments">
+                        <structure>
+                            <property name="name">Expression</property>
+                            <expression name="value" type="javascript">row["clkChokeArea"]</expression>
+                        </structure>
+                    </list-property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">Aggregation_4</property>
+                    <text-property name="displayName">actImp</text-property>
+                    <property name="dataType">float</property>
+                    <property name="aggregateFunction">SUM</property>
+                    <list-property name="arguments">
+                        <structure>
+                            <property name="name">Expression</property>
+                            <expression name="value" type="javascript">row["actImp"]</expression>
+                        </structure>
+                    </list-property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">Aggregation_5</property>
+                    <text-property name="displayName">impBlock</text-property>
+                    <property name="dataType">float</property>
+                    <property name="aggregateFunction">SUM</property>
+                    <list-property name="arguments">
+                        <structure>
+                            <property name="name">Expression</property>
+                            <expression name="value" type="javascript">row["impBlock"]</expression>
+                        </structure>
+                    </list-property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">Aggregation_6</property>
+                    <text-property name="displayName">impChokeSum</text-property>
+                    <property name="dataType">float</property>
+                    <property name="aggregateFunction">SUM</property>
+                    <list-property name="arguments">
+                        <structure>
+                            <property name="name">Expression</property>
+                            <expression name="value" type="javascript">row["impChokeSum"]</expression>
+                        </structure>
+                    </list-property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">Aggregation_7</property>
+                    <text-property name="displayName">actClk</text-property>
+                    <property name="dataType">float</property>
+                    <property name="aggregateFunction">SUM</property>
+                    <list-property name="arguments">
+                        <structure>
+                            <property name="name">Expression</property>
+                            <expression name="value" type="javascript">row["actClk"]</expression>
+                        </structure>
+                    </list-property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">Aggregation_8</property>
+                    <text-property name="displayName">clkBlock</text-property>
+                    <property name="dataType">float</property>
+                    <property name="aggregateFunction">SUM</property>
+                    <list-property name="arguments">
+                        <structure>
+                            <property name="name">Expression</property>
+                            <expression name="value" type="javascript">row["clkBlock"]</expression>
+                        </structure>
+                    </list-property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">Aggregation_9</property>
+                    <text-property name="displayName">clkChokeSum</text-property>
+                    <property name="dataType">float</property>
+                    <property name="aggregateFunction">SUM</property>
+                    <list-property name="arguments">
+                        <structure>
+                            <property name="name">Expression</property>
+                            <expression name="value" type="javascript">row["clkChokeSum"]</expression>
+                        </structure>
+                    </list-property>
+                    <property name="allowExport">true</property>
+                </structure>
+            </list-property>
+            <column id="205"/>
+            <column id="206"/>
+            <column id="212"/>
+            <column id="216"/>
+            <column id="220"/>
+            <column id="224"/>
+            <column id="228"/>
+            <column id="232"/>
+            <column id="236"/>
+            <column id="240"/>
+            <column id="244"/>
+            <column id="260"/>
+            <column id="292"/>
+            <header>
+                <row id="196">
+                    <property name="backgroundColor">#C8E3FF</property>
+                    <cell id="197">
+                        <label id="207">
+                            <text-property name="text">时段</text-property>
+                        </label>
+                    </cell>
+                    <cell id="198">
+                        <label name="impFwd" id="208">
+                            <text-property name="text">执行投放量</text-property>
+                        </label>
+                    </cell>
+                    <cell id="209">
+                        <label id="246">
+                            <text-property name="text">地域播放量</text-property>
+                        </label>
+                    </cell>
+                    <cell id="213">
+                        <label id="247">
+                            <text-property name="text">执行点击量</text-property>
+                        </label>
+                    </cell>
+                    <cell id="217">
+                        <label id="248">
+                            <text-property name="text">地域点击量</text-property>
+                        </label>
+                    </cell>
+                    <cell id="221">
+                        <label id="249">
+                            <text-property name="text">点击率</text-property>
+                        </label>
+                    </cell>
+                    <cell id="225">
+                        <label id="252">
+                            <text-property name="text">播放请求量</text-property>
+                        </label>
+                    </cell>
+                    <cell id="229">
+                        <label id="253">
+                            <text-property name="text">无效播放量</text-property>
+                        </label>
+                    </cell>
+                    <cell id="233">
+                        <label id="254">
+                            <text-property name="text">异常播放量</text-property>
+                        </label>
+                    </cell>
+                    <cell id="237">
+                        <label id="255">
+                            <text-property name="text">点击请求量</text-property>
+                        </label>
+                    </cell>
+                    <cell id="241">
+                        <label id="256">
+                            <text-property name="text">无效点击量</text-property>
+                        </label>
+                    </cell>
+                    <cell id="257">
+                        <label id="261">
+                            <text-property name="text">异常点击量</text-property>
+                        </label>
+                    </cell>
+                    <cell id="289">
+                        <text-data name="data_operation" id="293">
+                            <method name="onRender"><![CDATA[this.text = "<a href='javascript:void(0);' onclick=\"new function(e){oEvent=e||event;var x =oEvent.clientX;var y =oEvent.clientY;parent.showColsSelectInfo('mc',x,y);}\" > <img style='float:right' src='/images/report/selectcols.gif'/></a>";]]></method>
+                            <property name="contentType">html</property>
+                        </text-data>
+                    </cell>
+                </row>
+            </header>
+            <detail>
+                <row id="199">
+                    <method name="onRender"><![CDATA[count++;
+
+if( count % 2 == 0 )
+
+{
+
+this.getStyle().backgroundColor="#ECF3FE";
+
+}
+
+else
+
+{
+
+this.getStyle().backgroundColor="#FCFFFE";
+
+}
+
+style.textAlign = "center";]]></method>
+                    <property name="textAlign">center</property>
+                    <cell id="200">
+                        <data id="245">
+                            <method name="onRender"><![CDATA[hour = this.getValue();
+this.setDisplayValue(formateHour(hour));]]></method>
+                            <property name="resultSetColumn">hour</property>
+                        </data>
+                    </cell>
+                    <cell id="201">
+                        <data id="262">
+                            <property name="resultSetColumn">impFwd</property>
+                        </data>
+                    </cell>
+                    <cell id="210">
+                        <data id="263">
+                            <property name="resultSetColumn">impChokeArea</property>
+                        </data>
+                    </cell>
+                    <cell id="214">
+                        <data id="264">
+                            <property name="resultSetColumn">clkFwd</property>
+                        </data>
+                    </cell>
+                    <cell id="218">
+                        <data id="265">
+                            <property name="resultSetColumn">clkChokeArea</property>
+                        </data>
+                    </cell>
+                    <cell id="222">
+                        <text-data id="274">
+                            <expression name="valueExpr">getPercent(row["clkFwd"],row["impFwd"])</expression>
+                            <property name="contentType">html</property>
+                        </text-data>
+                    </cell>
+                    <cell id="226">
+                        <data id="267">
+                            <property name="resultSetColumn">actImp</property>
+                        </data>
+                    </cell>
+                    <cell id="230">
+                        <data id="268">
+                            <property name="resultSetColumn">impBlock</property>
+                        </data>
+                    </cell>
+                    <cell id="234">
+                        <data id="269">
+                            <property name="resultSetColumn">impChokeSum</property>
+                        </data>
+                    </cell>
+                    <cell id="238">
+                        <data id="270">
+                            <property name="resultSetColumn">actClk</property>
+                        </data>
+                    </cell>
+                    <cell id="242">
+                        <data id="271">
+                            <property name="resultSetColumn">clkBlock</property>
+                        </data>
+                    </cell>
+                    <cell id="258">
+                        <data id="272">
+                            <property name="resultSetColumn">clkChokeSum</property>
+                        </data>
+                    </cell>
+                    <cell id="290">
+                        <text name="sift_sub" id="298">
+                            <property name="contentType">html</property>
+                            <text-property name="content"><![CDATA[&amp;nbsp;]]></text-property>
+                        </text>
+                    </cell>
+                </row>
+            </detail>
+            <footer>
+                <row id="202">
+                    <property name="textAlign">center</property>
+                    <cell id="203">
+                        <label id="275">
+                            <text-property name="text">总计</text-property>
+                        </label>
+                    </cell>
+                    <cell id="204">
+                        <data id="277">
+                            <property name="resultSetColumn">Aggregation</property>
+                        </data>
+                    </cell>
+                    <cell id="211">
+                        <data id="278">
+                            <property name="resultSetColumn">Aggregation_1</property>
+                        </data>
+                    </cell>
+                    <cell id="215">
+                        <data id="279">
+                            <property name="resultSetColumn">Aggregation_2</property>
+                        </data>
+                    </cell>
+                    <cell id="219">
+                        <data id="280">
+                            <property name="resultSetColumn">Aggregation_3</property>
+                        </data>
+                    </cell>
+                    <cell id="223">
+                        <text-data id="281">
+                            <expression name="valueExpr">getPercent(row["clkFwd"],row["impFwd"])</expression>
+                            <property name="contentType">html</property>
+                        </text-data>
+                    </cell>
+                    <cell id="227">
+                        <data id="282">
+                            <property name="resultSetColumn">Aggregation_4</property>
+                        </data>
+                    </cell>
+                    <cell id="231">
+                        <data id="283">
+                            <property name="resultSetColumn">Aggregation_5</property>
+                        </data>
+                    </cell>
+                    <cell id="235">
+                        <data id="284">
+                            <property name="resultSetColumn">Aggregation_6</property>
+                        </data>
+                    </cell>
+                    <cell id="239">
+                        <data id="285">
+                            <property name="resultSetColumn">Aggregation_7</property>
+                        </data>
+                    </cell>
+                    <cell id="243">
+                        <data id="286">
+                            <property name="resultSetColumn">Aggregation_8</property>
+                        </data>
+                    </cell>
+                    <cell id="259">
+                        <data id="287">
+                            <property name="resultSetColumn">Aggregation_9</property>
+                        </data>
+                    </cell>
+                    <cell id="291">
+                        <text name="sift_total" id="299">
+                            <property name="contentType">html</property>
+                            <text-property name="content"><![CDATA[&amp;nbsp;]]></text-property>
+                        </text>
+                    </cell>
+                </row>
+            </footer>
+        </table>
+    </body>
+</report>

@@ -1,0 +1,11 @@
+@charset "utf-8";
+.subBread{
+	font-family: Arial;
+	font-size: 16px;
+	font-weight: bold;
+	font-style: normal;
+	text-decoration: none;
+	color: #333333;
+	margin-top:20px;
+	margin-bottom:20px;
+}

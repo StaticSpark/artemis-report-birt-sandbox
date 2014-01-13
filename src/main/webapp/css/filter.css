@@ -1,0 +1,38 @@
+@CHARSET "UTF-8";
+
+#filter {
+	width: 220px;
+	height: 588px;
+	border: 0px solid #ffffff;
+	background-color: white;
+	position: absolute;
+	left: -210px;
+}
+
+#switch {
+	width: 20px;
+	height: 588px;
+	float: right;
+	text-align: right;
+}
+
+#switch:HOVER {
+	background-color: #d9eaf4;
+}
+
+#switch-img {
+	width: 10px;
+}
+
+#filter2 {
+	width: 220px;
+	height: 588px;
+	border: 0px solid #ffffff;
+	background-color: white;
+	position: absolute;
+	left: 0px;
+}
+
+#content2 {
+	margin-left: 230px;
+}

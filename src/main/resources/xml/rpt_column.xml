@@ -1,0 +1,912 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<columns>
+	<column>
+		<is_sort>0</is_sort>
+		<column_name>sn</column_name>
+		<column_display_name>序列号</column_display_name>
+		<count_type />
+		<script>sn = count;this.setDisplayValue(sn);
+		</script>
+		<is_show>1</is_show>
+		<is_sift>1</is_sift>
+		<is_group_column>0</is_group_column>
+	</column>
+	<column>
+		<is_sort>0</is_sort>
+		<column_name>adname</column_name>
+		<column_display_name>广告名称</column_display_name>
+		<count_type />
+		<script />
+		<is_show>1</is_show>
+		<is_group_column>0</is_group_column>
+	</column>
+	<column>
+		<is_sort>0</is_sort>
+		<column_name>priority</column_name>
+		<column_display_name>优先级</column_display_name>
+		<count_type />
+		<script>priority = this.getValue();if(priority == 1) {priority =
+			'最低';} else if(priority == 2) {priority =
+			'较低';} else if(priority == 3 ) {priority = '正常';} else if(priority ==
+			4) {priority = '较高';} else if(priority == 5) {priority = '最高';} else
+			if(priority == 6){priority = '特级';} this.setDisplayValue(priority);
+		</script>
+		<is_show>1</is_show>
+		<is_group_column>0</is_group_column>
+	</column>
+	<column>
+		<is_sort>0</is_sort>
+		<column_name>weight</column_name>
+		<column_display_name>权重</column_display_name>
+		<count_type />
+		<script />
+		<is_show>1</is_show>
+		<is_group_column>0</is_group_column>
+	</column>
+	<column>
+		<is_sort>1</is_sort>
+		<column_name>brw</column_name>
+		<column_display_name>浏览量</column_display_name>
+		<count_type>sum</count_type>
+		<script />
+		<is_show>1</is_show>
+		<is_group_column>0</is_group_column>
+		<is_sift>1</is_sift>
+	</column>
+	<column>
+		<is_sort>1</is_sort>
+		<column_name>pla</column_name>
+		<column_display_name>播放量</column_display_name>
+		<count_type>sum</count_type>
+		<script />
+		<is_show>1</is_show>
+		<is_group_column>0</is_group_column>
+		<is_sift>1</is_sift>
+	</column>
+	<column>
+		<is_sort>1</is_sort>
+		<column_name>act_pla_rate</column_name>
+		<column_display_name>播放比</column_display_name>
+		<count_type></count_type>
+		<script>rowt = this.getRowData();brw =
+			rowt.getExpressionValue("row[brw]"); pla =
+			rowt.getExpressionValue("row[pla]");var rate = getPercent(pla,
+			brw);this.setDisplayValue(rate);</script>
+		<is_show>1</is_show>
+		<is_sift>1</is_sift>
+		<is_group_column>0</is_group_column>
+	</column>
+	<column>
+		<is_sort>1</is_sort>
+		<column_name>effe_pla</column_name>
+		<column_display_name>有效播放量</column_display_name>
+		<count_type>sum</count_type>
+		<script />
+		<is_show>1</is_show>
+		<is_group_column>0</is_group_column>
+		<is_sift>1</is_sift>
+	</column>
+	<column>
+		<is_sort>1</is_sort>
+		<column_name>effe_pla_rate</column_name>
+		<column_display_name>有效播放比</column_display_name>
+		<count_type></count_type>
+		<script>rowt = this.getRowData();brw =
+			rowt.getExpressionValue("row[brw]"); effe_pla =
+			rowt.getExpressionValue("row[effe_pla]");var rate = getPercent(effe_pla,
+			brw);this.setDisplayValue(rate);</script>
+		<is_show>1</is_show>
+		<is_group_column>0</is_group_column>
+		<is_sift>1</is_sift>
+	</column>
+	<column>
+		<is_sort>1</is_sort>
+		<column_name>full_pla</column_name>
+		<column_display_name>完整播放量</column_display_name>
+		<count_type>sum</count_type>
+		<script />
+		<is_show>1</is_show>
+		<is_group_column>0</is_group_column>
+		<is_sift>1</is_sift>
+	</column>
+	<column>
+		<is_sort>1</is_sort>
+		<column_name>full_pla_rate</column_name>
+		<column_display_name>完整播放比</column_display_name>
+		<count_type></count_type>
+		<script>rowt = this.getRowData();brw =
+			rowt.getExpressionValue("row[brw]"); full_pla =
+			rowt.getExpressionValue("row[full_pla]");var rate = getPercent(full_pla,
+			brw);this.setDisplayValue(rate);</script>
+		<is_show>1</is_show>
+		<is_group_column>0</is_group_column>
+		<is_sift>1</is_sift>
+	</column>
+	<column>
+		<is_sort>1</is_sort>
+		<column_name>clk</column_name>
+		<column_display_name>点击量</column_display_name>
+		<count_type>sum</count_type>
+		<script />
+		<is_show>1</is_show>
+		<is_group_column>0</is_group_column>
+		<is_sift>1</is_sift>
+	</column>
+	<column>
+		<is_sort>1</is_sort>
+		<column_name>rate</column_name>
+		<column_display_name>点击率1</column_display_name>
+		<count_type />
+		<script>rowt = this.getRowData();clk =
+			rowt.getExpressionValue("row[clk]"); pla =
+			rowt.getExpressionValue("row[pla]");var rate = getPercent(clk,
+			pla);this.setDisplayValue(rate);</script>
+		<is_show>1</is_show>
+		<is_group_column>0</is_group_column>
+		<is_sift>1</is_sift>
+	</column>
+	<column>
+		<is_sort>0</is_sort>
+		<column_name>brw_s</column_name>
+		<column_display_name>独立浏览量</column_display_name>
+		<count_type>sum</count_type>
+		<script />
+		<is_show>1</is_show>
+		<is_group_column>0</is_group_column>
+		<is_sift>1</is_sift>
+	</column>
+	<column>
+		<is_sort>0</is_sort>
+		<column_name>pla_s</column_name>
+		<column_display_name>独立播放量</column_display_name>
+		<count_type>sum</count_type>
+		<script />
+		<is_show>1</is_show>
+		<is_group_column>0</is_group_column>
+		<is_sift>1</is_sift>
+	</column>
+	<column>
+		<is_sort>0</is_sort>
+		<column_name>effe_pla_s</column_name>
+		<column_display_name>独立有效播放量</column_display_name>
+		<count_type>sum</count_type>
+		<script />
+		<is_show>1</is_show>
+		<is_group_column>0</is_group_column>
+		<is_sift>1</is_sift>
+	</column>
+	<column>
+		<is_sort>0</is_sort>
+		<column_name>full_pla_s</column_name>
+		<column_display_name>独立完整播放量</column_display_name>
+		<count_type>sum</count_type>
+		<script />
+		<is_show>1</is_show>
+		<is_group_column>0</is_group_column>
+		<is_sift>1</is_sift>
+	</column>
+	<column>
+		<is_sort>0</is_sort>
+		<column_name>clk_s</column_name>
+		<column_display_name>独立点击量</column_display_name>
+		<count_type>sum</count_type>
+		<script />
+		<is_show>1</is_show>
+		<is_group_column>0</is_group_column>
+		<is_sift>1</is_sift>
+	</column>
+	<column>
+		<is_sort>0</is_sort>
+		<column_name>rate_s</column_name>
+		<column_display_name>独立点击率</column_display_name>
+		<count_type />
+		<script />
+		<is_show>1</is_show>
+		<is_group_column>0</is_group_column>
+		<is_sift>1</is_sift>
+	</column>
+	<column>
+		<is_sort>0</is_sort>
+		<column_name>ordername</column_name>
+		<column_display_name>订单名称</column_display_name>
+		<count_type />
+		<script />
+		<is_show>1</is_show>
+		<is_group_column>0</is_group_column>
+	</column>
+	<column>
+		<is_sort>0</is_sort>
+		<column_name>matName</column_name>
+		<column_display_name>物料名称</column_display_name>
+		<count_type />
+		<script />
+		<is_show>1</is_show>
+		<is_group_column>0</is_group_column>
+	</column>
+	<column>
+		<is_sort>0</is_sort>
+		<column_name>name</column_name>
+		<column_display_name>广告位名称</column_display_name>
+		<count_type />
+		<script>rowt = this.getRowData(); val = rowt.getExpressionValue(
+			"row[mc_detail_percent]");
+		</script>
+		<is_show>1</is_show>
+		<is_group_column>0</is_group_column>
+	</column>
+	<column>
+		<is_sort>1</is_sort>
+		<column_name>date</column_name>
+		<column_display_name>日期</column_display_name>
+		<count_type />
+		<script />
+		<is_show>1</is_show>
+		<is_group_column>0</is_group_column>
+	</column>
+	<column>
+		<is_sort>0</is_sort>
+		<column_name>R1</column_name>
+		<column_display_name>R1</column_display_name>
+		<count_type>sum</count_type>
+		<script />
+		<is_show>1</is_show>
+		<is_group_column>0</is_group_column>
+		<is_sift>1</is_sift>
+	</column>
+	<column>
+		<is_sort>0</is_sort>
+		<column_name>R2</column_name>
+		<column_display_name>R2</column_display_name>
+		<count_type>sum</count_type>
+		<script />
+		<is_show>1</is_show>
+		<is_group_column>0</is_group_column>
+		<is_sift>1</is_sift>
+	</column>
+	<column>
+		<is_sort>0</is_sort>
+		<column_name>R3</column_name>
+		<column_display_name>R3</column_display_name>
+		<count_type>sum</count_type>
+		<script />
+		<is_show>1</is_show>
+		<is_group_column>0</is_group_column>
+		<is_sift>1</is_sift>
+	</column>
+	<column>
+		<is_sort>0</is_sort>
+		<column_name>R4</column_name>
+		<column_display_name>R4</column_display_name>
+		<count_type>sum</count_type>
+		<script />
+		<is_show>1</is_show>
+		<is_group_column>0</is_group_column>
+		<is_sift>1</is_sift>
+	</column>
+	<column>
+		<is_sort>0</is_sort>
+		<column_name>R6</column_name>
+		<column_display_name>R6</column_display_name>
+		<count_type>sum</count_type>
+		<script />
+		<is_show>1</is_show>
+		<is_group_column>0</is_group_column>
+		<is_sift>1</is_sift>
+	</column>
+	<column>
+		<is_sort>0</is_sort>
+		<column_name>R7</column_name>
+		<column_display_name>R7</column_display_name>
+		<count_type>sum</count_type>
+		<script />
+		<is_show>1</is_show>
+		<is_group_column>0</is_group_column>
+		<is_sift>1</is_sift>
+	</column>
+	<column>
+		<is_sort>0</is_sort>
+		<column_name>R8</column_name>
+		<column_display_name>R8</column_display_name>
+		<count_type>sum</count_type>
+		<script />
+		<is_show>1</is_show>
+		<is_group_column>0</is_group_column>
+		<is_sift>1</is_sift>
+	</column>
+	<column>
+		<is_sort>0</is_sort>
+		<column_name>R9</column_name>
+		<column_display_name>R9</column_display_name>
+		<count_type>sum</count_type>
+		<script />
+		<is_show>1</is_show>
+		<is_group_column>0</is_group_column>
+		<is_sift>1</is_sift>
+	</column>
+	<column>
+		<is_sort>0</is_sort>
+		<column_name>R10</column_name>
+		<column_display_name>R10+</column_display_name>
+		<count_type>sum</count_type>
+		<script />
+		<is_show>1</is_show>
+		<is_group_column>0</is_group_column>
+		<is_sift>1</is_sift>
+	</column>
+	<column>
+		<is_sort>0</is_sort>
+		<column_name>R5</column_name>
+		<column_display_name>R5</column_display_name>
+		<count_type>sum</count_type>
+		<script />
+		<is_show>1</is_show>
+		<is_group_column>0</is_group_column>
+		<is_sift>1</is_sift>
+	</column>
+	<column>
+		<is_sort>0</is_sort>
+		<column_name>adpName</column_name>
+		<column_display_name>广告位名称</column_display_name>
+		<count_type />
+		<script />
+		<is_show>1</is_show>
+		<is_group_column>0</is_group_column>
+	</column>
+	<column>
+		<is_sort>1</is_sort>
+		<column_name>hour</column_name>
+		<column_display_name>时段</column_display_name>
+		<count_type />
+		<script>hour = this.getValue();format_hour = formateHour(hour);this.setDisplayValue(format_hour);
+		</script>
+		<is_show>1</is_show>
+		<is_group_column>0</is_group_column>
+	</column>
+	<column>
+		<is_sort>0</is_sort>
+		<column_name>areaName</column_name>
+		<column_display_name>地域</column_display_name>
+		<count_type />
+		<script>name = this.getValue();
+			rowt = this.getRowData();
+			val = rowt.getExpressionValue( "row[area_level]");
+			if(val == '02'){this.setDisplayValue(name + '省');}
+			if(val == '3'){this.setDisplayValue(name + '市');}
+			if(name == '北京' || name == '天津' || name == '重庆' || name ==
+			'上海'){this.setDisplayValue(name + '市');}
+		</script>
+		<is_show>1</is_show>
+		<is_group_column>0</is_group_column>
+	</column>
+	<column>
+		<is_sort>0</is_sort>
+		<column_name>countryName</column_name>
+		<column_display_name>国家</column_display_name>
+		<count_type />
+		<script>
+		</script>
+		<is_show>1</is_show>
+		<is_group_column>0</is_group_column>
+	</column>
+	<column>
+		<is_sort>0</is_sort>
+		<column_name>cityName</column_name>
+		<column_display_name>城市</column_display_name>
+		<count_type />
+		<script>name = this.getValue();this.setDisplayValue(name + '市');
+		</script>
+		<is_show>1</is_show>
+		<is_group_column>0</is_group_column>
+	</column>
+	<column>
+		<is_sort>0</is_sort>
+		<column_name>acc_name</column_name>
+		<column_display_name>客户名称</column_display_name>
+		<count_type />
+		<script />
+		<is_show>1</is_show>
+		<is_group_column>0</is_group_column>
+	</column>
+	<column>
+		<is_sort>0</is_sort>
+		<column_name>usr_name</column_name>
+		<column_display_name>销售名称</column_display_name>
+		<count_type />
+		<script />
+		<is_show>1</is_show>
+		<is_group_column>0</is_group_column>
+	</column>
+	<column>
+		<is_sort>1</is_sort>
+		<column_name>week</column_name>
+		<column_display_name>星期</column_display_name>
+		<count_type />
+		<script>week = this.getValue();if(week == 0) {week = '星期一';} else
+			if(week == 1) {week = '星期二';}else if(week == 2) {week = '星期三';}else
+			if(week == 3) {week = '星期四';}else if(week == 4) {week = '星期五';}else
+			if(week == 5) {week = '星期六';}else if(week == 6) {week =
+			'星期天';}this.setDisplayValue(week);
+		</script>
+		<is_show>1</is_show>
+		<is_group_column>0</is_group_column>
+	</column>
+	<column>
+		<is_sort>1</is_sort>
+		<column_name>month</column_name>
+		<column_display_name>月份</column_display_name>
+		<count_type />
+		<script />
+		<is_show>1</is_show>
+		<is_group_column>0</is_group_column>
+	</column>
+	<column>
+		<is_sort>0</is_sort>
+		<column_name>isdelete</column_name>
+		<column_display_name>是否已经删除</column_display_name>
+		<count_type />
+		<script />
+		<is_show>0</is_show>
+		<is_group_column>0</is_group_column>
+	</column>
+	<column>
+		<is_sort>0</is_sort>
+		<column_name>provinceName</column_name>
+		<column_display_name>省份</column_display_name>
+		<count_type />
+		<script>name = this.getValue();if(name == '中国') {name =
+			'直辖市';};this.setDisplayValue(name);
+		</script>
+		<is_show>1</is_show>
+		<is_group_column>0</is_group_column>
+	</column>
+	<column>
+		<is_sort>0</is_sort>
+		<column_name>create_time</column_name>
+		<column_display_name>创建时间</column_display_name>
+		<count_type />
+		<script />
+		<is_show>1</is_show>
+		<is_group_column>0</is_group_column>
+	</column>
+	<column>
+		<is_sort>0</is_sort>
+		<column_name>typeName</column_name>
+		<column_display_name>类型</column_display_name>
+		<count_type />
+		<script />
+		<is_show>1</is_show>
+		<is_group_column>0</is_group_column>
+	</column>
+	<column>
+		<is_sort>0</is_sort>
+		<column_name>medName</column_name>
+		<column_display_name>媒体名称</column_display_name>
+		<count_type />
+		<script />
+		<is_show>1</is_show>
+		<is_group_column>0</is_group_column>
+	</column>
+	<column>
+		<is_sort>0</is_sort>
+		<column_name>log_date</column_name>
+		<column_display_name>日期</column_display_name>
+		<count_type>time</count_type>
+		<script />
+		<is_show>1</is_show>
+		<is_group_column>0</is_group_column>
+	</column>
+	<column>
+		<is_sort>0</is_sort>
+		<column_name>vv</column_name>
+		<column_display_name>播放量</column_display_name>
+		<count_type />
+		<script />
+		<is_show>1</is_show>
+		<is_group_column>0</is_group_column>
+		<is_sift>1</is_sift>
+	</column>
+	<column>
+		<is_sort>0</is_sort>
+		<column_name>monHour</column_name>
+		<column_display_name>时点</column_display_name>
+		<count_type />
+		<script />
+		<is_show>1</is_show>
+		<is_group_column>0</is_group_column>
+	</column>
+	<column>
+		<is_sort>0</is_sort>
+		<column_name>path</column_name>
+		<column_display_name>Path</column_display_name>
+		<count_type />
+		<script />
+		<is_show>1</is_show>
+		<is_group_column>0</is_group_column>
+	</column>
+	<column>
+		<is_sort>0</is_sort>
+		<column_name>impLimit</column_name>
+		<column_display_name>日播放指标</column_display_name>
+		<count_type />
+		<script />
+		<is_show>1</is_show>
+		<is_group_column>0</is_group_column>
+	</column>
+	<column>
+		<is_sort>0</is_sort>
+		<column_name>impFwd</column_name>
+		<column_display_name>实际播放量</column_display_name>
+		<count_type>sum</count_type>
+		<script />
+		<is_show>1</is_show>
+		<is_group_column>0</is_group_column>
+	</column>
+	<column>
+		<is_sort>0</is_sort>
+		<column_name>impPercent</column_name>
+		<column_display_name>播放比</column_display_name>
+		<count_type />
+		<script />
+		<is_show>1</is_show>
+		<is_group_column>0</is_group_column>
+	</column>
+	<column>
+		<is_sort>0</is_sort>
+		<column_name>impRate</column_name>
+		<column_display_name>播放完成率</column_display_name>
+		<count_type />
+		<script />
+		<is_show>1</is_show>
+		<is_group_column>0</is_group_column>
+	</column>
+	<column>
+		<is_sort>0</is_sort>
+		<column_name>clkFwd</column_name>
+		<column_display_name>实际点击量</column_display_name>
+		<count_type>sum</count_type>
+		<script />
+		<is_show>1</is_show>
+		<is_group_column>0</is_group_column>
+	</column>
+	<column>
+		<is_sort>0</is_sort>
+		<column_name>clkRate</column_name>
+		<column_display_name>点击率</column_display_name>
+		<count_type />
+		<script />
+		<is_show>1</is_show>
+		<is_group_column>0</is_group_column>
+	</column>
+	<column>
+		<is_sort>0</is_sort>
+		<column_name>actImp</column_name>
+		<column_display_name>播放请求量</column_display_name>
+		<count_type>sum</count_type>
+		<script />
+		<is_show>1</is_show>
+		<is_group_column>0</is_group_column>
+	</column>
+	<column>
+		<is_sort>0</is_sort>
+		<column_name>impBlock</column_name>
+		<column_display_name>无效播放量</column_display_name>
+		<count_type>sum</count_type>
+		<script />
+		<is_show>1</is_show>
+		<is_group_column>0</is_group_column>
+	</column>
+	<column>
+		<is_sort>0</is_sort>
+		<column_name>impChokeSum</column_name>
+		<column_display_name>播放Choke量</column_display_name>
+		<count_type>sum</count_type>
+		<script />
+		<is_show>1</is_show>
+		<is_group_column>0</is_group_column>
+	</column>
+	<column>
+		<is_sort>0</is_sort>
+		<column_name>actClk</column_name>
+		<column_display_name>点击请求量</column_display_name>
+		<count_type>sum</count_type>
+		<script />
+		<is_show>1</is_show>
+		<is_group_column>0</is_group_column>
+	</column>
+	<column>
+		<is_sort>0</is_sort>
+		<column_name>clkBlock</column_name>
+		<column_display_name>无效点击量</column_display_name>
+		<count_type>sum</count_type>
+		<script />
+		<is_show>1</is_show>
+		<is_group_column>0</is_group_column>
+	</column>
+	<column>
+		<is_sort>0</is_sort>
+		<column_name>clkChokeSum</column_name>
+		<column_display_name>点击Choke量</column_display_name>
+		<count_type>sum</count_type>
+		<script />
+		<is_show>1</is_show>
+		<is_group_column>0</is_group_column>
+	</column>
+	<column>
+		<is_sort>0</is_sort>
+		<column_name>clkRateLimit</column_name>
+		<column_display_name>点击率指标</column_display_name>
+		<count_type />
+		<script />
+		<is_show>1</is_show>
+		<is_group_column>0</is_group_column>
+	</column>
+	<column>
+		<is_sort>0</is_sort>
+		<column_name>id</column_name>
+		<column_display_name>ID</column_display_name>
+		<count_type />
+		<script />
+		<is_show>1</is_show>
+		<is_group_column>0</is_group_column>
+	</column>
+	<column>
+		<is_sort>0</is_sort>
+		<column_name>subPath</column_name>
+		<column_display_name>Subpath</column_display_name>
+		<count_type />
+		<script />
+		<is_show>1</is_show>
+		<is_group_column>0</is_group_column>
+	</column>
+	<column>
+		<is_sort>1</is_sort>
+		<column_name>med_date</column_name>
+		<column_display_name>日期</column_display_name>
+		<count_type />
+		<script />
+		<is_show>1</is_show>
+		<is_group_column>0</is_group_column>
+	</column>
+	<column>
+		<is_sort>0</is_sort>
+		<column_name>sys_from</column_name>
+		<column_display_name>广告位名称</column_display_name>
+		<count_type />
+		<script />
+		<is_show>1</is_show>
+		<is_group_column>0</is_group_column>
+	</column>
+	<column>
+		<is_sort>0</is_sort>
+		<column_name>imp_fwd</column_name>
+		<column_display_name>实际播放量</column_display_name>
+		<count_type />
+		<script />
+		<is_show>1</is_show>
+		<is_group_column>0</is_group_column>
+	</column>
+	<column>
+		<is_sort>0</is_sort>
+		<column_name>percent</column_name>
+		<column_display_name>占比</column_display_name>
+		<count_type />
+		<script>rowt = this.getRowData(); val = rowt.getExpressionValue(
+			"row[clk_fwd]"); total =
+			reportContext.getParameterValue("value");percent = getPercent(val,
+			total);this.setDisplayValue(percent);
+		</script>
+		<is_show>1</is_show>
+		<is_group_column>0</is_group_column>
+	</column>
+	<column>
+		<is_sort>0</is_sort>
+		<column_name>sys_source</column_name>
+		<column_display_name>广告位名称</column_display_name>
+		<count_type />
+		<script />
+		<is_show>1</is_show>
+		<is_group_column>0</is_group_column>
+	</column>
+	<column>
+		<is_sort>0</is_sort>
+		<column_name>source</column_name>
+		<column_display_name>广告位名称</column_display_name>
+		<count_type />
+		<script />
+		<is_show>1</is_show>
+		<is_group_column>0</is_group_column>
+	</column>
+	<column>
+		<is_sort>0</is_sort>
+		<column_name>mc_detail_value</column_name>
+		<header_script>this.text = reportContext.getParameterValue("rptDisplayName");</header_script>
+		<column_display_name>各source量</column_display_name>
+		<count_type />
+		<script>rowt = this.getRowData(); val = rowt.getExpressionValue(
+			"row[mc_detail_percent]");;if(val ==
+			'占比'){this.setDisplayValue(reportContext.getParameterValue("rptDisplayName"));this.getStyle().backgroundColor='#c8e3ff'}
+		</script>
+		<is_show>1</is_show>
+		<is_group_column>0</is_group_column>
+	</column>
+	<column>
+		<is_sort>0</is_sort>
+		<column_name>mc_detail_percent</column_name>
+		<column_display_name>占比</column_display_name>
+		<count_type />
+		<script>val = this.getValue();if(val != '占比') {rowt =
+			this.getRowData(); val = rowt.getExpressionValue(
+			"row[mc_detail_value]"); total =
+			reportContext.getParameterValue("value");percent = getPercent(val,
+			total);this.setDisplayValue(percent);}
+		</script>
+		<is_show>1</is_show>
+		<is_group_column>0</is_group_column>
+	</column>
+	<column>
+		<is_sort>0</is_sort>
+		<column_name>area_level</column_name>
+		<column_display_name>级别</column_display_name>
+		<count_type />
+		<script></script>
+		<is_show>0</is_show>
+		<is_group_column>0</is_group_column>
+	</column>
+	<column>
+		<is_sort>1</is_sort>
+		<column_name>brw_quota</column_name>
+		<column_display_name>日浏览指标</column_display_name>
+		<count_type />
+		<script>
+			rowt = this.getRowData();
+			quota = rowt.getExpressionValue("row[brw_quota]");
+			if(quota == null || quota == "0")
+			quota = "-";
+			this.setDisplayValue(quota);
+		</script>
+		<is_show>1</is_show>
+		<is_group_column>0</is_group_column>
+		<is_sift>1</is_sift>
+	</column>
+	<column>
+		<is_sort>1</is_sort>
+		<column_name>brw_rate</column_name>
+		<column_display_name>浏览完成比</column_display_name>
+		<count_type />
+		<script>
+			rowt = this.getRowData();
+			quota = rowt.getExpressionValue("row[brw_quota]");
+			brw = rowt.getExpressionValue("row[brw]");
+			if(quota == null || quota == "0")
+			this.setDisplayValue("-");
+			else
+			{
+			percent = getPercent(brw,quota);
+			this.setDisplayValue(percent);
+			}
+		</script>
+		<is_show>1</is_show>
+		<is_group_column>0</is_group_column>
+		<is_sift>1</is_sift>
+	</column>
+	<column>
+		<is_sort>1</is_sort>
+		<column_name>pla_quota</column_name>
+		<column_display_name>日播放指标</column_display_name>
+		<count_type />
+		<script>
+			rowt = this.getRowData();
+			quota = rowt.getExpressionValue("row[pla_quota]");
+			if(quota == null || quota == "0")
+			quota = "-";
+			this.setDisplayValue(quota);
+		</script>
+		<is_show>1</is_show>
+		<is_group_column>0</is_group_column>
+		<is_sift>1</is_sift>
+	</column>
+	<column>
+		<is_sort>1</is_sort>
+		<column_name>pla_rate</column_name>
+		<column_display_name>播放完成比</column_display_name>
+		<count_type />
+		<script>
+			rowt = this.getRowData();
+			quota = rowt.getExpressionValue("row[pla_quota]");
+			pla = rowt.getExpressionValue("row[pla]");
+			if(quota == null || quota == "0")
+			this.setDisplayValue("-");
+			else
+			{
+			percent = getPercent(pla,quota);
+			this.setDisplayValue(percent);
+			}
+		</script>
+		<is_show>1</is_show>
+		<is_group_column>0</is_group_column>
+		<is_sift>1</is_sift>
+	</column>
+	<column>
+		<is_sort>0</is_sort>
+		<column_name>operation</column_name>
+		<column_display_name></column_display_name>
+		<count_type />
+		<script>
+		</script>
+		<header_script>
+			this.text = "&lt;a href='javascript:void(0);' onclick=\"new
+			function(e){oEvent=e||event;var x =oEvent.clientX;var y
+			=oEvent.clientY;parent.showColsSelectInfo('ad',x,y);}\"
+			&gt; &lt;img style='float:right'
+			src='/images/report/selectcols.gif'/&gt;&lt;/a&gt;";
+		</header_script>
+		<is_show>1</is_show>
+		<is_group_column>0</is_group_column>
+	</column>
+	<column>
+		<is_sort>0</is_sort>
+		<column_name>first_columns</column_name>
+		<column_display_name>第一个列字段</column_display_name>
+		<header_script>this.text = reportContext.getParameterValue("firstDisplayName");</header_script>
+		<count_type />
+		<script>
+		</script>		
+		<is_show>1</is_show>
+		<is_group_column>0</is_group_column>
+	</column>
+	<column>
+		<is_sort>0</is_sort>
+		<column_name>second_columns</column_name>
+        <column_display_name>第二个列字段</column_display_name>
+		<header_script>this.text = reportContext.getParameterValue("secondDisplayName");</header_script>
+		<count_type />
+		<script>
+		</script>
+		<is_show>1</is_show>
+		<is_group_column>0</is_group_column>
+	</column>
+    <column>
+        <is_sort>0</is_sort>
+        <column_name>cat_name</column_name>
+        <column_display_name>题材名称</column_display_name>
+        <count_type />
+        <script></script>       
+        <is_show>1</is_show>
+        <is_group_column>0</is_group_column>
+    </column>
+    <column>
+        <is_sort>0</is_sort>
+        <column_name>country_name</column_name>
+        <column_display_name>产地名称</column_display_name>
+        <count_type />
+        <script></script>       
+        <is_show>1</is_show>
+        <is_group_column>0</is_group_column>
+    </column>
+    <column>
+        <is_sort>1</is_sort>
+        <column_name>req</column_name>
+        <column_display_name>请求量</column_display_name>
+        <count_type>sum</count_type>
+        <script></script>       
+        <is_show>1</is_show>
+        <is_group_column>0</is_group_column>
+        <is_sift>1</is_sift>
+    </column>
+     <column>
+        <is_sort>1</is_sort>
+        <column_name>clk_rate</column_name>
+        <column_display_name>点击率2</column_display_name>
+        <count_type />
+        <script>rowt = this.getRowData();
+            clk = rowt.getExpressionValue("row[clk]"); 
+            brw = rowt.getExpressionValue("row[brw]");
+            var rate = getPercent(clk, brw);
+            this.setDisplayValue(rate);
+        </script>       
+        <is_show>1</is_show>
+        <is_group_column>0</is_group_column>
+        <is_sift>1</is_sift>
+    </column>
+</columns>

@@ -1,0 +1,29 @@
+#ad_title_span{
+	background:#FFFFFF;
+	color:#4888B4;
+}
+#subnav-strips{
+	visibility:hidden;
+}
+.sub-title{
+	display:none;
+}
+#frame{
+	padding-top:0px;
+}
+#searchContent{
+	margin-bottom:5px;
+}
+#searchContent input{
+	margin-top:-25px;
+	margin-right:20px;
+	height:20px;
+    float:right;
+}
+#content{
+	margin-left:20px;
+	margin-right:20px;
+	padding:0px;
+	min-height:680px;
+	border:solid 2px #77C19A;
+}

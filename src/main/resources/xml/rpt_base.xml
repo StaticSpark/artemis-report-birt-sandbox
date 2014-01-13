@@ -1,0 +1,1207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<reports>
+    <report>
+        <id>1</id>
+        <path>ad_report.rptdesign</path>
+        <rpt_sql>SELECT b.id as adId, b.isdelete as isdelete, '' as sn,b.name as
+            adname, b.priority,b.weight, a.log_date as date,sum(a.brw) as brw,
+            sum(a.pla) as pla, sum(a.pla)/sum(a.brw) as act_pla_rate,sum(a.effe_pla)/sum(a.brw) as effe_pla_rate,sum(a.full_pla)/sum(a.brw) as full_pla_rate,sum(a.effe_pla) as effe_pla, sum(a.full_pla) as
+            full_pla, sum(a.clk) as clk, sum(clk)/sum(pla) as rate, sum(clk)/sum(brw) as clk_rate, a.log_date, '' as operation FROM
+            stg_ad_effe_d a, ad_base b where a.ad_id = b.id { and a.log_date
+            &gt;= #startTime# } { and a.log_date &lt;= #endTime#} { and a.ad_id
+            in (#adId#)} { and a.adp_id in (#adpId#)} { and a.area_id in
+            (#areaIds#) } group by b.id</rpt_sql>
+        <rpt_name>ad_report</rpt_name>
+        <rpt_display_name>广告分布</rpt_display_name>
+        <rpt_type>1</rpt_type>
+        <rpt_source>1</rpt_source>
+        <is_cross>0</is_cross>
+        <display_order>1</display_order>
+        <is_show_in_custom_page>1</is_show_in_custom_page>
+        <columns>sn,adname,priority,weight,brw,pla,act_pla_rate,effe_pla,effe_pla_rate,full_pla,full_pla_rate,clk,rate,clk_rate,operation
+        </columns>
+    </report>
+    <report>
+        <id>2</id>
+        <path>order_report.rptdesign</path>
+        <rpt_sql>SELECT b.id as adId, b.name as adname,c.id as ordId,'' as sn, c.name
+            as ordername, a.log_date as date, sum(a.brw) as brw, sum(a.pla) as
+            pla, sum(a.pla)/sum(a.brw) as act_pla_rate,sum(a.effe_pla)/sum(a.brw) as effe_pla_rate,sum(a.full_pla)/sum(a.brw) as full_pla_rate,sum(a.effe_pla) as effe_pla, sum(a.full_pla) as full_pla,
+            sum(a.clk) as clk, sum(clk)/sum(pla) as rate, sum(clk)/sum(brw) as clk_rate, '' as operation FROM stg_ad_effe_d a, ad_base
+            b, ord_base c WHERE a.ad_id = b.id AND c.id = b.ord_id and
+            b.ad_process = 4 {and a.log_date &gt;= #startTime#} {and a.log_date
+            &lt;= #endTime#} { and a.ad_id in (#adId#)} { and a.adp_id in
+
+            (#areaIds#) } group by c.id</rpt_sql>
+        <rpt_name>order_report</rpt_name>
+        <rpt_display_name>订单分布</rpt_display_name>
+        <rpt_type>1</rpt_type>
+        <rpt_source>1</rpt_source>
+        <is_cross>0</is_cross>
+        <display_order>5</display_order>
+        <is_show_in_custom_page>1</is_show_in_custom_page>
+        <columns>sn,ordername,brw,pla,act_pla_rate,effe_pla,effe_pla_rate,full_pla,full_pla_rate,clk,rate,clk_rate,operation</columns>
+    </report>
+    <report>
+        <id>3</id>
+        <path>mat_report.rptdesign</path>
+        <rpt_sql>SELECT '' as sn,c.name as matName, c.id as matId, sum(brw) as brw,
+            sum(pla) as pla, sum(pla)/sum(brw) as act_pla_rate,sum(effe_pla)/sum(brw) as effe_pla_rate,sum(full_pla)/sum(brw) as full_pla_rate,sum(effe_pla) as effe_pla, sum(full_pla) as
+            full_pla, sum(clk) as clk, sum(clk)/sum(pla) as rate, sum(clk)/sum(brw) as clk_rate, '' as operation FROM stg_ad_effe_d a,
+            ad_mat b, mat_base c, ad_base ab WHERE ab.id= a.ad_id and
+            ab.ad_process = 4 and a.ad_id = b.ad_id AND c.id = b.mat_id { and
+            a.log_date &gt;= #startTime# } {and a.log_date &lt;= #endTime# } {and
+            a.ad_id in (#adId#)} { and a.adp_id in (#adpId#)} { and area_id in
+            (#areaIds#) } GROUP BY c.id </rpt_sql>
+        <rpt_name>mat_report</rpt_name>
+        <rpt_display_name>物料分布</rpt_display_name>
+        <rpt_type>1</rpt_type>
+        <rpt_source>1</rpt_source>
+        <is_cross>0</is_cross>
+        <display_order>6</display_order>
+        <is_show_in_custom_page>1</is_show_in_custom_page>
+        <columns>sn,matName,brw,pla,act_pla_rate,effe_pla,effe_pla_rate,full_pla,full_pla_rate,clk,rate,clk_rate,operation</columns>
+    </report>
+    <report>
+        <id>4</id>
+        <path>adp_report.rptdesign</path>
+        <rpt_sql>select
+        '' as sn,
+        s.adp_id as adp_base_id, 
+        p.name as adpName,
+        sum(brw) as req,
+        sum(case ad_id when '-1' then '0' else brw end ) as brw, 
+        sum(pla) as pla, 
+        sum(pla)/sum(brw) as act_pla_rate,
+        sum(effe_pla)/sum(brw) as effe_pla_rate,
+        sum(full_pla)/sum(brw) as full_pla_rate,
+        sum(effe_pla) as effe_pla, 
+        sum(full_pla) as full_pla, 
+        sum(clk) as clk, 
+        sum(clk)/sum(pla) as rate, 
+        sum(clk)/sum(case ad_id when '-1' then '0' else brw end )as clk_rate,
+        '' as operation 
+from stg_ad_effe_d s, adp_base p 
+where s.adp_id = p.id 
+        {and s.log_date &gt;= #startTime#}
+        {and s.log_date &lt;= #endTime#} 
+        {and s.ad_id in (#adId#)}       
+        { and s.area_id in(#areaIds#) } 
+        { and s.adp_id in (#adpId#)} 
+        GROUP BY s.adp_id 
+            </rpt_sql>
+        <rpt_name>adp_report</rpt_name>
+        <rpt_display_name>广告位分布</rpt_display_name>
+        <rpt_type>1</rpt_type>
+        <rpt_source>1</rpt_source>
+        <is_cross>0</is_cross>
+        <display_order>2</display_order>
+        <is_show_in_custom_page>1</is_show_in_custom_page>
+        <columns>sn,adpName,req,brw,pla,act_pla_rate,effe_pla,effe_pla_rate,full_pla,full_pla_rate,clk,rate,clk_rate,operation</columns>
+    </report>
+    <report>
+        <id>5</id>
+        <path>ad_report_quota.rptdesign</path>
+        <rpt_sql>SELECT b.id as adId, b.isdelete as isdelete, '' as sn,b.name as
+adname, b.priority,b.weight, a.log_date as date, a.brw as brw,
+a.pla as pla,a.pla/a.brw as act_pla_rate,a.effe_pla/a.brw as effe_pla_rate,a.full_pla/a.brw as full_pla_rate, a.effe_pla as effe_pla, a.full_pla as
+full_pla, a.clk as clk, a.rate as rate, a.clk/a.brw as clk_rate, a.brw_quota as brw_quota, 
+sum(a.brw)/sum(a.brw_quota) as brw_rate, a.pla_quota as pla_quota, sum(a.pla)/sum(a.pla_quota) as pla_rate, '' as operation 
+FROM stg_ad_effe_d_quota a, ad_base b 
+where b.id = a.ad_id { and a.log_date &gt;= #startTime# } { and a.log_date &lt;= #endTime#} 
+{ and a.ad_id in (#adId#)} { and a.adp_id in (#adpId#)}  
+group by a.ad_id</rpt_sql>
+        <rpt_name>ad_report_quota</rpt_name>
+        <rpt_display_name>广告分布</rpt_display_name>
+        <rpt_type>1</rpt_type>
+        <rpt_source>1</rpt_source>
+        <is_cross>0</is_cross>
+        <display_order>1</display_order>
+        <is_show_in_custom_page>0</is_show_in_custom_page>
+        <columns>sn,adname,priority,weight,brw_quota,brw,brw_rate,pla_quota,pla,act_pla_rate,pla_rate,effe_pla,effe_pla_rate,full_pla,full_pla_rate,clk,rate,clk_rate,operation</columns>
+    </report>
+    <report>
+        <id>10</id>
+        <path>day_report.rptdesign</path>
+        <rpt_sql>
+select '' as sn,
+        DATE_FORMAT(s.log_date, '%Y-%m-%d') as date, 
+        sum(brw) as req, 
+        sum(case ad_id when '-1' then '0' else brw end ) as brw,
+        sum(pla) as pla,
+        sum(pla)/sum(brw) as act_pla_rate,
+        sum(effe_pla)/sum(brw) as effe_pla_rate,
+        sum(full_pla)/sum(brw) as full_pla_rate, 
+        sum(effe_pla) as effe_pla, 
+        sum(full_pla) as full_pla, 
+        sum(clk) as clk, 
+        sum(clk)/sum(pla) as rate,
+        sum(clk)/sum(case ad_id when '-1' then '0' else brw end ) as clk_rate,
+         '' as operation 
+from stg_ad_effe_d s
+where {s.log_date &gt;= #startTime#} 
+      { and s.log_date &lt;= #endTime#}
+      { and s.ad_id in (#adId#)} 
+      { and s.adp_id in (#adpId#)} 
+      { and area_id in (#areaIds#) }
+group by DATE_FORMAT(s.log_date, '%Y-%m-%d')
+</rpt_sql>
+        <rpt_name>day_report</rpt_name>
+        <rpt_display_name>日期分布</rpt_display_name>
+        <rpt_type>5</rpt_type>
+        <rpt_source>1</rpt_source>
+        <is_cross>0</is_cross>
+        <display_order>101</display_order>
+        <is_show_in_custom_page>1</is_show_in_custom_page>
+        <columns>sn,date,req,brw,pla,act_pla_rate,effe_pla,effe_pla_rate,full_pla,full_pla_rate,clk,rate,clk_rate,operation</columns>
+    </report>
+    <report>
+        <id>11</id>
+        <path>ad-freq.rptdesign</path>
+        <rpt_sql>SELECT '' as sn,ab.name as adname, sum(s.n1) AS R1,sum(s.n2) AS
+            R2,sum(s.n3) AS R3,sum(s.n4) AS R4,sum(s.n5) AS R5,sum(s.n6) AS
+            R6,sum(s.n7) AS R7, sum(s.n8) AS R8,sum(s.n9) AS R9,sum(s.n10_plus)
+            AS R10, '' as operation FROM {stg_ad#freq# s}, ad_base ab WHERE s.ad_id = ab.id and
+            s.log_date = DATE_SUB(CURDATE(), INTERVAL 1 DAY) {and s.ad_id in
+            (#adId#)} { and s.adp_id in (#adpId#)} { and area_id in
+            (#areaIds#) } group by ab.id</rpt_sql>
+        <rpt_name>ad-freq</rpt_name>
+        <rpt_display_name>广告频次分布</rpt_display_name>
+        <rpt_type>1</rpt_type>
+        <rpt_source>1</rpt_source>
+        <is_cross>0</is_cross>
+        <display_order>3</display_order>
+        <is_show_in_custom_page>0</is_show_in_custom_page>
+        <columns>sn,adname,R1,R2,R3,R4,R5,R6,R7,R8,R9,R10,operation</columns>
+    </report>
+    <report>
+        <id>12</id>
+        <path>adp_freq.rptdesign</path>
+        <rpt_sql>SELECT '' as sn,ap.name as adpName, sum(s.n1) AS
+            R1,sum(s.n2) AS R2,sum(s.n3) AS R3,sum(s.n4) AS R4,sum(s.n5) AS
+            R5,sum(s.n6) AS R6,sum(s.n7) AS R7, sum(s.n8) AS R8,sum(s.n9) AS
+            R9,sum(s.n10_plus) AS R10, '' as operation FROM {stg_adp#freq#} s, adp_base ap WHERE
+            s.adp_id = ap.id and s.log_date = DATE_SUB(CURDATE(), INTERVAL 1 DAY)
+            { and s.adp_id in (#adpId#)} { and area_id in
+            (#areaIds#) } GROUP BY ap.id 
+        </rpt_sql>
+        <rpt_name>adp_freq</rpt_name>
+        <rpt_display_name>广告位频次分布</rpt_display_name>
+        <rpt_type>1</rpt_type>
+        <rpt_source>1</rpt_source>
+        <is_cross>0</is_cross>
+        <display_order>4</display_order>
+        <is_show_in_custom_page >0</is_show_in_custom_page>
+        <columns>sn,adpName,R1,R2,R3,R4,R5,R6,R7,R8,R9,R10,operation</columns>
+    </report>
+    <report>
+        <id>13</id>
+        <path>hour_report.rptdesign</path>
+        <rpt_sql>SELECT *
+    FROM (
+            SELECT '' AS sn, 
+                DATE_FORMAT(multi_hours.log_hour, '%H') AS hour,
+                SUM(multi_hours.req) AS req, 
+                SUM(multi_hours.brw) AS brw, 
+                SUM(multi_hours.pla) AS pla, 
+                SUM(multi_hours.pla)/SUM(multi_hours.brw) as act_pla_rate,
+                SUM(multi_hours.effe_pla)/SUM(multi_hours.brw) as effe_pla_rate,
+                SUM(multi_hours.full_pla)/SUM(multi_hours.brw) as full_pla_rate, 
+                SUM(multi_hours.effe_pla) AS effe_pla,SUM(multi_hours.full_pla) AS full_pla, 
+                SUM(multi_hours.clk) AS clk, 
+                clk/pla as rate,
+                clk/brw as clk_rate,
+                '' as operation
+            FROM
+                (
+                SELECT a.log_time as log_hour, 
+                    SUM(a.brw) AS req,
+                    sum(case ad_id when '-1' then '0' else brw end ) as brw,
+                    SUM(a.pla) AS pla, 
+                    SUM(a.effe_pla) AS effe_pla,
+                    SUM(a.full_pla) AS full_pla,
+                    SUM(a.clk) AS clk
+                FROM stg_ad_effe a
+                where {a.log_time &gt;=#startTime#} 
+                     {and a.log_time &lt;=#endTime#} 
+                     { and a.ad_id in (#adId#)} 
+                     { and a.adp_id in (#adpId#)} 
+                     { and area_id in (#areaIds#)} 
+                GROUP BY a.log_time
+                ) 
+            multi_hours 
+            GROUP BY hour
+             UNION
+            SELECT '' AS sn, 
+                   c.period AS hour, 
+                   0 AS req,
+                   0 AS brw, 
+                   0 AS pla,
+                   '-' as act_pla_rate,
+                   '-' as effe_pla_rate,
+                   '-' as full_pla_rate, 
+                   0 AS effe_pla, 
+                   0 AS full_pla, 
+                   0 AS clk, 
+                   '-' AS rate, 
+                   '-' AS clk_rate,
+                   '' AS operation
+            FROM report_hour_period c
+        ) d
+       group by hour  order by d.hour
+        </rpt_sql>
+        <rpt_name>hour_report</rpt_name>
+        <rpt_display_name>时段分布</rpt_display_name>
+        <rpt_type>5</rpt_type>
+        <rpt_source>1</rpt_source>
+        <is_cross>0</is_cross>
+        <display_order>102</display_order>
+        <is_show_in_custom_page>1</is_show_in_custom_page>
+        <columns>sn,hour,req,brw,pla,act_pla_rate,effe_pla,effe_pla_rate,full_pla,full_pla_rate,clk,rate,clk_rate,operation</columns>
+    </report>
+    <report>
+        <id>14</id>
+        <path>country_report.rptdesign</path>
+        <rpt_sql>
+select * from (
+select '' as sn,
+    d.id as areaId, 
+    d.name as countryName,
+    sum(a.brw) as req,
+    sum(case ad_id when '-1' then '0' else brw end ) as brw,
+    sum(a.pla) as pla, 
+    sum(a.pla)/sum(a.brw) as act_pla_rate,
+    sum(a.effe_pla)/sum(a.brw) as effe_pla_rate, 
+    sum(a.full_pla)/sum(a.brw) as full_pla_rate, 
+    sum(a.effe_pla) as effe_pla, 
+    sum(a.full_pla) as full_pla, 
+    sum(a.clk) as clk,
+    sum(clk)/sum(pla) as rate,
+    sum(clk)/sum(case ad_id when '-1' then '0' else brw end )  as clk_rate, 
+    '' as operation 
+from stg_ad_effe_d a, dim_area d 
+where {a.log_date &gt;=#startTime#} 
+    {and a.log_date &lt;=#endTime#} 
+    {and a.ad_id in (#adId#)} 
+    { and a.adp_id in (#adpId#)} 
+    { and area_id in (#areaIds#) } 
+    and a.area_id = d.id 
+    and d.parent_id = 2 
+group by a.area_id 
+UNION 
+    select '' as sn,
+        '1' as areaId,
+        '中国' as countryName,
+        sum(a.brw) as req, 
+        sum(case ad_id when '-1' then '0' else brw end ) as brw,
+        sum(a.pla) as pla, 
+        sum(a.pla)/sum(a.brw) as act_pla_rate,
+        sum(a.effe_pla)/sum(a.brw) as effe_pla_rate,
+        sum(a.full_pla)/sum(a.brw) as full_pla_rate,
+        sum(a.effe_pla) as effe_pla, 
+        sum(a.full_pla) as full_pla, 
+        sum(a.clk) as clk, 
+        sum(clk)/sum(pla) as rate,
+        sum(clk)/sum(case ad_id when '-1' then '0' else brw end ) as clk_rate, 
+        '' as operation 
+    from stg_ad_effe_d a, dim_area d 
+    where { a.log_date &gt;=#startTime#} 
+        {and a.log_date &lt;=#endTime#} 
+        {and a.ad_id in (#adId#)} 
+        { and a.adp_id in (#adpId#)} 
+        { and area_id in (#areaIds#) } 
+        and a.area_id = d.id 
+        and d.parent_id != 2 
+        and d.parent_id != 0 
+        and d.parent_id != -1
+
+    ) g
+    WHERE (g.brw > 0) OR  (g.pla > 0) OR  (g.req > 0)
+    </rpt_sql>
+        <rpt_name>country_report</rpt_name>
+        <rpt_display_name>国家分布</rpt_display_name>
+        <rpt_type>5</rpt_type>
+        <rpt_source>1</rpt_source>
+        <is_cross>0</is_cross>
+        <display_order>105</display_order>
+        <is_show_in_custom_page>1</is_show_in_custom_page>
+        <columns>sn,countryName,req,brw,pla,act_pla_rate,effe_pla,effe_pla_rate,full_pla,full_pla_rate,clk,rate,clk_rate,operation</columns>
+    </report>
+    <report>
+        <id>15</id>
+        <path>province_report.rptdesign</path>
+        <rpt_sql>select '' as sn,
+    d.provinceName as provinceName,
+    sum(a.brw) as req,
+    sum(case ad_id when '-1' then '0' else brw end ) as brw,
+    sum(a.pla) as pla, 
+    sum(a.pla)/sum(a.brw) as act_pla_rate,
+    sum(a.effe_pla)/sum(a.brw) as effe_pla_rate,
+    sum(a.full_pla)/sum(a.brw) as full_pla_rate,
+    sum(a.effe_pla) as effe_pla,
+    sum(a.full_pla) as full_pla, 
+    sum(a.clk) as clk, 
+    sum(clk)/sum(pla) as rate,
+    sum(clk)/sum(case ad_id when '-1' then '0' else brw end ) as clk_rate,
+    '' as operation 
+from stg_ad_effe_d a,
+    ( SELECT p.id as provinceId, 
+            p.name as provinceName,
+            d.id as cityId,
+            d.name as cityName 
+      from dim_area d, dim_area p 
+      where d.parent_id = p.id 
+            and d.area_level = 3 
+      GROUP BY p.id,d.id 
+      UNION SELECT id as provinceId, 
+          d.name as provinceName, id as cityId, '' as cityName FROM
+            dim_area d where d.parent_id = 1 and d.area_level = 2 
+            AND NOT EXISTS ( SELECT * FROM dim_area f where d.id = f.parent_id)
+          ) d 
+       where {a.log_date &gt;=#startTime#} 
+               {and a.log_date &lt;=#endTime#}
+               {and a.ad_id in (#adId#)} 
+               { and a.adp_id in (#adpId#)} 
+               { and a.area_id in (#areaIds#) } 
+           
+               and a.area_id = d.cityId 
+        group by d.provinceId
+        </rpt_sql>
+        <rpt_name>province_report</rpt_name>
+        <rpt_display_name>省份分布</rpt_display_name>
+        <rpt_type>5</rpt_type>
+        <rpt_source>1</rpt_source>
+        <is_cross>0</is_cross>
+        <display_order>106</display_order>
+        <is_show_in_custom_page>1</is_show_in_custom_page>
+        <columns>sn,provinceName,req,brw,pla,act_pla_rate,effe_pla,effe_pla_rate,full_pla,full_pla_rate,clk,rate,clk_rate,operation</columns>
+    </report>
+    <report>
+        <id>16</id>
+        <path>city_report.rptdesign</path>
+        <rpt_sql>
+select '' as sn,
+    f.name as provinceName, 
+    d.name as cityName,
+    sum(a.brw) as req, 
+    sum(case ad_id when '-1' then '0' else brw end ) as brw,
+    sum(a.pla) as pla,
+    sum(a.pla)/sum(a.brw) as act_pla_rate,
+    sum(a.effe_pla)/sum(a.brw) as effe_pla_rate,
+    sum(a.full_pla)/sum(a.brw) as full_pla_rate,
+    sum(a.effe_pla) as effe_pla,
+    sum(a.full_pla) as full_pla, 
+    sum(a.clk) as clk, 
+    sum(clk)/sum(pla) as rate, 
+    sum(clk)/sum(case ad_id when '-1' then '0' else brw end ) as clk_rate,
+    '' as operation 
+from stg_ad_effe_d a, dim_area d , dim_area f 
+where {a.log_date &gt;=#startTime#} 
+      {and a.log_date &lt;=#endTime#} 
+      {and a.ad_id in (#adId#)} 
+      { and a.adp_id in (#adpId#)} 
+      { and a.area_id in (#areaIds#)} 
+      and a.area_id = d.id 
+      and (d.area_level = 3 or d.id in (11,31,12,50)) 
+      and d.parent_id = f.id 
+      group by d.id
+</rpt_sql>
+        <rpt_name>city_report</rpt_name>
+        <rpt_display_name>城市分布</rpt_display_name>
+        <rpt_type>5</rpt_type>
+        <rpt_source>1</rpt_source>
+        <is_cross>0</is_cross>
+        <display_order>107</display_order>
+        <is_show_in_custom_page>1</is_show_in_custom_page>
+        <columns>sn,provinceName,cityName,req,brw,pla,act_pla_rate,effe_pla,effe_pla_rate,full_pla,full_pla_rate,clk,rate,clk_rate,operation
+        </columns>
+    </report>
+    <report>
+        <id>18</id>
+        <path>acc_report.rptdesign</path>
+        <rpt_sql>SELECT '' as sn,c.id as acc_id, c.name as acc_name, sum(brw) as brw,
+            sum(pla) as pla, sum(pla)/sum(brw) as act_pla_rate,sum(effe_pla)/sum(brw) as effe_pla_rate,sum(full_pla)/sum(brw) as full_pla_rate,sum(effe_pla) as effe_pla, sum(full_pla) as
+            full_pla, sum(clk) as clk, sum(clk)/sum(pla) as rate, sum(clk)/sum(brw) as clk_rate, '' as operation FROM ad_base a, ord_base
+            o, acc_base c, stg_ad_effe_d d WHERE a.ord_id = o.id AND o.account_id
+            = c.id AND d.ad_id = a.id AND a.ad_process = 4 {AND d.ad_id in
+            (#adId#)} { and d.adp_id in (#adpId#)} {AND
+            d.log_date&gt;=#startTime#} {and d.log_date&lt;=#endTime#} { and area_id in
+            (#areaIds#) } GROUP BY
+            c.id</rpt_sql>
+        <rpt_name>acc_report</rpt_name>
+        <rpt_display_name>客户分布</rpt_display_name>
+        <rpt_type>1</rpt_type>
+        <rpt_source>1</rpt_source>
+        <is_cross>0</is_cross>
+        <display_order>7</display_order>
+        <is_show_in_custom_page>1</is_show_in_custom_page>
+        <columns>sn,acc_name,brw,pla,act_pla_rate,effe_pla,effe_pla_rate,full_pla,full_pla_rate,clk,rate,clk_rate,operation</columns>
+    </report>
+    <report>
+        <id>19</id>
+        <path>sale_report.rptdesign</path>
+        <rpt_sql>SELECT '' as sn,c.id as acc_id, c.name as usr_name, sum(brw) as brw,
+            sum(pla) as pla, sum(pla)/sum(brw) as act_pla_rate,sum(effe_pla)/sum(brw) as effe_pla_rate,sum(full_pla)/sum(brw) as full_pla_rate,sum(effe_pla) as effe_pla, sum(full_pla) as
+            full_pla, sum(clk) as clk, sum(clk)/sum(pla) as rate, sum(clk)/sum(brw) as clk_rate, '' as operation FROM ad_base a, ord_base
+            o, acct_user c, stg_ad_effe_d d WHERE a.ord_id = o.id AND o.sales_id
+            = c.id AND d.ad_id = a.id AND a.ad_process = 4 {AND d.ad_id in
+            (#adId#)} { and d.adp_id in (#adpId#)} {AND
+            d.log_date&gt;=#startTime#} {and d.log_date&lt;=#endTime#} { and area_id in
+            (#areaIds#) } GROUP BY
+            c.id</rpt_sql>
+        <rpt_display_name>销售分布</rpt_display_name>
+        <rpt_type>1</rpt_type>
+        <rpt_source>1</rpt_source>
+        <rpt_name>sale_report</rpt_name>
+        <is_cross>0</is_cross>
+        <display_order>8</display_order>
+        <is_show_in_custom_page>1</is_show_in_custom_page>
+        <columns>sn,usr_name,brw,pla,act_pla_rate,effe_pla,effe_pla_rate,full_pla,full_pla_rate,clk,rate,clk_rate,operation</columns>
+    </report>
+    <report>
+        <id>20</id>
+        <path>week_report.rptdesign</path>
+        <rpt_sql>select '' as sn,WEEKDAY(s.log_date) as week, sum(brw) as brw, sum(pla)
+            as pla, sum(pla)/sum(brw) as act_pla_rate,sum(effe_pla)/sum(brw) as effe_pla_rate,sum(full_pla)/sum(brw) as full_pla_rate,sum(effe_pla) as effe_pla, sum(full_pla) as full_pla,
+            sum(clk) as clk, sum(clk)/sum(pla) as rate, '' as operation from stg_ad_effe_d s where
+            {s.log_date &gt;= #startTime#} {and s.log_date &lt;= #endTime#} {and
+            s.ad_id in (#adId#)} { and s.adp_id in (#adpId#)} { and area_id in
+            (#areaIds#) } group by week
+        </rpt_sql>
+        <rpt_name>week_report</rpt_name>
+        <rpt_display_name>星期分布</rpt_display_name>
+        <rpt_type>5</rpt_type>
+        <rpt_source>1</rpt_source>
+        <is_cross>0</is_cross>
+        <display_order>104</display_order>
+        <is_show_in_custom_page>0</is_show_in_custom_page>
+        <columns>sn,week,brw,pla,act_pla_rate,effe_pla,effe_pla_rate,full_pla,full_pla_rate,clk,rate,operation</columns>
+    </report>
+    <report>
+        <id>21</id>
+        <path>month_report.rptdesign</path>
+        <rpt_sql>
+    select '' as sn,
+    MONTH(s.log_date) as month, 
+    sum(brw) as req,
+    sum(case ad_id when '-1' then '0' else brw end ) as brw,
+    sum(pla) as pla, 
+    sum(pla)/sum(brw) as act_pla_rate,
+    sum(effe_pla)/sum(brw) as effe_pla_rate,
+    sum(full_pla)/sum(brw) as full_pla_rate,
+    sum(effe_pla) as effe_pla, 
+    sum(full_pla) as full_pla,
+    sum(clk) as clk, 
+    sum(clk)/sum(pla) as rate, 
+    sum(clk)/sum(case ad_id when '-1' then '0' else brw end ) as clk_rate,
+    '' as operation 
+from stg_ad_effe_d s 
+where {s.log_date &gt;= #startTime#} 
+      {and s.log_date &lt;= #endTime#} 
+      {and s.ad_id in (#adId#)}
+      { and s.adp_id in (#adpId#)} 
+      { and area_id in (#areaIds#) }
+group by month
+        </rpt_sql>
+        <rpt_name>month_report</rpt_name>
+        <rpt_display_name>月份分布</rpt_display_name>
+        <rpt_type>5</rpt_type>
+        <rpt_source>1</rpt_source>
+        <is_cross>0</is_cross>
+        <display_order>103</display_order>
+        <is_show_in_custom_page>1</is_show_in_custom_page>
+        <columns>sn,month,req,brw,pla,act_pla_rate,effe_pla,effe_pla_rate,full_pla,full_pla_rate,clk,rate,clk_rate,operation</columns>
+    </report>
+    <report>
+        <id>29</id>
+        <path>med_day_report.rptdesign</path>
+        <rpt_sql>SELECT '' as sn,s.log_date as med_date, sum(s.vv) as vv, '' as operation FROM
+            stg_med_vvuv s WHERE {s.log_date &gt;= #startTime#} {and s.log_date
+            &lt;= #endTime#} {and s.med_cat in (#catId#)} { and s.country in
+            (#countryId#) } {and s.para_group = #para_group#} { and area_id in (#areaIds#) } and lastdays = 1
+            GROUP BY s.log_date</rpt_sql>
+        <rpt_name>med_day_report</rpt_name>
+        <rpt_display_name>日期分布</rpt_display_name>
+        <rpt_type>6</rpt_type>
+        <rpt_source>1</rpt_source>
+        <is_cross>0</is_cross>
+        <display_order>201</display_order>
+        <is_show_in_custom_page>1</is_show_in_custom_page>
+        <columns>sn,med_date,vv,operation</columns>
+    </report>
+    <report>
+        <id>30</id>
+        <path>med_month_report.rptdesign</path>
+        <rpt_sql>SELECT '' as sn,MONTH(s.log_date) as month, sum(s.vv) as vv, '' as operation FROM
+            stg_med_vvuv s WHERE {s.log_date &gt;= #startTime#} {and s.log_date
+            &lt;= #endTime#} {and s.med_cat in (#catId#)} { and s.country in
+            (#countryId#) } {and s.para_group = #para_group#} { and area_id in (#areaIds#) } and lastdays = 1
+            GROUP BY month</rpt_sql>
+        <rpt_name>med_month_report</rpt_name>
+        <rpt_display_name>月份分布</rpt_display_name>
+        <rpt_type>6</rpt_type>
+        <rpt_source>1</rpt_source>
+        <is_cross>0</is_cross>
+        <display_order>202</display_order>
+        <is_show_in_custom_page>1</is_show_in_custom_page>
+        <columns>sn,month,vv,operation</columns>
+    </report>
+    <report>
+        <id>33</id>
+        <path>med_week_report.rptdesign</path>
+        <rpt_sql>SELECT '' as sn,WEEKDAY(s.log_date) as week, sum(s.vv) as vv, '' as operation FROM
+            stg_med_vvuv s WHERE {s.log_date &gt;= #startTime#} {and s.log_date
+            &lt;= #endTime#} {and s.med_cat in (#catId#)} { and s.country in
+            (#countryId#) } {and s.para_group = #para_group#} { and area_id in (#areaIds#) } and lastdays = 1
+            GROUP BY week</rpt_sql>
+        <rpt_name>med_week_report</rpt_name>
+        <rpt_display_name>星期分布</rpt_display_name>
+        <rpt_type>6</rpt_type>
+        <rpt_source>1</rpt_source>
+        <is_cross>0</is_cross>
+        <display_order>203</display_order>
+        <is_show_in_custom_page>1</is_show_in_custom_page>
+        <columns>sn,week,vv,operation</columns>
+    </report>
+    <report>
+        <id>34</id>
+        <path>med_country_report.rptdesign</path>
+        <rpt_sql>SELECT '' as sn,'1' AS areaId, '中国' AS countryName, sum(s.vv) AS vv, '' as operation FROM
+            stg_med_vvuv s, dim_area d WHERE {s.log_date &gt;= #startTime#} {and
+            s.log_date &lt;= #endTime#} {and s.med_cat in (#catId#)} { and
+            s.country in (#countryId#) } {and s.para_group = #para_group#} { and area_id in (#areaIds#) } and
+            lastdays = 1 AND s.area_id = d.id AND d.parent_id != 2 AND
+            d.parent_id != 0 AND d.parent_id != - 1 UNION SELECT '' as sn,d.id AS areaId,
+            d. NAME AS countryName, sum(s.vv) AS vv, '' as operation FROM stg_med_vvuv s, dim_area d
+            WHERE {s.log_date &gt;= #startTime#} {and s.log_date &lt;= #endTime#}
+            {and s.med_cat in (#catId#)} { and s.country in (#countryId#) } {and
+            s.para_group = #para_group#} { and area_id in (#areaIds#) } and lastdays = 1 AND s.area_id = d.id
+            AND d.parent_id = 2 GROUP BY s.area_id</rpt_sql>
+        <rpt_name>med_country_report</rpt_name>
+        <rpt_display_name>国家分布</rpt_display_name>
+        <rpt_type>6</rpt_type>
+        <rpt_source>1</rpt_source>
+        <is_cross>0</is_cross>
+        <display_order>204</display_order>
+        <is_show_in_custom_page>1</is_show_in_custom_page>
+        <columns>sn,countryName,vv,operation</columns>
+    </report>
+    <report>
+        <id>35</id>
+        <path>med_province_report.rptdesign</path>
+        <rpt_sql>SELECT '' as sn,d.provinceName AS provinceName, sum(vv) AS vv, '' as operation FROM
+            stg_med_vvuv s, ( SELECT p.id AS provinceId, p. NAME AS provinceName,
+            d.id AS cityId, d. NAME AS cityName FROM dim_area d, dim_area p WHERE
+            d.parent_id = p.id AND d.area_level = 3 GROUP BY p.id, d.id UNION
+            SELECT id AS provinceId, d. NAME AS provinceName, id AS cityId, '' AS
+            cityName FROM dim_area d WHERE d.parent_id = 1 AND d.area_level = 2
+            AND NOT EXISTS ( SELECT * FROM dim_area f WHERE d.id = f.parent_id )
+            AND d. NAME NOT IN ( '北京', '上海', '天津', '重庆' ) ) d WHERE {s.log_date
+            &gt;= #startTime#} {and s.log_date &lt;= #endTime#} {and s.med_cat in
+            (#catId#)} { and s.country in (#countryId#) } {and s.para_group =
+            #para_group#} { and area_id in (#areaIds#) } and lastdays = 1 AND s.area_id = d.cityId GROUP BY
+            d.provinceId</rpt_sql>
+        <rpt_name>med_province_report</rpt_name>
+        <rpt_display_name>省份分布</rpt_display_name>
+        <rpt_type>6</rpt_type>
+        <rpt_source>1</rpt_source>
+        <is_cross>0</is_cross>
+        <display_order>205</display_order>
+        <is_show_in_custom_page>1</is_show_in_custom_page>
+        <columns>sn,provinceName,vv,operation</columns>
+    </report>
+    <report>
+        <id>36</id>
+        <path>med_city_report.rptdesign</path>
+        <rpt_sql>SELECT '' as sn,f.NAME AS provinceName, d.NAME AS cityName, sum(vv)
+            AS vv, '' as operation FROM stg_med_vvuv s, dim_area d, dim_area f WHERE {s.log_date
+            &gt;= #startTime#} {and s.log_date &lt;= #endTime#} {and s.med_cat in
+            (#catId#)} { and s.country in (#countryId#) } {and s.para_group =
+            #para_group#} { and area_id in (#areaIds#) } and lastdays = 1 AND s.area_id = d.id AND (
+            d.area_level = 3 OR d.id IN (11, 31, 12, 50) ) AND d.parent_id = f.id
+            GROUP BY d.id</rpt_sql>
+        <rpt_name>med_city_report</rpt_name>
+        <rpt_display_name>城市分布</rpt_display_name>
+        <rpt_type>6</rpt_type>
+        <rpt_source>1</rpt_source>
+        <is_cross>0</is_cross>
+        <display_order>206</display_order>
+        <is_show_in_custom_page>1</is_show_in_custom_page>
+        <columns>sn,provinceName,cityName,vv,operation</columns>
+    </report>
+    <report>
+        <id>37</id>
+        <path>imp_fwd_source_report.rptdesign</path>
+        <rpt_sql>SELECT s.source, s.imp_fwd as mc_detail_value,s.percent as mc_detail_percent,CASE when
+            p. NAME IS NULL THEN source ELSE p.`name` END as name FROM ( SELECT
+            s.sys_from AS source, sum(s.imp_fwd) as imp_fwd, '' AS percent FROM
+            stg_mc_imp_d s WHERE {s.mon_id = #monId# } {AND s.mon_date =
+            #monDate#} {AND s.mon_date &gt;= #startDate#} {AND s.mon_date &lt;= #endDate#} {AND s.path = #path# }
+             {AND s.area_id = #areaId#} AND is_main_subpath = 1 GROUP BY s.sys_from ) s LEFT JOIN
+            adp_base p ON s.source like CONCAT("%", p.code) order by p.name
+        </rpt_sql>
+        <rpt_name>imp_fwd_source_report</rpt_name>
+        <rpt_display_name>执行投放量</rpt_display_name>
+        <rpt_type>7</rpt_type>
+        <rpt_source>1</rpt_source>
+        <is_cross>0</is_cross>
+        <display_order>0</display_order>
+        <is_show_in_custom_page>0</is_show_in_custom_page>
+        <columns>name,mc_detail_value,mc_detail_percent</columns>
+    </report>
+    <report>
+        <id>38</id>
+        <path>clk_fwd_source_report.rptdesign</path>
+        <rpt_sql>SELECT s.source, s.clk_fwd as mc_detail_value,s.percent as mc_detail_percent,CASE when
+            p. NAME IS NULL THEN source ELSE p.`name` END as name FROM ( SELECT
+            s.sys_from AS source, sum(s.clk_fwd) as clk_fwd, '' AS percent FROM
+            stg_mc_clk_d s WHERE {s.mon_id = #monId# } {AND s.mon_date =
+            #monDate#} {AND s.mon_date &gt;= #startDate#} {AND s.mon_date &lt;= #endDate#} 
+             {AND s.path = #path# } {AND s.area_id = #areaId#} GROUP BY s.sys_from ) s LEFT JOIN adp_base p ON
+            s.source like CONCAT("%", p.code) order by p.name</rpt_sql>
+        <rpt_name>clk_fwd_source_report</rpt_name>
+        <rpt_display_name>执行点击量</rpt_display_name>
+        <rpt_type>7</rpt_type>
+        <rpt_source>1</rpt_source>
+        <is_cross>0</is_cross>
+        <display_order />
+        <is_show_in_custom_page>0</is_show_in_custom_page>
+        <columns>name,mc_detail_value,mc_detail_percent</columns>
+    </report>
+    <report>
+        <id>40</id>
+        <path>act_imp_source_report.rptdesign</path>
+        <rpt_sql>SELECT s.source, s.act_imp as mc_detail_value,s.percent as mc_detail_percent,CASE
+            when p. NAME IS NULL THEN source ELSE p.`name` END as name FROM (
+            SELECT s.sys_from AS source, sum(s.act_imp) as act_imp, '' AS percent
+            FROM stg_mc_imp_d s WHERE {s.mon_id = #monId# } {AND s.mon_date =
+            #monDate#} {AND s.mon_date &gt;= #startDate#} {AND s.mon_date &lt;= #endDate#} 
+            {AND s.path = #path# } {AND s.area_id = #areaId#} AND
+            is_main_subpath = 1 GROUP BY s.sys_from ) s LEFT JOIN
+            adp_base p ON s.source like CONCAT("%", p.code) order by p.name
+        </rpt_sql>
+        <rpt_name>act_imp_source_report</rpt_name>
+        <rpt_display_name>播放请求量</rpt_display_name>
+        <rpt_type>7</rpt_type>
+        <rpt_source>1</rpt_source>
+        <is_cross>0</is_cross>
+        <display_order />
+        <is_show_in_custom_page>0</is_show_in_custom_page>
+        <columns>name,mc_detail_value,mc_detail_percent</columns>
+    </report>
+    <report>
+        <id>41</id>
+        <path>imp_block_source_report.rptdesign</path>
+        <rpt_sql>select * from ( SELECT s.source, s.imp_block as
+            mc_detail_value,s.percent as mc_detail_percent,CASE when p. NAME IS
+            NULL THEN source ELSE p.`name` END as name FROM ( SELECT s.sys_from
+            AS source, sum(s.imp_block) as imp_block, '' AS percent FROM
+            stg_mc_imp_d s WHERE {s.mon_id = #monId# } {AND s.mon_date =
+            #monDate#}  {AND s.mon_date &gt;= #startDate#} {AND s.mon_date &lt;= #endDate#} 
+             {AND s.path = #path# } {AND s.area_id = #areaId#} AND
+            is_main_subpath = 1 GROUP BY s.sys_from ) s LEFT JOIN
+            adp_base p ON s.source like CONCAT("%", p.code) order by p.name ) s
+            UNION SELECT '' as source,-1 as mc_detail_value,'占比' as
+            mc_detail_percent, 'block原因' as name union SELECT s.imp_block_type as
+            source,sum(imp_block) as mc_detail_value, '' as mc_detail_percent ,
+            d.block_desc as name FROM stg_mc_impblk_d s LEFT JOIN dim_block d ON
+            s.imp_block_type = d.id WHERE {s.mon_id = #monId# } {AND s.mon_date =
+            #monDate#}  {AND s.mon_date &gt;= #startDate#} {AND s.mon_date &lt;= #endDate#} 
+            {AND s.path = #path# } {AND s.area_id = #areaId#} AND
+            is_main_subpath = 1 GROUP BY s.imp_block_type
+        </rpt_sql>
+        <rpt_name>imp_block_source_report</rpt_name>
+        <rpt_display_name>无效播放量</rpt_display_name>
+        <rpt_type>7</rpt_type>
+        <rpt_source>1</rpt_source>
+        <is_cross>0</is_cross>
+        <display_order />
+        <is_show_in_custom_page>0</is_show_in_custom_page>
+        <columns>name,mc_detail_value,mc_detail_percent</columns>
+    </report>
+    <report>
+        <id>42</id>
+        <path>clk_block_source_report.rptdesign</path>
+        <rpt_sql>select * from ( SELECT s.source, s.clk_block as
+            mc_detail_value,s.percent as mc_detail_percent,CASE when p. NAME IS
+            NULL THEN source ELSE p.`name` END as name FROM ( SELECT s.sys_from
+            AS source, sum(s.clk_block) as clk_block, '' AS percent FROM
+            stg_mc_clk_d s WHERE {s.mon_id = #monId# } {AND s.mon_date =
+            #monDate#} {AND s.mon_date &gt;= #startDate#} {AND s.mon_date &lt;= #endDate#} 
+             {AND s.path = #path# } {AND s.area_id = #areaId#} GROUP BY s.sys_from ) s LEFT JOIN adp_base p ON
+            s.source like CONCAT("%", p.code) order by p.name ) s UNION SELECT ''
+            as source,-11111 as mc_detail_value,'占比' as mc_detail_percent,
+            'block原因' as name union SELECT s.clk_block_type as
+            source,sum(clk_block) as mc_detail_value, '' as mc_detail_percent,
+            d.block_desc as name FROM stg_mc_clkblk_d s LEFT JOIN dim_block d ON
+            s.clk_block_type = d.id WHERE {s.mon_id = #monId# } {AND s.mon_date =
+            #monDate#}  {AND s.mon_date &gt;= #startDate#} {AND s.mon_date &lt;= #endDate#} 
+             {AND s.mon_date &gt;= #startDate#} {AND s.mon_date &lt;= #endDate#} 
+             {AND s.path = #path# } {AND s.area_id = #areaId#} GROUP BY s.clk_block_type</rpt_sql>
+        <rpt_name>clk_block_source_report</rpt_name>
+        <rpt_display_name>无效点击量</rpt_display_name>
+        <rpt_type>7</rpt_type>
+        <rpt_source>1</rpt_source>
+        <is_cross>0</is_cross>
+        <display_order />
+        <is_show_in_custom_page>0</is_show_in_custom_page>
+        <columns>name,mc_detail_value,mc_detail_percent</columns>
+    </report>
+    <report>
+        <id>44</id>
+        <path>clk_choke_source_report.rptdesign</path>
+        <rpt_sql>select * from ( SELECT s.source, s.choke_sum as
+            mc_detail_value,s.percent as mc_detail_percent,CASE when p. NAME IS
+            NULL THEN source ELSE p.`name` END as name FROM ( SELECT s.sys_from
+            AS source, sum(s.choke_sum) as choke_sum, '' AS percent FROM
+            stg_mc_clk_choke_d s WHERE {s.mon_id = #monId# } {AND s.mon_date =
+            #monDate#}  {AND s.mon_date &gt;= #startDate#} {AND s.mon_date &lt;= #endDate#} 
+            {AND s.path = #path# } {AND s.area_id = #areaId#}  GROUP BY s.sys_from ) s LEFT JOIN adp_base p ON
+            s.source like CONCAT("%", p.code) order by p.name ) s UNION SELECT ''
+            as source,-1 as mc_detail_value,'占比' as mc_detail_percent, '异常原因' as
+            name union SELECT s.choke_type_id as source,sum(s.choke_sum) as
+            mc_detail_value ,'' as mc_detail_percent , d.clk_choke_desc as name
+            FROM stg_mc_clk_choke_d s LEFT JOIN dim_choke d ON s.choke_type_id =
+            d.id WHERE {s.mon_id = #monId# } {AND s.mon_date = #monDate#} 
+             {AND s.mon_date &gt;= #startDate#} {AND s.mon_date &lt;= #endDate#} 
+             {AND s.path = #path# } {AND s.area_id = #areaId#}  GROUP BY
+            s.choke_type_id</rpt_sql>
+        <rpt_name>clk_choke_source_report</rpt_name>
+        <rpt_display_name>异常点击量</rpt_display_name>
+        <rpt_type>7</rpt_type>
+        <rpt_source>1</rpt_source>
+        <is_cross>0</is_cross>
+        <display_order />
+        <is_show_in_custom_page>0</is_show_in_custom_page>
+        <columns>name,mc_detail_value,mc_detail_percent</columns>
+    </report>
+    <report>
+        <id>45</id>
+        <path>act_clk_source_report.rptdesign</path>
+        <rpt_sql>SELECT s.source, s.act_clk as mc_detail_value,s.percent as mc_detail_percent,CASE
+            when p. NAME IS NULL THEN source ELSE p.`name` END as name FROM (
+            SELECT s.sys_from AS source, sum(s.act_clk) as act_clk, '' AS percent
+            FROM stg_mc_clk_d s WHERE {s.mon_id = #monId# } {AND s.mon_date =
+            #monDate#}  {AND s.mon_date &gt;= #startDate#} {AND s.mon_date &lt;= #endDate#} 
+             {AND s.path = #path# } {AND s.area_id = #areaId#} GROUP BY s.sys_from ) s LEFT JOIN adp_base p ON
+            s.source like CONCAT("%", p.code) order by p.name</rpt_sql>
+        <rpt_name>act_clk_source_report</rpt_name>
+        <rpt_display_name>点击请求量</rpt_display_name>
+        <rpt_type>7</rpt_type>
+        <rpt_source>1</rpt_source>
+        <is_cross>0</is_cross>
+        <display_order />
+        <is_show_in_custom_page>0</is_show_in_custom_page>
+        <columns>name,mc_detail_value,mc_detail_percent</columns>
+    </report>
+    <report>
+        <id>48</id>
+        <path>imp_choke_source_report.rptdesign</path>
+        <rpt_sql>select * from ( SELECT s.source, s.choke_sum as
+            mc_detail_value,s.percent as mc_detail_percent,CASE when p. NAME IS
+            NULL THEN source ELSE p.`name` END as name FROM ( SELECT s.sys_from
+            AS source, sum(s.choke_sum) as choke_sum, '' AS percent FROM
+            stg_mc_imp_choke_d s WHERE {s.mon_id = #monId# } {AND s.mon_date =
+            #monDate#} {AND s.path = #path# } {AND s.area_id = #areaId#} 
+            AND is_main_subpath = 1 GROUP BY s.sys_from ) s LEFT JOIN
+            adp_base p ON s.source like CONCAT("%", p.code) order by p.name ) s
+            UNION SELECT '' as source,-1 as mc_detail_value,'占比' as
+            mc_detail_percent, '异常原因' as name union SELECT s.choke_type_id as
+            source,sum(s.choke_sum) as choke_sum ,'' as imp_detail_percent ,
+            d.imp_choke_desc as name FROM stg_mc_imp_choke_d s LEFT JOIN
+            dim_choke d ON s.choke_type_id = d.id WHERE {s.mon_id = #monId# }
+            {AND s.mon_date = #monDate#} {AND s.path = #path# } {AND s.area_id =
+            #areaId#} AND is_main_subpath = 1 GROUP BY
+            s.choke_type_id</rpt_sql>
+        <rpt_name>imp_choke_source_report</rpt_name>
+        <rpt_display_name>异常播放量</rpt_display_name>
+        <rpt_type>7</rpt_type>
+        <rpt_source>1</rpt_source>
+        <is_cross>0</is_cross>
+        <display_order />
+        <is_show_in_custom_page>0</is_show_in_custom_page>
+        <columns>name,mc_detail_value,mc_detail_percent</columns>
+    </report>
+    <report>
+        <id>49</id>
+        <path>area_report.rptdesign</path>
+        <rpt_sql>
+SELECT '' as sn,
+    d.parentName as areaName,
+    SUM(brw) AS req,
+    sum(case ad_id when '-1' then '0' else brw end ) as brw,
+    SUM(s.pla) AS pla,
+    sum(s.pla)/sum(brw) as act_pla_rate,
+    sum(s.effe_pla)/sum(brw) as effe_pla_rate,
+    sum(s.full_pla)/sum(brw) as full_pla_rate,
+    SUM(s.effe_pla) AS effe_pla,
+    SUM(s.full_pla) AS full_pla,
+    SUM(s.clk) AS clk, 
+    sum(clk)/sum(pla) as rate, 
+    sum(clk)/sum(case ad_id when '-1' then '0' else brw end ) as clk_rate,
+    '02' AS area_level, 
+    '' as operation 
+FROM stg_ad_effe_d s LEFT JOIN (
+        SELECT  d.id,   
+        d. NAME AS NAME,
+        p.id AS parentId,   
+        p. NAME AS parentName 
+        FROM    dim_area d
+        LEFT JOIN dim_area p ON d.parent_id = p.id 
+    ) d ON s.area_id = d.id 
+WHERE  
+    {log_date &gt;= #startTime#}  
+    {and log_date &lt;= #endTime#} 
+    {and parentId IN (#provinceIds#) }  
+    {and s.ad_id in (#adId#)} 
+    {and s.adp_id in (#adpId#)} 
+GROUP BY d.parentId
+UNION 
+SELECT '' as sn,
+    d.`name` as areaName,
+    SUM(s.brw) AS req,
+    sum(case ad_id when '-1' then '0' else brw end ) as brw,
+    SUM(s.pla) AS pla,
+    sum(s.pla)/sum(brw) as act_pla_rate,
+    sum(s.effe_pla)/sum(brw) as effe_pla_rate,
+    sum(s.full_pla)/sum(brw) as full_pla_rate,
+    SUM(s.effe_pla) AS effe_pla,
+    SUM(s.full_pla) AS  full_pla,
+    SUM(s.clk) AS clk,
+    sum(clk)/sum(pla) as rate, 
+    sum(clk)/sum(case ad_id when '-1' then '0' else brw end ) as clk_rate,
+    d.area_level AS area_level,
+    '' as operation 
+FROM dim_area d LEFT JOIN stg_ad_effe_d s  ON s.area_id=d.id 
+WHERE   {log_date &gt;= #startTime# } 
+        {and log_date &lt;= #endTime# } 
+        {and area_id IN(#cityIds#) } 
+        {and s.ad_id in (#adId#)} 
+        { and s.adp_id in (#adpId#)} 
+GROUP BY s.area_id 
+ 
+        </rpt_sql>
+        <rpt_name>area_report</rpt_name>
+        <rpt_display_name>地域分布</rpt_display_name>
+        <rpt_type>5</rpt_type>
+        <rpt_source>1</rpt_source>
+        <is_cross>0</is_cross>
+        <display_order>108</display_order>
+        <is_show_in_custom_page>1</is_show_in_custom_page>
+        <columns>sn,areaName,area_level,req,brw,pla,act_pla_rate,effe_pla,effe_pla_rate,full_pla,full_pla_rate,clk,rate,clk_rate,operation
+        </columns>
+    </report>   
+    <report>
+        <id>50</id>
+        <path>med_area_report.rptdesign</path>
+        <rpt_sql>
+                SELECT '' as sn,d.parentName as areaName,   sum(s.vv) AS vv , '' as operation 
+        FROM stg_med_vvuv s 
+                LEFT JOIN (
+                    SELECT  d.id,   d. NAME AS NAME,    p.id AS parentId,   p. NAME AS parentName 
+                     FROM   dim_area d
+                    LEFT JOIN dim_area p ON d.parent_id = p.id 
+                ) d ON s.area_id = d.id     
+        WHERE {s.log_date   &gt;= #startTime#} {and s.log_date &lt;= #endTime#} {and s.med_cat in   (#catId#)} { and s.country in (#countryId#) } {and s.para_group =   #para_group#} {and parentId IN (#provinceIds#) } and  lastdays = 1 
+        GROUP BY d.parentId 
+                
+        UNION 
+                
+        SELECT '' as sn,d.`name` as areaName,SUM(s.vv) AS vv, '' as operation 
+        FROM dim_area d LEFT JOIN stg_med_vvuv s  ON s.area_id=d.id      
+        WHERE {s.log_date   &gt;= #startTime#} {and s.log_date &lt;= #endTime#} {and s.med_cat in   (#catId#)} { and s.country in (#countryId#) } {and s.para_group =   #para_group#} {and area_id IN(#cityIds#) } and  lastdays = 1
+        GROUP BY s.area_id 
+        </rpt_sql>
+        <rpt_name>med_area_report</rpt_name>
+        <rpt_display_name>地域分布</rpt_display_name>
+        <rpt_type>6</rpt_type>
+        <rpt_source>1</rpt_source>
+        <is_cross>0</is_cross>
+        <display_order>207</display_order>
+        <is_show_in_custom_page>1</is_show_in_custom_page>
+        <columns>sn,areaName,vv,operation</columns>
+    </report>   
+    <report>
+        <id>51</id>
+        <path>two_dimensional_report.rptdesign</path>
+        <rpt_sql>
+select '' as sn,
+    {#first_column#} as first_columns, 
+    {#second_column#} as second_columns, 
+    {#ad_id_condition#} 
+    {#adp_id_condition#} 
+    {#order_id_condition#}
+    {#mat_id_condition#}
+    sum(a.brw) as req, 
+    sum(case a.ad_id when '-1' then '0' else brw end ) as brw,
+    sum(a.pla) as pla, 
+    sum(a.pla)/sum(a.brw) as act_pla_rate,
+    sum(a.effe_pla)/sum(a.brw) as effe_pla_rate,
+    sum(a.full_pla)/sum(a.brw) as full_pla_rate, 
+    sum(a.effe_pla) as effe_pla, 
+    sum(a.full_pla) as full_pla, 
+    sum(a.clk) as clk, 
+    sum(a.clk)/sum(a.pla) as rate, 
+    sum(a.clk)/sum(case a.ad_id when '-1' then '0' else brw end ) as clk_rate,
+    '' as operation 
+from {#data_table#}
+where {#common_condition#} 
+    {and a.ad_id in (#adId#)} 
+    { and a.adp_id in (#adpId#)} 
+    { and area_id in (#areaIds#) } 
+    {#adp_condition#} 
+    {#ad_condition#} 
+    {#order_condition#} 
+    {#mat_condition#} 
+    {#city_condition#} 
+    {#country_condition#} 
+    {#province_condition#} 
+    {#area_condition#} 
+    {#cat_condition#}
+    {#cd_condition#}
+    group by {#condition_group#}
+        </rpt_sql>
+        <rpt_name>two_dimensional_report</rpt_name>
+        <rpt_display_name>二维分布</rpt_display_name>
+        <rpt_type>9</rpt_type>
+        <rpt_source>1</rpt_source>
+        <is_cross>0</is_cross>
+        <display_order>103</display_order>
+        <is_show_in_custom_page>0</is_show_in_custom_page>
+        <columns>sn,first_columns,second_columns,req,brw,pla,act_pla_rate,effe_pla,effe_pla_rate,full_pla,full_pla_rate,clk,rate,clk_rate,operation</columns>
+    </report>
+    <report>
+        <id>54</id>
+        <path>two_dimensional_special_report.rptdesign</path>
+        <rpt_sql>select '' as sn,{#first_column#} as first_columns, {#second_column#} as second_columns, {#ad_id_condition#} 
+                 b.priority,b.weight,a.brw as brw,a.pla as pla,a.pla/a.brw as act_pla_rate,a.effe_pla/a.brw as effe_pla_rate,a.full_pla/a.brw as full_pla_rate, a.effe_pla as effe_pla, 
+                 a.full_pla as full_pla, a.clk as clk, a.rate as rate, a.clk/a.brw as clk_rate, a.brw_quota as brw_quota,sum(a.brw)/sum(a.brw_quota) as brw_rate, a.pla_quota as pla_quota, sum(a.pla)/sum(a.pla_quota) as pla_rate, '' as operation 
+                 from {#data_table#}
+                 where {#common_condition#} {and a.ad_id in (#adId#)} { and a.adp_id in (#adpId#)} {#adp_condition#} {#ad_condition#} 
+                       {#order_condition#} {#mat_condition#} {#city_condition#} {#country_condition#} {#province_condition#} {#area_condition#} {#cat_condition#} {#cd_condition#}
+                 group by {#condition_group#}
+        </rpt_sql>
+        <rpt_name>two_dimensional_special_report</rpt_name>
+        <rpt_display_name>二维分布</rpt_display_name>
+        <rpt_type>9</rpt_type>
+        <rpt_source>1</rpt_source>
+        <is_cross>0</is_cross>
+        <display_order>1</display_order>
+        <is_show_in_custom_page>0</is_show_in_custom_page>
+        <columns>sn,first_columns,second_columns,priority,weight,brw_quota,brw,brw_rate,pla_quota,pla,act_pla_rate,pla_rate,effe_pla,effe_pla_rate,full_pla,full_pla_rate,clk,rate,clk_rate,operation</columns>
+    </report>
+    <report>
+        <id>52</id>
+        <path>ad_category.rptdesign</path>
+        <rpt_sql>
+SELECT  '' as sn,
+    b.fullname as cat_name, 
+    sum(a.brw) as brw,
+    sum(a.pla) as pla, 
+    sum(a.effe_pla) as effe_pla, 
+    sum(a.full_pla) as full_pla, 
+    sum(a.clk) as clk, 
+    sum(clk)/sum(pla) as rate, 
+    sum(clk)/sum(brw) as clk_rate,
+    '' as operation 
+FROM stg_ad_med_cat a, dim_med_cat b 
+where 
+    b.id = a.cat_id 
+    { and a.log_date &gt;= #startTime# } 
+    { and a.log_date &lt;= #endTime#} 
+    { and a.ad_id in (#adId#)} 
+    { and a.adp_id in (#adpId#)} 
+    { and a.cat_id in (#catId#) }
+    group by a.cat_id
+        </rpt_sql>
+        <rpt_name>ad_category</rpt_name>
+        <rpt_display_name>题材分布</rpt_display_name>
+        <rpt_type>1</rpt_type>
+        <rpt_source>1</rpt_source>
+        <is_cross>0</is_cross>
+        <display_order>9</display_order>
+        <is_show_in_custom_page>1</is_show_in_custom_page>
+        <columns>sn,cat_name,brw,pla,full_pla,clk,rate,clk_rate,operation
+        </columns>
+    </report>
+    <report>
+        <id>53</id>
+        <path>ad_country.rptdesign</path>
+        <rpt_sql>
+SELECT  '' as sn,
+    b.fullname as country_name, 
+    sum(a.brw) as brw,
+    sum(a.pla) as pla, 
+    sum(a.effe_pla) as effe_pla, 
+    sum(a.full_pla) as full_pla, 
+    sum(a.clk) as clk, 
+    sum(clk)/sum(pla) as rate, 
+    sum(clk)/sum(brw) as clk_rate,
+    '' as operation 
+FROM stg_ad_med_country a, dim_med_country b 
+where 
+    b.id = a.country_id 
+    { and a.log_date &gt;= #startTime# } 
+    { and a.log_date &lt;= #endTime#} 
+    { and a.ad_id in (#adId#)} 
+    { and a.adp_id in (#adpId#)} 
+    { and a.country_id in (#countryId#) }
+    group by a.country_id
+        </rpt_sql>
+        <rpt_name>ad_country</rpt_name>
+        <rpt_display_name>产地分布</rpt_display_name>
+        <rpt_type>1</rpt_type>
+        <rpt_source>1</rpt_source>
+        <is_cross>0</is_cross>
+        <display_order>10</display_order>
+        <is_show_in_custom_page>1</is_show_in_custom_page>
+        <columns>sn,country_name,brw,pla,full_pla,clk,rate,clk_rate,operation
+        </columns>
+    </report>
+    <report>
+        <id>55</id>
+        <path>med_cat_ad.rptdesign</path>
+        <rpt_sql>
+SELECT b.id as adId, 
+       '' as sn,
+       b.name as adname, 
+       b.priority,
+       b.weight, 
+       a.log_date as date,
+       sum(a.brw) as brw,
+       sum(a.pla) as pla, 
+       sum(a.pla)/sum(a.brw) as act_pla_rate,
+       sum(a.effe_pla)/sum(a.brw) as effe_pla_rate,
+       sum(a.full_pla)/sum(a.brw) as full_pla_rate,
+       sum(a.effe_pla) as effe_pla, 
+       sum(a.full_pla) as full_pla, 
+       sum(a.clk) as clk, 
+       sum(clk)/sum(pla) as rate, 
+       sum(clk)/sum(brw) as clk_rate,
+       '' as operation 
+FROM stg_ad_med_cat a inner join ad_base b  on b.id = a.ad_id 
+WHERE 1 = 1 
+      { and a.log_date &gt;= #startTime# }
+      { and a.log_date &lt;= #endTime# }
+      { and a.cat_id in (#ids#) } 
+      group by a.ad_id 
+        </rpt_sql>
+        <rpt_name>med_cat_ad</rpt_name>
+        <rpt_display_name>广告分布</rpt_display_name>
+        <rpt_type>10</rpt_type>
+        <rpt_source>1</rpt_source>
+        <is_cross>0</is_cross>
+        <display_order>1</display_order>
+        <is_show_in_custom_page>1</is_show_in_custom_page>
+        <columns>sn,adname,priority,weight,brw,pla,act_pla_rate,effe_pla,effe_pla_rate,full_pla,full_pla_rate,clk,rate,clk_rate,operation
+        </columns>
+    </report>
+        <report>
+        <id>56</id>
+        <path>med_cat_adp.rptdesign</path>
+        <rpt_sql>
+select s.adp_id as adp_base_id, 
+       '' as sn,
+       p.name as adpName,
+       sum(brw) as brw, 
+       sum(pla) as pla, 
+       sum(pla)/sum(brw) as act_pla_rate,
+       sum(effe_pla)/sum(brw) as effe_pla_rate,
+       sum(full_pla)/sum(brw) as full_pla_rate,
+       sum(effe_pla) as effe_pla, 
+       sum(full_pla) as full_pla, 
+       sum(clk) as clk, 
+       sum(clk)/sum(pla) as rate, 
+       sum(clk)/sum(brw) as clk_rate,
+       '' as operation 
+from stg_ad_med_cat s inner join  adp_base p on p.id =  s.adp_id
+where 1 = 1 
+     { and s.log_date &gt;= #startTime# }
+     { and s.log_date &lt;= #endTime# }
+     { and s.cat_id in (#ids#) } 
+GROUP BY s.adp_id 
+        </rpt_sql>
+        <rpt_name>med_cat_adp</rpt_name>
+        <rpt_display_name>广告位分布</rpt_display_name>
+        <rpt_type>10</rpt_type>
+        <rpt_source>1</rpt_source>
+        <is_cross>0</is_cross>
+        <display_order>1</display_order>
+        <is_show_in_custom_page>1</is_show_in_custom_page>
+        <columns>sn,adpName,brw,pla,act_pla_rate,effe_pla,effe_pla_rate,full_pla,full_pla_rate,clk,rate,clk_rate,operation
+        </columns>
+    </report>
+        <report>
+        <id>57</id>
+        <path>med_country_ad.rptdesign</path>
+        <rpt_sql>
+SELECT b.id as adId, 
+       '' as sn,
+       b.name as adname, 
+       b.priority,
+       b.weight, 
+       a.log_date as date,
+       sum(a.brw) as brw,
+       sum(a.pla) as pla, 
+       sum(a.pla)/sum(a.brw) as act_pla_rate,
+       sum(a.effe_pla)/sum(a.brw) as effe_pla_rate,
+       sum(a.full_pla)/sum(a.brw) as full_pla_rate,
+       sum(a.effe_pla) as effe_pla, 
+       sum(a.full_pla) as full_pla, 
+       sum(a.clk) as clk, 
+       sum(clk)/sum(pla) as rate, 
+       sum(clk)/sum(brw) as clk_rate,
+       '' as operation 
+FROM stg_ad_med_country a inner join ad_base b  on b.id = a.ad_id 
+WHERE 1 = 1 
+      { and a.log_date &gt;= #startTime# }
+      { and a.log_date &lt;= #endTime# }
+      { and a.country_id in (#ids#) } 
+      group by a.ad_id 
+        </rpt_sql>
+        <rpt_name>med_country_ad</rpt_name>
+        <rpt_display_name>广告分布</rpt_display_name>
+        <rpt_type>11</rpt_type>
+        <rpt_source>1</rpt_source>
+        <is_cross>0</is_cross>
+        <display_order>1</display_order>
+        <is_show_in_custom_page>1</is_show_in_custom_page>
+        <columns>sn,adname,priority,weight,brw,pla,act_pla_rate,effe_pla,effe_pla_rate,full_pla,full_pla_rate,clk,rate,clk_rate,operation
+        </columns>
+    </report>
+        <report>
+        <id>58</id>
+        <path>med_country_adp.rptdesign</path>
+        <rpt_sql>
+select s.adp_id as adp_base_id, 
+       '' as sn,
+       p.name as adpName,
+       sum(brw) as brw, 
+       sum(pla) as pla, 
+       sum(pla)/sum(brw) as act_pla_rate,
+       sum(effe_pla)/sum(brw) as effe_pla_rate,
+       sum(full_pla)/sum(brw) as full_pla_rate,
+       sum(effe_pla) as effe_pla, 
+       sum(full_pla) as full_pla, 
+       sum(clk) as clk, 
+       sum(clk)/sum(pla) as rate, 
+       sum(clk)/sum(brw) as clk_rate,
+       '' as operation 
+from stg_ad_med_country s inner join  adp_base p on p.id =  s.adp_id
+where 1 = 1 
+     { and s.log_date &gt;= #startTime# }
+     { and s.log_date &lt;= #endTime# }
+     { and s.country_id in (#ids#) } 
+GROUP BY s.adp_id 
+        </rpt_sql>
+        <rpt_name>med_country_adp</rpt_name>
+        <rpt_display_name>广告位分布</rpt_display_name>
+        <rpt_type>11</rpt_type>
+        <rpt_source>1</rpt_source>
+        <is_cross>0</is_cross>
+        <display_order>1</display_order>
+        <is_show_in_custom_page>1</is_show_in_custom_page>
+        <columns>sn,adpName,brw,pla,act_pla_rate,effe_pla,effe_pla_rate,full_pla,full_pla_rate,clk,rate,clk_rate,operation
+        </columns>
+    </report>
+</reports>

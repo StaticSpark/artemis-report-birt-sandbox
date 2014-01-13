@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<types> 
+  <type> 
+    <id>1</id>  
+    <name>广告分布</name> 
+  </type>  
+  <type> 
+    <id>2</id>  
+    <name>定向分布</name> 
+  </type>  
+  <type> 
+    <id>3</id>  
+    <name>频次分布</name> 
+  </type>  
+  <type> 
+    <id>4</id>  
+    <name>媒体分布</name> 
+  </type>  
+  <type> 
+    <id>5</id>  
+    <name>基础分布</name> 
+  </type>  
+  <type> 
+    <id>6</id>  
+    <name>媒体基础分布</name> 
+  </type>  
+  <type> 
+    <id>7</id>  
+    <name>播控source报告</name> 
+  </type>  
+  <type> 
+    <id>8</id>  
+    <name>播控无效异常原因报告</name> 
+  </type>
+  <type> 
+    <id>9</id>  
+    <name>二维分布</name> 
+  </type> 
+  <type>
+     <id>10</id>
+     <name>题材报告</name>
+  </type>
+    <type>
+     <id>11</id>
+     <name>产地报告</name>
+  </type>
+</types>

@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: org.eclipse.birt.runtime:org.eclipse.update.configurator:3.3.200.v20120523-1752">
+    <CLASSES>
+      <root url="jar://E:/.m2/repository/org/eclipse/birt/runtime/org.eclipse.update.configurator/3.3.200.v20120523-1752/org.eclipse.update.configurator-3.3.200.v20120523-1752.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://E:/.m2/repository/org/eclipse/birt/runtime/org.eclipse.update.configurator/3.3.200.v20120523-1752/org.eclipse.update.configurator-3.3.200.v20120523-1752-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://E:/.m2/repository/org/eclipse/birt/runtime/org.eclipse.update.configurator/3.3.200.v20120523-1752/org.eclipse.update.configurator-3.3.200.v20120523-1752-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

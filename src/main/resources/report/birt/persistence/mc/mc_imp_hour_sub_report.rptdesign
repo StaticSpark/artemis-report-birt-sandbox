@@ -1,0 +1,538 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.23" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 4.2.2.v201301041109 Build &lt;4.2.2.v20130114-2359></property>
+    <list-property name="includeScripts">
+        <property>js/common/report_tool.js</property>
+    </list-property>
+    <method name="initialize"><![CDATA[count = 0; ]]></method>
+    <property name="layoutPreference">auto layout</property>
+    <parameters>
+        <scalar-parameter name="reportSql" id="6">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+        </scalar-parameter>
+        <scalar-parameter name="exportName" id="7">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+        </scalar-parameter>
+        <scalar-parameter name="monId" id="94">
+            <property name="valueType">static</property>
+            <property name="isRequired">true</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="concealValue">false</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="monDate" id="95">
+            <property name="valueType">static</property>
+            <property name="isRequired">true</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="concealValue">false</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="areaId" id="96">
+            <property name="valueType">static</property>
+            <property name="isRequired">true</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="concealValue">false</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="path" id="97">
+            <property name="valueType">static</property>
+            <property name="isRequired">true</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="concealValue">false</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="hour" id="98">
+            <property name="valueType">static</property>
+            <property name="isRequired">true</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="concealValue">false</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="maxImpFwd" id="100">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+    </parameters>
+    <data-sources>
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="Data Source" id="4">
+            <method name="beforeOpen"><![CDATA[initializeDb(reportContext, extensionProperties);]]></method>
+            <property name="odaDriverClass">com.mysql.jdbc.Driver</property>
+            <property name="odaURL">jdbc:mysql://192.168.16.241/microlens_dev?useUnicode=true&amp;characterEncoding=utf-8</property>
+            <property name="odaUser">root</property>
+            <encrypted-property name="odaPassword" encryptionID="base64">bWljcm9sZW5z</encrypted-property>
+            <property name="odaJndiName">java:comp/env/jdbc/db</property>
+        </oda-data-source>
+    </data-sources>
+    <data-sets>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="ds" id="5">
+            <list-property name="columnHints"/>
+            <list-property name="parameters"/>
+            <structure name="cachedMetaData"/>
+            <method name="beforeOpen"><![CDATA[sqlStr = this.queryText;
+monId = reportContext.getParameterValue("monId");
+areaId = reportContext.getParameterValue("areaId");
+monDate = reportContext.getParameterValue("monDate");
+path = reportContext.getParameterValue("path");
+hour = reportContext.getParameterValue("hour");
+paramStr = "";
+
+if(monId != null &amp;&amp; monId != "") {
+  paramStr = " mon_id = " + monId;
+}
+
+if(areaId != null &amp;&amp; areaId != "") {
+  paramStr += " and area_id = " + areaId;
+}
+
+if(monDate != null &amp;&amp; monDate != "") {
+  paramStr += " and mon_date = '" + monDate + "' ";
+}
+
+if(path != null &amp;&amp; path != "") {
+  paramStr += " and path = " + path;
+}
+
+if(hour != null &amp;&amp; hour != "") {
+  paramStr += " and mon_hour = " + hour;
+}
+
+if(paramStr == "") {
+   paramStr = " 1 = 1 ";
+}
+
+text = new java.lang.String(sqlStr);
+text = text.replaceAll("#condition#", paramStr);
+myPrintln(text);
+this.queryText = text;]]></method>
+            <property name="dataSource">Data Source</property>
+            <list-property name="resultSet"/>
+            <xml-property name="queryText"><![CDATA[SELECT * from (
+		SELECT
+						  monId, monDate,areaId, is_main_subpath,mon_hour as monHour, subPath, d.name as areaName,path, sum(impFwd) as impFwd, 
+              sum(actImp) as actImp,sum(impBlock) as impBlock,
+						  impPercent,'' as clkRate,'-' as clkFwd, '-' as actClk,'-' as clkBlock,
+             sum(impChokeSum) as impChokeSum, '-' as clkChokeSum
+						FROM (	
+						  SELECT 
+								 mon_hour, imp.is_main_subpath, imp.path, imp.sub_path as subPath, imp.mon_id as monId,imp.mon_date as monDate,imp.area_id as areaId,
+								 sum(imp_Fwd) as impFwd,   SUM(act_imp) as actImp, SUM(imp_block) as impBlock, GROUP_CONCAT(imp_fwd) as impPercent, 
+                  '' as clkFwd,   '' as actClk, '' as clkBlock,
+								 '' as impChokeSum, '' as clkChokeSum
+							from 
+								stg_mc_imp_de imp
+							where 
+                #condition# AND path IS NOT NULL AND path > 0 GROUP BY imp.mon_id, imp.mon_date,imp.area_id, imp.mon_hour, imp.sub_path
+						
+							UNION
+						             
+              SELECT
+               mon_hour, '' as is_main_subpath,  path,sub_path as subPath, mon_id as monId, mon_date as monDate, area_id as areaId,
+								'' as impFwd, '' as actImp, '' as impBlock, '' as impPercent,
+                '' as clkFwd,  '' as actClk, '' as clkBlock,
+                sum(choke_sum) as impChokeSum, '' as clkChokeSum
+              FROM
+                stg_mc_imp_choke_de choke
+              WHERE
+                  #condition# AND path IS NOT NULL AND path > 0 GROUP BY mon_id, mon_date, area_id,mon_hour,sub_path                                     
+						) m left join dim_area d
+    on m.areaId = d.id    
+    GROUP BY m.monId,m.monDate,m.areaId,m.path,m.mon_hour, m.subPath order by  m.mon_hour, m.subPath ASC
+) s
+]]></xml-property>
+        </oda-data-set>
+    </data-sets>
+    <styles>
+        <style name="crosstab-cell" id="2">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+        <style name="crosstab" id="3">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+    </styles>
+    <page-setup>
+        <simple-master-page name="NewSimpleMasterPage" id="87"/>
+    </page-setup>
+    <body>
+        <table name="table" id="8">
+            <property name="width">100%</property>
+            <property name="dataSet">ds</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">monHour</property>
+                    <text-property name="displayName">时点</text-property>
+                    <expression name="expression">dataSetRow["monHour"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">subPath</property>
+                    <text-property name="displayName">Subpath</text-property>
+                    <expression name="expression">dataSetRow["subPath"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">impFwd</property>
+                    <text-property name="displayName">实际播放量</text-property>
+                    <expression name="expression">dataSetRow["impFwd"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">total_impFwd</property>
+                    <expression name="expression">dataSetRow["impFwd"]</expression>
+                    <property name="dataType">float</property>
+                    <property name="aggregateFunction">sum</property>
+                </structure>
+                <structure>
+                    <property name="name">clkFwd</property>
+                    <text-property name="displayName">实际点击量</text-property>
+                    <expression name="expression">dataSetRow["clkFwd"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">total_clkFwd</property>
+                    <expression name="expression">dataSetRow["clkFwd"]</expression>
+                    <property name="dataType">float</property>
+                    <property name="aggregateFunction">sum</property>
+                </structure>
+                <structure>
+                    <property name="name">clkRate</property>
+                    <text-property name="displayName">点击率</text-property>
+                    <expression name="expression">dataSetRow["clkRate"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">actImp</property>
+                    <text-property name="displayName">播放请求量</text-property>
+                    <expression name="expression">dataSetRow["actImp"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">total_actImp</property>
+                    <expression name="expression">dataSetRow["actImp"]</expression>
+                    <property name="dataType">float</property>
+                    <property name="aggregateFunction">sum</property>
+                </structure>
+                <structure>
+                    <property name="name">impBlock</property>
+                    <text-property name="displayName">无效播放量</text-property>
+                    <expression name="expression">dataSetRow["impBlock"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">total_impBlock</property>
+                    <expression name="expression">dataSetRow["impBlock"]</expression>
+                    <property name="dataType">float</property>
+                    <property name="aggregateFunction">sum</property>
+                </structure>
+                <structure>
+                    <property name="name">impChokeSum</property>
+                    <text-property name="displayName">播放Choke量</text-property>
+                    <expression name="expression">dataSetRow["impChokeSum"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">total_impChokeSum</property>
+                    <expression name="expression">dataSetRow["impChokeSum"]</expression>
+                    <property name="dataType">float</property>
+                    <property name="aggregateFunction">sum</property>
+                </structure>
+                <structure>
+                    <property name="name">actClk</property>
+                    <text-property name="displayName">点击请求量</text-property>
+                    <expression name="expression">dataSetRow["actClk"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">clkBlock</property>
+                    <text-property name="displayName">无效点击量</text-property>
+                    <expression name="expression">dataSetRow["clkBlock"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">clkChokeSum</property>
+                    <text-property name="displayName">点击Choke量</text-property>
+                    <expression name="expression">dataSetRow["clkChokeSum"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">total_clkChokeSum</property>
+                    <expression name="expression">dataSetRow["clkChokeSum"]</expression>
+                    <property name="dataType">float</property>
+                    <property name="aggregateFunction">sum</property>
+                </structure>
+                <structure>
+                    <property name="name">is_main_subpath</property>
+                    <text-property name="displayName">is_main_subpath</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["is_main_subpath"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
+            <column id="76"/>
+            <column id="104">
+                <list-property name="visibility">
+                    <structure>
+                        <property name="format">all</property>
+                        <expression name="valueExpr" type="javascript">true</expression>
+                    </structure>
+                </list-property>
+            </column>
+            <column id="77"/>
+            <column id="78"/>
+            <column id="109"/>
+            <column id="91"/>
+            <column id="79"/>
+            <column id="114"/>
+            <column id="80"/>
+            <column id="81"/>
+            <column id="82"/>
+            <column id="83"/>
+            <column id="84"/>
+            <column id="85"/>
+            <column id="86"/>
+            <header>
+                <row id="9">
+                    <property name="backgroundColor">#C8E3FF</property>
+                    <cell id="10">
+                        <label name="monHour" id="11">
+                            <text-property name="text">时段</text-property>
+                        </label>
+                    </cell>
+                    <cell id="102">
+                        <label id="105">
+                            <text-property name="text">is_main_subpath</text-property>
+                        </label>
+                    </cell>
+                    <cell id="12">
+                        <label name="subPath" id="13">
+                            <text-property name="text">Subpath</text-property>
+                        </label>
+                    </cell>
+                    <cell id="14">
+                        <label name="impFwd" id="15">
+                            <text-property name="text">执行投放量</text-property>
+                        </label>
+                    </cell>
+                    <cell id="107">
+                        <label id="110">
+                            <text-property name="text">地域播放量</text-property>
+                        </label>
+                    </cell>
+                    <cell id="88">
+                        <text id="92">
+                            <property name="contentType">auto</property>
+                            <text-property name="content"><![CDATA[播放比]]></text-property>
+                        </text>
+                    </cell>
+                    <cell id="16">
+                        <label name="clkFwd" id="17">
+                            <text-property name="text">执行点击量</text-property>
+                        </label>
+                    </cell>
+                    <cell id="112">
+                        <label id="116">
+                            <text-property name="text">地域点击量</text-property>
+                        </label>
+                    </cell>
+                    <cell id="18">
+                        <label name="clkRate" id="19">
+                            <text-property name="text">点击率</text-property>
+                        </label>
+                    </cell>
+                    <cell id="20">
+                        <label name="actImp" id="21">
+                            <text-property name="text">播放请求量</text-property>
+                        </label>
+                    </cell>
+                    <cell id="22">
+                        <label name="impBlock" id="23">
+                            <text-property name="text">无效播放量</text-property>
+                        </label>
+                    </cell>
+                    <cell id="24">
+                        <label name="impChokeSum" id="25">
+                            <text-property name="text">异常播放量</text-property>
+                        </label>
+                    </cell>
+                    <cell id="26">
+                        <label name="actClk" id="27">
+                            <text-property name="text">点击请求量</text-property>
+                        </label>
+                    </cell>
+                    <cell id="28">
+                        <label name="clkBlock" id="29">
+                            <text-property name="text">无效点击量</text-property>
+                        </label>
+                    </cell>
+                    <cell id="30">
+                        <label name="clkChokeSum" id="31">
+                            <text-property name="text">异常点击量</text-property>
+                        </label>
+                    </cell>
+                </row>
+            </header>
+            <detail>
+                <row id="32">
+                    <method name="onPrepare"><![CDATA[rowCount = 0]]></method>
+                    <method name="onCreate"><![CDATA[rowCount++;
+if(rowCount % 20 == 0){
+style.pageBreakAfter = "always";
+} 
+]]></method>
+                    <method name="onRender"><![CDATA[count++;
+if( count % 2 == 0 )
+{
+this.getStyle().backgroundColor="#ECF3FE";
+}
+else
+{
+this.getStyle().backgroundColor="#FCFFFE";
+}
+style.textAlign = "center";]]></method>
+                    <cell id="33">
+                        <data name="data_monHour" id="34">
+                            <method name="onRender"><![CDATA[this.setDisplayValue(formateHour(this.getValue()));]]></method>
+                            <property name="resultSetColumn">monHour</property>
+                        </data>
+                    </cell>
+                    <cell id="103">
+                        <data id="106">
+                            <property name="resultSetColumn">is_main_subpath</property>
+                        </data>
+                    </cell>
+                    <cell id="35">
+                        <data name="data_subPath" id="36">
+                            <method name="onRender"><![CDATA[val = this.getValue();
+rowt = this.getRowData();
+isMainPath = rowt.getExpressionValue( "row[is_main_subpath]");
+if(isMainPath == 1) {
+  val = "(*)"+ val;
+}
+
+this.setDisplayValue(val);]]></method>
+                            <property name="resultSetColumn">subPath</property>
+                        </data>
+                    </cell>
+                    <cell id="37">
+                        <data name="data_impFwd" id="38">
+                            <property name="resultSetColumn">impFwd</property>
+                        </data>
+                    </cell>
+                    <cell id="108">
+                        <text id="111">
+                            <property name="contentType">auto</property>
+                            <text-property name="content"><![CDATA[-]]></text-property>
+                        </text>
+                    </cell>
+                    <cell id="89">
+                        <text-data id="99">
+                            <expression name="valueExpr">getPercent(row["impFwd"],params["maxImpFwd"].value);</expression>
+                            <property name="contentType">html</property>
+                        </text-data>
+                    </cell>
+                    <cell id="39">
+                        <data name="data_clkFwd" id="40">
+                            <property name="resultSetColumn">clkFwd</property>
+                        </data>
+                    </cell>
+                    <cell id="113">
+                        <text id="117">
+                            <property name="contentType">auto</property>
+                            <text-property name="content"><![CDATA[-]]></text-property>
+                        </text>
+                    </cell>
+                    <cell id="41">
+                        <text id="101">
+                            <property name="contentType">auto</property>
+                            <text-property name="content"><![CDATA[-]]></text-property>
+                        </text>
+                    </cell>
+                    <cell id="43">
+                        <data name="data_actImp" id="44">
+                            <property name="resultSetColumn">actImp</property>
+                        </data>
+                    </cell>
+                    <cell id="45">
+                        <data name="data_impBlock" id="46">
+                            <property name="resultSetColumn">impBlock</property>
+                        </data>
+                    </cell>
+                    <cell id="47">
+                        <data name="data_impChokeSum" id="48">
+                            <property name="resultSetColumn">impChokeSum</property>
+                        </data>
+                    </cell>
+                    <cell id="49">
+                        <data name="data_actClk" id="50">
+                            <property name="resultSetColumn">actClk</property>
+                        </data>
+                    </cell>
+                    <cell id="51">
+                        <data name="data_clkBlock" id="52">
+                            <property name="resultSetColumn">clkBlock</property>
+                        </data>
+                    </cell>
+                    <cell id="53">
+                        <data name="data_clkChokeSum" id="54">
+                            <property name="resultSetColumn">clkChokeSum</property>
+                        </data>
+                    </cell>
+                </row>
+            </detail>
+        </table>
+    </body>
+</report>

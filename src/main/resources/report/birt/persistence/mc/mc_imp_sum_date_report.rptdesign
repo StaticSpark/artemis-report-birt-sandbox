@@ -1,0 +1,1161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.23" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 4.3.0.v201306041519 Build &lt;4.3.0.v20130611-1045></property>
+    <list-property name="includeScripts">
+        <property>js/common/report_tool.js</property>
+    </list-property>
+    <property name="units">in</property>
+    <method name="initialize"><![CDATA[rowCount = 0;
+count = 0;
+
+initializeReport([]);]]></method>
+    <property name="iconFile">/templates/blank_report.gif</property>
+    <property name="layoutPreference">auto layout</property>
+    <property name="bidiLayoutOrientation">ltr</property>
+    <property name="imageDPI">96</property>
+    <parameters>
+        <scalar-parameter name="startDate" id="198">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="endDate" id="199">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="monId" id="207">
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="recordNum" id="225">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="ctx" id="248">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="monName" id="251">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+    </parameters>
+    <data-sources>
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="Data Source" id="7">
+            <method name="beforeOpen"><![CDATA[initializeDb(reportContext, extensionProperties);]]></method>
+            <list-property name="privateDriverProperties">
+                <ex-property>
+                    <name>metadataBidiFormatStr</name>
+                    <value>ILYNN</value>
+                </ex-property>
+                <ex-property>
+                    <name>disabledMetadataBidiFormatStr</name>
+                </ex-property>
+                <ex-property>
+                    <name>contentBidiFormatStr</name>
+                    <value>ILYNN</value>
+                </ex-property>
+                <ex-property>
+                    <name>disabledContentBidiFormatStr</name>
+                </ex-property>
+            </list-property>
+            <property name="odaDriverClass">com.mysql.jdbc.Driver</property>
+            <property name="odaURL">jdbc:mysql://192.168.16.241/microlens_1112?useUnicode=true&amp;characterEncoding=utf-8</property>
+            <property name="odaUser">root</property>
+            <encrypted-property name="odaPassword" encryptionID="base64">bWljcm9sZW5z</encrypted-property>
+        </oda-data-source>
+    </data-sources>
+    <data-sets>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="Data Set" id="8">
+            <list-property name="columnHints"/>
+            <list-property name="parameters"/>
+            <structure name="cachedMetaData"/>
+            <method name="beforeOpen"><![CDATA[sqlStr = this.queryText;
+monId = reportContext.getParameterValue("monId");
+startDate = reportContext.getParameterValue("startDate");
+endDate = reportContext.getParameterValue("endDate");
+
+paramStr = "";
+
+if(monId != null &amp;&amp; monId != "") {
+  paramStr = " mon_id = " + monId;
+}
+if(startDate != null &amp;&amp; startDate != "") {
+  paramStr += " and mon_date >= '" + startDate + "' ";
+}
+
+if(endDate != null &amp;&amp; endDate != "") {
+  paramStr += " and mon_date <= '" + endDate + "' ";
+}
+
+text = new java.lang.String(sqlStr);
+text = text.replaceAll("#condition#", paramStr);
+text = text.replaceAll("is_main_subpath = 1", " ( is_main_subpath = 1 or (is_main_subpath = 0 and path = 0 ) )");
+this.queryText = text; 
+//myPrintln(text);
+]]></method>
+            <property name="dataSource">Data Source</property>
+            <list-property name="resultSet"/>
+            <xml-property name="queryText"><![CDATA[SELECT
+	*
+FROM
+	(
+		SELECT
+			monId,
+			monDate,
+			SUM(impFwd) AS impFwd,
+			sum(CASE WHEN minImpLimit <= 0 THEN 0 ELSE impLimit END) as impLimit,
+			sum(CASE WHEN minPlanImp <= 0 THEN 0 ELSE planImp END) as planImp,
+			sum(CASE WHEN minPlanClk <= 0 THEN 0 ELSE planClk END) as planClk,
+			SUM(actImp) AS actImp,
+			SUM(impBlock) AS impBlock,
+			SUM(clkFwd) AS clkFwd,
+			sum(actClk) actClk,
+			SUM(clkBlock) AS clkBlock,
+			sum(impChoke) AS impChoke,
+			sum(clkChoke) AS clkChoke,
+			'' AS impRate,
+			'' AS clkRate,
+			sum(impChokeArea) AS impChokeArea,
+			sum(clkChokeArea) AS clkChokeArea
+		FROM
+			(
+				SELECT
+					monId,
+					monDate,
+					SUM(impFwd) AS impFwd,
+					sum(impLimit) AS impLimit,
+					sum(planImp) as planImp,
+					planClk,
+					SUM(actImp) AS actImp,
+					SUM(impBlock) AS impBlock,
+					MIN(impLimit) AS minImpLimit,
+					MIN(planImp) AS minPlanImp,
+					'' as minPlanClk,
+					'' AS clkFwd,
+					'' AS actClk,
+					'' AS clkBlock,
+					'' AS impChoke,
+					'' AS clkChoke,
+					'' AS impChokeArea,
+					'' AS clkChokeArea
+				FROM
+					(
+						SELECT
+							imp.mon_date AS monDate,
+							imp.mon_id AS monId,
+							SUM( CASE WHEN is_main_subpath = 1 THEN imp_fwd  END  ) AS impFwd,
+							AVG( CASE WHEN imp_limit < 0 or imp_limit is NULL THEN 0 
+							    ELSE imp_limit  END ) AS impLimit,
+							'' as planClk,
+							AVG(CASE WHEN plan_imp < 0 or plan_imp is NULL THEN 0 
+							    ELSE plan_imp  END ) as planImp,
+							SUM( CASE WHEN is_main_subpath = 1 THEN act_imp END ) AS actImp,
+							SUM( CASE WHEN is_main_subpath = 1 THEN imp_block END ) AS impBlock
+						FROM
+							stg_mc_imp_d imp
+						WHERE
+							#condition#
+						AND (
+							area_type IS NULL
+							OR area_type = 'area'
+							OR area_type = 'group'
+						)
+						AND path IS NOT NULL
+						AND path > 0
+						AND sub_path > 0
+						GROUP BY
+							imp.mon_id,
+							imp.mon_date,
+							imp.area_id,
+							imp.area_type
+					) s
+				GROUP BY
+					monId,
+					monDate
+				UNION
+					SELECT
+						clk.mon_id AS monId,
+						clk.mon_date AS monDate,
+						'' AS impFwd,
+						'' AS impLimit,
+						'' as planImp,
+						sum(plan_clk) as planClk,
+						'' AS actImp,
+						'' AS impBlock,
+						'' AS minImpLimit,
+						'' AS minPlanImp,
+						MIN(IF(plan_clk > 0, plan_clk, 0)) as minPlanClk,
+						SUM(clk_fwd) AS clkFwd,
+						sum(act_clk) actClk,
+						SUM(clk_block) AS clkBlock,
+						'' AS impChoke,
+						'' AS clkChoke,
+						'' AS impChokeArea,
+						'' AS clkChokeArea
+					FROM
+						( SELECT 
+							mon_id, 
+                            mon_date, 
+                            area_id,
+                            area_type,
+                            plan_clk,
+							path,
+                            SUM(clk_fwd) AS clk_fwd,
+                            SUM(act_clk) AS act_clk,
+                            SUM(clk_block) AS clk_block 
+                            FROM stg_mc_clk_d 
+                            WHERE 	
+                             	#condition# 
+							AND (
+								area_type IS NULL
+								OR area_type = 'area'
+								OR area_type = 'group'
+							)
+							AND path IS NOT NULL
+							AND path > 0
+                            GROUP BY mon_id, mon_date, area_id, area_type
+						) clk
+					GROUP BY
+						clk.mon_id,
+						clk.mon_date
+					UNION
+						SELECT
+							mon_id AS monId,
+							mon_date AS monDate,
+							'' AS impFwd,
+							'' AS impLimit,
+							'' as planImp,
+							'' as planClk,
+							'' AS actImp,
+							'' AS impBlock,
+							'' AS minImpLimit,
+							'' AS minPlanImp,
+							'' AS minPlanClk,
+							'' AS clkFwd,
+							'' AS actClk,
+							'' AS clkBlock,
+							sum(choke_sum) AS impChoke,
+							'' AS clkChoke,
+							'' AS impChokeArea,
+							'' AS clkChokeArea
+						FROM
+							stg_mc_imp_choke_d choke
+						WHERE
+							#condition#
+						AND is_main_subpath = 1
+						AND (
+							area_type IS NULL
+							OR area_type = 'area'
+							OR area_type = 'group'
+						)
+						AND path IS NOT NULL
+						GROUP BY
+							mon_id,
+							mon_date 
+						UNION
+							SELECT
+								mon_id AS monId,
+								mon_date AS monDate,
+								'' AS impFwd,
+								'' AS impLimit,
+								'' as planImp,
+								'' as planClk,
+								'' AS actImp,
+								'' AS impBlock,
+								'' AS minImpLimit,
+								'' AS minPlanImp,
+								'' AS minPlanClk,
+								'' AS clkFwd,
+								'' AS actClk,
+								'' AS clkBlock,
+								'' AS impChoke,
+								sum(choke_sum) AS clkChoke,
+								'' AS impChokeArea,
+								'' AS clkChokeArea
+							FROM
+								stg_mc_clk_choke_d choke
+							WHERE
+								#condition#
+							AND (
+								area_type IS NULL
+								OR area_type = 'area'
+								OR area_type = 'group'
+							)
+							AND path IS NOT NULL
+							GROUP BY
+								mon_id,
+								mon_date
+							UNION
+								SELECT
+									mon_id AS monId,
+									mon_date AS monDate,
+									'' AS impFwd,
+									'' AS impLimit,
+									'' as planImp,
+									'' as planClk,
+									'' AS actImp,
+									'' AS impBlock,
+									'' AS minImpLimit,
+									'' AS minPlanImp,
+									'' AS minPlanClk,
+									'' AS clkFwd,
+									'' AS actClk,
+									'' AS clkBlock,
+									'' AS impChoke,
+									'' AS clkChoke,
+									sum(choke_sum) AS impChokeArea,
+									'' AS clkChokeArea
+								FROM
+									stg_mc_imp_choke_d imp_choke_area
+								WHERE
+									#condition#
+								AND choke_type_id = '2'
+								AND (
+									area_type IS NULL
+									OR area_type = 'area'
+									OR area_type = 'group'
+								)
+								AND is_main_subpath = 1
+								AND path IS NOT NULL
+								AND path > 0
+								AND sub_path > 0
+								GROUP BY
+									mon_id,
+									mon_date
+								UNION
+									SELECT
+										mon_id AS monId,
+										mon_date AS monDate,
+										'' AS impFwd,
+										'' AS impLimit,
+										'' as planImp,
+										'' as planClk,
+										'' AS actImp,
+										'' AS impBlock,
+										'' AS minImpLimit,
+										'' AS minPlanImp,
+										'' AS minPlanClk,
+										'' AS clkFwd,
+										'' AS actClk,
+										'' AS clkBlock,
+										'' AS impChoke,
+										'' AS clkChoke,
+										'' AS impChokeArea,
+										sum(choke_sum) AS clkChokeArea
+									FROM
+										stg_mc_clk_choke_d clk_choke_area
+									WHERE
+										#condition#
+									AND choke_type_id = '2'
+									AND (
+										area_type IS NULL
+										OR area_type = 'area'
+										OR area_type = 'group'
+									)
+									AND path IS NOT NULL
+									AND path > 0
+									GROUP BY
+										mon_id,
+										mon_date
+			) s
+		GROUP BY
+			s.monId,
+			s.monDate
+		ORDER BY 
+			s.monDate desc
+	) s
+]]></xml-property>
+            <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
+  <Version>2.0</Version>
+  <design:ResultSets derivedMetaData="true">
+    <design:resultSetDefinitions>
+      <design:resultSetColumns>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>monId</design:name>
+              <design:position>1</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>4</design:nativeDataTypeCode>
+            <design:precision>11</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>monId</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>monId</design:label>
+            <design:formattingHints>
+              <design:displaySize>11</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>areaId</design:name>
+              <design:position>2</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>4</design:nativeDataTypeCode>
+            <design:precision>11</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>areaId</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>areaId</design:label>
+            <design:formattingHints>
+              <design:displaySize>11</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>impFwd</design:name>
+              <design:position>3</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>8</design:nativeDataTypeCode>
+            <design:precision>23</design:precision>
+            <design:scale>31</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>impFwd</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>impFwd</design:label>
+            <design:formattingHints>
+              <design:displaySize>23</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>impLimit</design:name>
+              <design:position>4</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>8</design:nativeDataTypeCode>
+            <design:precision>23</design:precision>
+            <design:scale>31</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>impLimit</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>impLimit</design:label>
+            <design:formattingHints>
+              <design:displaySize>23</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>actImp</design:name>
+              <design:position>5</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>8</design:nativeDataTypeCode>
+            <design:precision>23</design:precision>
+            <design:scale>31</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>actImp</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>actImp</design:label>
+            <design:formattingHints>
+              <design:displaySize>23</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>impBlock</design:name>
+              <design:position>6</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>8</design:nativeDataTypeCode>
+            <design:precision>23</design:precision>
+            <design:scale>31</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>impBlock</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>impBlock</design:label>
+            <design:formattingHints>
+              <design:displaySize>23</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>clkFwd</design:name>
+              <design:position>7</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>8</design:nativeDataTypeCode>
+            <design:precision>23</design:precision>
+            <design:scale>31</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>clkFwd</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>clkFwd</design:label>
+            <design:formattingHints>
+              <design:displaySize>23</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>actClk</design:name>
+              <design:position>8</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>8</design:nativeDataTypeCode>
+            <design:precision>23</design:precision>
+            <design:scale>31</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>actClk</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>actClk</design:label>
+            <design:formattingHints>
+              <design:displaySize>23</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>clkBlock</design:name>
+              <design:position>9</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>8</design:nativeDataTypeCode>
+            <design:precision>23</design:precision>
+            <design:scale>31</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>clkBlock</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>clkBlock</design:label>
+            <design:formattingHints>
+              <design:displaySize>23</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>impChokeSum</design:name>
+              <design:position>10</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>8</design:nativeDataTypeCode>
+            <design:precision>23</design:precision>
+            <design:scale>31</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>impChokeSum</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>impChokeSum</design:label>
+            <design:formattingHints>
+              <design:displaySize>23</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>clkChokeSum</design:name>
+              <design:position>11</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>8</design:nativeDataTypeCode>
+            <design:precision>23</design:precision>
+            <design:scale>31</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>clkChokeSum</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>clkChokeSum</design:label>
+            <design:formattingHints>
+              <design:displaySize>23</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+      </design:resultSetColumns>
+      <design:criteria/>
+    </design:resultSetDefinitions>
+  </design:ResultSets>
+</model:DesignValues>]]></xml-property>
+        </oda-data-set>
+    </data-sets>
+    <styles>
+        <style name="report" id="4">
+            <property name="fontFamily">sans-serif</property>
+            <property name="fontSize">10pt</property>
+        </style>
+        <style name="crosstab-cell" id="5">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+        <style name="crosstab" id="6">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+    </styles>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2"/>
+    </page-setup>
+    <body>
+        <text-data id="250">
+            <method name="onRender"><![CDATA[start_date = reportContext.getHttpServletRequest().getParameter("startDate");
+end_date = reportContext.getHttpServletRequest().getParameter("endDate");
+mc_name = reportContext.getHttpServletRequest().getParameter("monName");
+
+myDate = new Date();
+month = (((myDate.getMonth()+1) < 10) ? "-0" : "-") + (myDate.getMonth()+1);
+day= ((myDate.getDate() < 10) ? "-0" : "-") + myDate.getDate();
+currentDate = myDate.getFullYear() + month + day;
+prefix = "Microlens.funshion.com" + " 播控-播放点击日期报告--地域小计";
+period = start_date + " 至 " + end_date
+display_text = prefix +"<br/>"+"导出报表日期："+currentDate+ "<br/>"+"报表类型：播控报表"+"<br/>"+"播控名称："+mc_name+"<br/>"+"报表日期："+period 
+	+"<br/>"+"地域：全部地域<br />path：*";
+
+format = reportContext.getHttpServletRequest().getParameter("__format");
+if(format == "xls") {
+   this.getStyle().display = "block";
+   this.text= display_text;
+} else {
+   this.getStyle().display = "none";
+}]]></method>
+            <expression name="valueExpr">1</expression>
+            <property name="contentType">html</property>
+        </text-data>
+        <table name="table" id="91">
+            <property name="width">100%</property>
+            <property name="dataSet">Data Set</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">monId</property>
+                    <text-property name="displayName">monId</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["monId"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">impLimit</property>
+                    <text-property name="displayName">impLimit</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["impLimit"]</expression>
+                    <property name="dataType">float</property>
+                </structure>
+                <structure>
+                    <property name="name">impFwd</property>
+                    <text-property name="displayName">impFwd</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["impFwd"]</expression>
+                    <property name="dataType">float</property>
+                </structure>
+                <structure>
+                    <property name="name">clkFwd</property>
+                    <text-property name="displayName">clkFwd</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["clkFwd"]</expression>
+                    <property name="dataType">float</property>
+                </structure>
+                <structure>
+                    <property name="name">actImp</property>
+                    <text-property name="displayName">actImp</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["actImp"]</expression>
+                    <property name="dataType">float</property>
+                </structure>
+                <structure>
+                    <property name="name">impBlock</property>
+                    <text-property name="displayName">impBlock</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["impBlock"]</expression>
+                    <property name="dataType">float</property>
+                </structure>
+                <structure>
+                    <property name="name">impChoke</property>
+                    <text-property name="displayName">impChoke</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["impChoke"]</expression>
+                    <property name="dataType">float</property>
+                </structure>
+                <structure>
+                    <property name="name">actClk</property>
+                    <text-property name="displayName">actClk</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["actClk"]</expression>
+                    <property name="dataType">float</property>
+                </structure>
+                <structure>
+                    <property name="name">clkBlock</property>
+                    <text-property name="displayName">clkBlock</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["clkBlock"]</expression>
+                    <property name="dataType">float</property>
+                </structure>
+                <structure>
+                    <property name="name">clkChoke</property>
+                    <text-property name="displayName">clkChoke</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["clkChoke"]</expression>
+                    <property name="dataType">float</property>
+                </structure>
+                <structure>
+                    <property name="name">impChokeArea</property>
+                    <text-property name="displayName">impChokeArea</text-property>
+                    <expression name="expression" type="javascript">dataSetRow['impChokeArea']</expression>
+                    <property name="dataType">float</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">clkChokeArea</property>
+                    <text-property name="displayName">clkChokeArea</text-property>
+                    <expression name="expression" type="javascript">dataSetRow['clkChokeArea']</expression>
+                    <property name="dataType">float</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">planImp</property>
+                    <text-property name="displayName">planImp</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["planImp"]</expression>
+                    <property name="dataType">float</property>
+                </structure>
+                <structure>
+                    <property name="name">planClk</property>
+                    <text-property name="displayName">planClk</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["planClk"]</expression>
+                    <property name="dataType">float</property>
+                </structure>
+                <structure>
+                    <property name="name">monDate</property>
+                    <text-property name="displayName">monDate</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["monDate"]</expression>
+                    <property name="dataType">string</property>
+                    <property name="allowExport">true</property>
+                </structure>
+            </list-property>
+            <property name="pageBreakInterval">100</property>
+            <column id="132">
+                <list-property name="visibility">
+                    <structure>
+                        <property name="format">all</property>
+                        <expression name="valueExpr" type="javascript">true</expression>
+                    </structure>
+                </list-property>
+            </column>
+            <column id="135"/>
+            <column id="137"/>
+            <column id="229"/>
+            <column id="138"/>
+            <column id="139"/>
+            <column id="238"/>
+            <column id="140"/>
+            <column id="243"/>
+            <column id="141"/>
+            <column id="211">
+                <property name="repeat">1</property>
+            </column>
+            <column id="217"/>
+            <column id="142"/>
+            <column id="176"/>
+            <column id="164">
+                <property name="repeat">1</property>
+            </column>
+            <column id="172"/>
+            <column id="168"/>
+            <column id="160"/>
+            <column id="185"/>
+            <column id="223"/>
+            <header>
+                <row id="92">
+                    <property name="backgroundColor">#C8E3FF</property>
+                    <cell id="94">
+                        <label id="143">
+                            <text-property name="text">monId</text-property>
+                        </label>
+                    </cell>
+                    <cell id="97">
+                        <text id="149">
+                            <property name="contentType">auto</property>
+                            <text-property name="content"><![CDATA[日期]]></text-property>
+                        </text>
+                    </cell>
+                    <cell id="99">
+                        <text id="151">
+                            <property name="contentType">auto</property>
+                            <text-property name="content"><![CDATA[path]]></text-property>
+                        </text>
+                    </cell>
+                    <cell id="226">
+                        <text id="230">
+                            <property name="contentType">html</property>
+                            <text-property name="content"><![CDATA[计划投放量]]></text-property>
+                        </text>
+                    </cell>
+                    <cell id="100">
+                        <text name="impLimit" id="152">
+                            <property name="contentType">html</property>
+                            <text-property name="content"><![CDATA[设定投放量]]></text-property>
+                        </text>
+                    </cell>
+                    <cell id="101">
+                        <text name="impFwd" id="153">
+                            <property name="contentType">html</property>
+                            <text-property name="content"><![CDATA[执行投放量]]></text-property>
+                        </text>
+                    </cell>
+                    <cell id="235">
+                        <text id="239">
+                            <property name="contentType">html</property>
+                            <text-property name="content"><![CDATA[执行/计划]]></text-property>
+                        </text>
+                    </cell>
+                    <cell id="102">
+                        <text name="impPercent" id="154">
+                            <property name="contentType">html</property>
+                            <text-property name="content"><![CDATA[执行/设定]]></text-property>
+                        </text>
+                    </cell>
+                    <cell id="240">
+                        <text id="244">
+                            <property name="contentType">html</property>
+                            <text-property name="content"><![CDATA[计划点击量]]></text-property>
+                        </text>
+                    </cell>
+                    <cell id="103">
+                        <text name="clkFwd" id="155">
+                            <property name="contentType">html</property>
+                            <text-property name="content"><![CDATA[执行点击量]]></text-property>
+                        </text>
+                    </cell>
+                    <cell id="208">
+                        <label name="impChokeArea" id="212">
+                            <text-property name="text">地域播放量</text-property>
+                        </label>
+                    </cell>
+                    <cell id="214">
+                        <label name="clkChokeArea" id="218">
+                            <text-property name="text">地域点击量</text-property>
+                        </label>
+                    </cell>
+                    <cell id="104">
+                        <text name="clkRate" id="156">
+                            <property name="contentType">auto</property>
+                            <text-property name="content"><![CDATA[点击率]]></text-property>
+                        </text>
+                    </cell>
+                    <cell id="173">
+                        <text name="actImp" id="177">
+                            <property name="contentType">auto</property>
+                            <text-property name="content"><![CDATA[播放请求量]]></text-property>
+                        </text>
+                    </cell>
+                    <cell id="161">
+                        <text name="actClk" id="180">
+                            <property name="contentType">auto</property>
+                            <text-property name="content"><![CDATA[点击请求量]]></text-property>
+                        </text>
+                    </cell>
+                    <cell id="169">
+                        <text name="impBlock" id="178">
+                            <property name="contentType">auto</property>
+                            <text-property name="content"><![CDATA[无效播放量]]></text-property>
+                        </text>
+                    </cell>
+                    <cell id="165">
+                        <text name="impChoke" id="179">
+                            <property name="contentType">auto</property>
+                            <text-property name="content"><![CDATA[异常播放量]]></text-property>
+                        </text>
+                    </cell>
+                    <cell id="157">
+                        <text name="clkBlock" id="181">
+                            <property name="contentType">auto</property>
+                            <text-property name="content"><![CDATA[无效点击量]]></text-property>
+                        </text>
+                    </cell>
+                    <cell id="182">
+                        <text name="clkChoke" id="186">
+                            <property name="contentType">auto</property>
+                            <text-property name="content"><![CDATA[异常点击量]]></text-property>
+                        </text>
+                    </cell>
+                    <cell id="220">
+                        <text-data name="data_operation" id="224">
+                            <method name="onRender"><![CDATA[this.text = "<a href='javascript:void(0);' onclick=\"new function(e){oEvent=e||event;var x =oEvent.clientX;var y =oEvent.clientY;parent.showColsSelectInfo('mc',x,y);}\" > <img style='float:right' src='/images/report/selectcols.gif'/></a>";]]></method>
+                            <expression name="valueExpr">1</expression>
+                            <property name="contentType">html</property>
+                        </text-data>
+                    </cell>
+                </row>
+            </header>
+            <detail>
+                <row id="105">
+                    <method name="onCreate"><![CDATA[rowCount++;
+if(rowCount > 1 &amp;&amp; rowCount % recordNum == 1){
+  this.style.pageBreakBefore = "always";
+} ]]></method>
+                    <method name="onRender"><![CDATA[count++;
+if( count % 2 == 0 )
+{
+this.getStyle().backgroundColor="#ECF3FE";
+}
+else
+{
+this.getStyle().backgroundColor="#FCFFFE";
+}
+style.textAlign = "center";]]></method>
+                    <property name="textAlign">center</property>
+                    <cell id="107">
+                        <data id="144">
+                            <property name="resultSetColumn">monId</property>
+                        </data>
+                    </cell>
+                    <cell id="110">
+                        <data id="253">
+                            <property name="resultSetColumn">monDate</property>
+                        </data>
+                    </cell>
+                    <cell id="112">
+                        <text id="187">
+                            <property name="contentType">auto</property>
+                            <text-property name="content"><![CDATA[*]]></text-property>
+                        </text>
+                    </cell>
+                    <cell id="227">
+                        <data id="245">
+                            <method name="onRender"><![CDATA[if(this.getValue() == 0 || this.getValue() == "" || this.getValue() == null) 
+  this.setDisplayValue("-");]]></method>
+                            <property name="resultSetColumn">planImp</property>
+                        </data>
+                    </cell>
+                    <cell id="113">
+                        <data name="data_impLimit" id="188">
+                            <method name="onRender"><![CDATA[if(this.getValue() == 0 || this.getValue() == "" || this.getValue() == null) 
+  this.setDisplayValue("-");]]></method>
+                            <property name="resultSetColumn">impLimit</property>
+                        </data>
+                    </cell>
+                    <cell id="114">
+                        <data name="data_impFwd" id="189">
+                            <property name="resultSetColumn">impFwd</property>
+                            <list-property name="action">
+                                <structure>
+                                    <property name="linkType">none</property>
+                                </structure>
+                            </list-property>
+                        </data>
+                    </cell>
+                    <cell id="236">
+                        <text-data id="247">
+                            <expression name="valueExpr">getPercent(row["impFwd"],row["planImp"])</expression>
+                            <property name="contentType">html</property>
+                        </text-data>
+                    </cell>
+                    <cell id="115">
+                        <text-data name="data_impPercent" id="201">
+                            <expression name="valueExpr">getPercent(row["impFwd"],row["impLimit"])</expression>
+                            <property name="contentType">html</property>
+                        </text-data>
+                    </cell>
+                    <cell id="241">
+                        <data id="246">
+                            <method name="onRender"><![CDATA[if(this.getValue() == 0 || this.getValue() == "" || this.getValue() == null) 
+  this.setDisplayValue("-");]]></method>
+                            <property name="resultSetColumn">planClk</property>
+                        </data>
+                    </cell>
+                    <cell id="116">
+                        <data name="data_clkFwd" id="190">
+                            <property name="resultSetColumn">clkFwd</property>
+                            <list-property name="action">
+                                <structure>
+                                    <property name="linkType">none</property>
+                                </structure>
+                            </list-property>
+                        </data>
+                    </cell>
+                    <cell id="209">
+                        <data name="data_impChokeArea" id="213">
+                            <property name="resultSetColumn">impChokeArea</property>
+                        </data>
+                    </cell>
+                    <cell id="215">
+                        <data name="data_clkChokeArea" id="219">
+                            <property name="resultSetColumn">clkChokeArea</property>
+                        </data>
+                    </cell>
+                    <cell id="117">
+                        <text-data name="data_clkRate" id="200">
+                            <expression name="valueExpr">getPercent(row["clkFwd"],row["impFwd"])</expression>
+                            <property name="contentType">html</property>
+                        </text-data>
+                    </cell>
+                    <cell id="174">
+                        <data name="data_actImp" id="191">
+                            <property name="resultSetColumn">actImp</property>
+                            <list-property name="action">
+                                <structure>
+                                    <property name="linkType">none</property>
+                                </structure>
+                            </list-property>
+                        </data>
+                    </cell>
+                    <cell id="162">
+                        <data name="data_actClk" id="195">
+                            <property name="resultSetColumn">actClk</property>
+                            <list-property name="action">
+                                <structure>
+                                    <property name="linkType">none</property>
+                                </structure>
+                            </list-property>
+                        </data>
+                    </cell>
+                    <cell id="170">
+                        <data name="data_impBlock" id="192">
+                            <property name="resultSetColumn">impBlock</property>
+                            <list-property name="action">
+                                <structure>
+                                    <property name="linkType">none</property>
+                                </structure>
+                            </list-property>
+                        </data>
+                    </cell>
+                    <cell id="166">
+                        <data name="data_impChoke" id="194">
+                            <property name="resultSetColumn">impChoke</property>
+                            <list-property name="action">
+                                <structure>
+                                    <property name="linkType">none</property>
+                                </structure>
+                            </list-property>
+                        </data>
+                    </cell>
+                    <cell id="158">
+                        <data name="data_clkBlock" id="196">
+                            <property name="resultSetColumn">clkBlock</property>
+                            <list-property name="action">
+                                <structure>
+                                    <property name="linkType">none</property>
+                                </structure>
+                            </list-property>
+                        </data>
+                    </cell>
+                    <cell id="183">
+                        <data name="data_clkChoke" id="197">
+                            <property name="resultSetColumn">clkChoke</property>
+                            <list-property name="action">
+                                <structure>
+                                    <property name="linkType">none</property>
+                                </structure>
+                            </list-property>
+                        </data>
+                    </cell>
+                    <cell id="221">
+                        <text name="sift_sub" id="252">
+                            <property name="contentType">html</property>
+                            <text-property name="content"><![CDATA[&amp;nbsp;]]></text-property>
+                        </text>
+                    </cell>
+                </row>
+            </detail>
+        </table>
+    </body>
+</report>

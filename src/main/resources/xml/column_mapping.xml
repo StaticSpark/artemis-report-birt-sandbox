@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<mappings>
+	<mapping>
+		<id>10</id>
+		<rpt_name></rpt_name>
+		<rpt_display_name>日期分布</rpt_display_name>
+		<column_name></column_name>		
+		<column_display_name>日期</column_display_name>
+		<data_table>stg_ad_effe_d a</data_table>
+		<select_name>DATE_FORMAT(a.log_date, '%Y-%m-%d')</select_name>
+		<group_by>DATE_FORMAT(a.log_date, '%Y-%m-%d')</group_by>	
+		<union></union>
+	</mapping>
+	<mapping>
+		<id>4</id>
+		<rpt_name></rpt_name>
+		<column_name></column_name>
+		<rpt_display_name>广告位分布</rpt_display_name>
+		<column_display_name>广告位名称</column_display_name>
+		<data_table>stg_ad_effe_d a,adp_base p</data_table>
+		<select_name>p.name</select_name>
+		<group_by>p.id</group_by>
+		<union></union>
+	</mapping>
+	<mapping>
+		<id>2</id>
+		<rpt_name></rpt_name>
+		<column_name></column_name>
+		<rpt_display_name>订单分布</rpt_display_name>
+		<column_display_name>订单名称</column_display_name>
+		<data_table>stg_ad_effe_d a,ad_base b,ord_base o</data_table>
+		<select_name>o.name</select_name>
+		<group_by>o.id</group_by>
+		<union></union>
+	</mapping>
+	<mapping>
+		<id>1</id>
+		<rpt_name>ad_report</rpt_name>
+		<rpt_display_name>广告分布</rpt_display_name>
+		<column_name></column_name>
+		<column_display_name>广告名称</column_display_name>
+		<data_table>stg_ad_effe_d a,ad_base b</data_table>
+		<select_name>b.name</select_name>
+		<group_by>b.id</group_by>
+		<union></union>
+	</mapping>
+	<mapping>
+		<id>5</id>
+		<rpt_name></rpt_name>
+		<rpt_display_name>广告分布</rpt_display_name>
+		<column_name></column_name>
+		<column_display_name>广告名称</column_display_name>
+		<data_table>stg_ad_effe_d_quota a,ad_base b</data_table>
+		<select_name>b.name</select_name>
+		<group_by>b.id</group_by>
+		<union></union>
+	</mapping>
+	<mapping>
+		<id>13</id>
+		<rpt_name></rpt_name>
+		<rpt_display_name>时段分布</rpt_display_name>
+		<column_name></column_name>
+		<column_display_name>时段</column_display_name>
+		<data_table>stg_ad_effe a</data_table>
+		<select_name>DATE_FORMAT(a.log_time,'%H')</select_name>
+		<group_by>DATE_FORMAT(a.log_time,'%H')</group_by>
+		<union></union>
+	</mapping>
+		<mapping>
+		<id>21</id>
+		<rpt_name></rpt_name>
+		<column_name></column_name>
+		<rpt_display_name>月份分布</rpt_display_name>
+		<column_display_name>月份</column_display_name>
+		<data_table>stg_ad_effe_d a</data_table>
+		<select_name>MONTH(a.log_date)</select_name>
+		<group_by>MONTH(a.log_date)</group_by>
+		<union></union>
+	</mapping>
+	<mapping>
+		<id>3</id>
+		<rpt_name></rpt_name>
+		<column_name></column_name>
+		<rpt_display_name>物料分布</rpt_display_name>
+		<column_display_name>物料名称</column_display_name>
+		<data_table>stg_ad_effe_d a,ad_mat am,mat_base m,ad_base b</data_table>
+		<select_name>m.name</select_name>
+		<group_by>m.id</group_by>
+		<union></union>
+	</mapping>
+	<mapping>
+		<id>16</id>
+		<rpt_name></rpt_name>
+		<column_name></column_name>
+		<rpt_display_name>城市分布</rpt_display_name>
+		<column_display_name>城市名称</column_display_name>
+		<data_table>stg_ad_effe_d a,dim_area d</data_table>
+		<select_name>d.name</select_name>
+		<group_by>d.id</group_by>
+		<union></union>
+	</mapping>
+	<mapping>
+		<id>14</id>
+		<rpt_name></rpt_name>
+		<column_name></column_name>
+		<rpt_display_name>国家分布</rpt_display_name>
+		<column_display_name>国家名称</column_display_name>
+		<data_table>stg_ad_effe_d a,dim_area d</data_table>
+		<select_name>d.name</select_name>
+		<group_by>d.id</group_by>
+		<union> UNION select * from (select '' as sn,{#innerf_column#} as first_columns, {#inners_column#} as second_columns,{#ad_id_condition#} {#adp_id_condition#} {#order_id_condition#} {#mat_id_condition#} sum(a.brw) as
+			req, sum(case a.ad_id when '-1' then '0' else brw end ) as brw, sum(a.pla) as pla, sum(a.pla)/sum(a.brw) as act_pla_rate,sum(a.effe_pla)/sum(a.brw) as effe_pla_rate,sum(a.full_pla)/sum(a.brw) as full_pla_rate,sum(a.effe_pla) as effe_pla, sum(a.full_pla)
+			as full_pla, sum(a.clk) as clk, sum(clk)/sum(pla) as rate, sum(clk)/sum(case a.ad_id when '-1' then '0' else brw end ) as clk_rate, '' as operation from {#data_table#}
+			where {#common_condition#} {and a.ad_id in (#adId#)} { and a.adp_id in
+			(#adpId#)} { and area_id in (#areaIds#) } {#adp_condition#} {#ad_condition#} {#order_condition#} {#mat_condition#} {#cat_condition#} {#cd_condition#} and a.area_id = d.id and d.parent_id != 2 and d.parent_id!= 0 and d.parent_id != -1) d  WHERE (brw is NOT NULL) OR  (pla is NOT NULL)
+		</union>
+	</mapping>
+	<mapping>
+		<id>15</id>
+		<rpt_name></rpt_name>
+		<column_name></column_name>
+		<rpt_display_name>省份分布</rpt_display_name>
+		<column_display_name>省份名称</column_display_name>
+		<data_table>stg_ad_effe_d a,province_table
+        </data_table>
+		<select_name>s.provinceName</select_name>
+		<group_by>s.provinceId</group_by>
+		<union></union>
+	</mapping>
+	<mapping>
+		<id>49</id>
+		<rpt_name></rpt_name>
+		<column_name></column_name>
+		<rpt_display_name>地域分布</rpt_display_name>
+		<column_display_name>地域名称</column_display_name>
+		<data_table>stg_ad_effe_d a,area_table
+        </data_table>
+		<select_name>s.parentName</select_name>
+		<group_by>s.parentId</group_by>
+		<union> UNION SELECT '' as sn,{#areaRptF_column#} as first_columns, {#areaRptS_column#} as second_columns, {#ad_id_condition#} {#adp_id_condition#} {#order_id_condition#} {#mat_id_condition#} sum(a.brw) as req, 
+		              sum(case a.ad_id when '-1' then '0' else brw end ) as brw, SUM(a.pla) AS pla,sum(a.pla)/sum(brw) as act_pla_rate,sum(a.effe_pla)/sum(brw) as effe_pla_rate,sum(a.full_pla)/sum(brw) as full_pla_rate,SUM(a.effe_pla) AS effe_pla,SUM(a.full_pla) AS  full_pla,SUM(a.clk) AS clk, sum(clk)/sum(pla) as rate, 
+		              sum(clk)/sum(case a.ad_id when '-1' then '0' else brw end ) as clk_rate, '' as operation 
+                       FROM dim_area d,{#areaInner_table#}
+                       WHERE  {#common_condition#} {and area_id IN(#cityIds#)} {and a.ad_id in (#adId#)} { and a.adp_id in (#adpId#)} and a.area_id = d.id {#adp_condition#} {#ad_condition#} {#order_condition#} {#mat_condition#}
+                       GROUP BY {#areaGroupByF#},{#areaGroupByS#}
+        </union>
+	</mapping>
+	<mapping>
+		<id>52</id>
+		<rpt_name></rpt_name>
+		<column_name></column_name>
+		<rpt_display_name>题材分布</rpt_display_name>
+		<column_display_name>题材名称</column_display_name>
+		<data_table>stg_ad_med_cat a,dim_med_cat dmc
+        </data_table>
+		<select_name>dmc.fullname</select_name>
+		<group_by>a.cat_id</group_by>
+		<union></union>
+	</mapping>
+	<mapping>
+		<id>53</id>
+		<rpt_name></rpt_name>
+		<column_name></column_name>
+		<rpt_display_name>产地分布</rpt_display_name>
+		<column_display_name>产地名称</column_display_name>
+		<data_table>stg_ad_med_country a,dim_med_country dmc
+        </data_table>
+		<select_name>dmc.fullname</select_name>
+		<group_by>a.country_id</group_by>
+		<union></union>
+	</mapping>
+</mappings>
