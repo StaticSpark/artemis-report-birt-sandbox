@@ -11,9 +11,9 @@
     </tr>
     <tr>
         <td><b>选择日期：</b> </td>
-        <td><input class="Wdate" id='startDate' type="text" />
+        <td><input class="Wdate" id='startDate' type="text" ng-model="selected_date" />
         </td>
-        <td colspan="2"><input type='button' class="button" value='查询' id='search'/>
-            <input type="button" class="button"  name="viewChart" value="查看分布图" id="switchLoction" firstElement="report"/> </td>
+        <td colspan="2"><input type='button'  ng-click="do_search()" class="button" value='查询' id='search'/>
+            <input type="button"  ng-click="do_switch()" class="button"  name="viewChart" value="查看分布图" id="switchLoction" firstElement="report"/> </td>
     </tr>
 </table>
